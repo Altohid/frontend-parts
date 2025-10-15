@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8082dbff;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #818cf8;
+}
+
+/* Ensure select and option text is visible on dark backgrounds */
+select,
+select option,
+select::-ms-expand {
+  color: #ff7d7dff; /* option text color */
+}
+
+/* For Firefox */
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #f47979ff;
+}
+
+/* Utility to force option colors inside custom dropdowns */
+.dropdown-option-white option,
+.dropdown-option-white select {
+  color: #ff7a7aff;
+}
