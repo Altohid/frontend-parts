@@ -12,11 +12,14 @@ import AddVehicle from './pages/AddVehicle';
 import MyListings from './pages/MyListings';
 import Dashboard from './pages/Dashboard';
 import Footer from './components/Footer';
+import Profile from './pages/Profile';
+import ScrollToTop from './pages/ScrollToTop';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+         <ScrollToTop />
         <div className="App">
           <Navbar />
           <Routes>
@@ -25,20 +28,21 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/vehicles" element={<Vehicles />} />
             <Route path="/vehicles/:id" element={<VehicleDetail />} />
-            <Route path="/add-vehicle" 
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/add-vehicle"
               element={
                 <ProtectedRoute>
                   <AddVehicle />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/my-listings" 
+            <Route
+              path="/my-listings"
               element={
                 <ProtectedRoute>
                   <MyListings />
                 </ProtectedRoute>
-              } 
+              }
             />
             <Route
               path="/dashboard"

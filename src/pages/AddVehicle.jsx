@@ -32,7 +32,7 @@ const AddVehicle = () => {
 
     try {
       const data = new FormData();
-      
+
       // Append all form fields
       Object.keys(formData).forEach(key => {
         if (key === 'location') {
@@ -62,9 +62,9 @@ const AddVehicle = () => {
     const files = Array.from(e.target.files);
     const remainingSlots = 5 - images.length;
     const filesToAdd = files.slice(0, remainingSlots);
-    
+
     setImages([...images, ...filesToAdd]);
-    
+
     // Create previews
     filesToAdd.forEach(file => {
       const reader = new FileReader();
@@ -122,11 +122,10 @@ const AddVehicle = () => {
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, type: 'car', brand: '' })}
-                  className={`py-4 rounded-lg border-2 transition flex items-center justify-center space-x-3 ${
-                    formData.type === 'car'
-                      ? 'bg-purple-500 border-purple-500 text-white shadow-lg shadow-purple-500/50'
-                      : 'bg-white/5 border-white/20 text-gray-300 hover:border-purple-500'
-                  }`}
+                  className={`py-4 rounded-lg border-2 transition flex items-center justify-center space-x-3 ${formData.type === 'car'
+                    ? 'bg-purple-500 border-purple-500 text-white shadow-lg shadow-purple-500/50'
+                    : 'bg-white/5 border-white/20 text-gray-300 hover:border-purple-500'
+                    }`}
                 >
                   <Car className="w-6 h-6" />
                   <span className="font-semibold">Car</span>
@@ -134,11 +133,10 @@ const AddVehicle = () => {
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, type: 'bike', brand: '' })}
-                  className={`py-4 rounded-lg border-2 transition flex items-center justify-center space-x-3 ${
-                    formData.type === 'bike'
-                      ? 'bg-purple-500 border-purple-500 text-white shadow-lg shadow-purple-500/50'
-                      : 'bg-white/5 border-white/20 text-gray-300 hover:border-purple-500'
-                  }`}
+                  className={`py-4 rounded-lg border-2 transition flex items-center justify-center space-x-3 ${formData.type === 'bike'
+                    ? 'bg-purple-500 border-purple-500 text-white shadow-lg shadow-purple-500/50'
+                    : 'bg-white/5 border-white/20 text-gray-300 hover:border-purple-500'
+                    }`}
                 >
                   <Bike className="w-6 h-6" />
                   <span className="font-semibold">Bike</span>
@@ -154,13 +152,16 @@ const AddVehicle = () => {
                   required
                   value={formData.brand}
                   onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+                  className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
                 >
-                  <option value="">Select Brand</option>
+                  <option value="" className="text-white bg-black">All Brands</option>
                   {brands.map(brand => (
-                    <option key={brand} value={brand}>{brand}</option>
+                    <option key={brand} value={brand} className="text-black bg-white">
+                      {brand}
+                    </option>
                   ))}
                 </select>
+
               </div>
 
               <div>
@@ -227,10 +228,12 @@ const AddVehicle = () => {
                 <select
                   value={formData.fuelType}
                   onChange={(e) => setFormData({ ...formData, fuelType: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+                  className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
                 >
                   {FUEL_TYPES.map(type => (
-                    <option key={type} value={type}>{type}</option>
+                    <option key={type} value={type} className="text-black bg-white">
+                      {type}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -240,12 +243,15 @@ const AddVehicle = () => {
                 <select
                   value={formData.transmission}
                   onChange={(e) => setFormData({ ...formData, transmission: e.target.value })}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+                  className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
                 >
                   {TRANSMISSION_TYPES.map(type => (
-                    <option key={type} value={type}>{type}</option>
+                    <option key={type} value={type} className="text-black bg-white">
+                      {type}
+                    </option>
                   ))}
                 </select>
+
               </div>
             </div>
 
@@ -256,8 +262,8 @@ const AddVehicle = () => {
                 <input
                   type="text"
                   value={formData.location.city}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
+                  onChange={(e) => setFormData({
+                    ...formData,
                     location: { ...formData.location, city: e.target.value }
                   })}
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
@@ -270,8 +276,8 @@ const AddVehicle = () => {
                 <input
                   type="text"
                   value={formData.location.state}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
+                  onChange={(e) => setFormData({
+                    ...formData,
                     location: { ...formData.location, state: e.target.value }
                   })}
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
@@ -315,7 +321,7 @@ const AddVehicle = () => {
               {formData.features.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {formData.features.map((feature, index) => (
-                    <span 
+                    <span
                       key={index}
                       className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm flex items-center space-x-2"
                     >
@@ -338,13 +344,13 @@ const AddVehicle = () => {
               <label className="block text-white font-semibold mb-2">
                 Upload Images ({images.length}/5)
               </label>
-              
+
               {imagePreviews.length > 0 && (
                 <div className="grid grid-cols-5 gap-4 mb-4">
                   {imagePreviews.map((preview, index) => (
                     <div key={index} className="relative group">
-                      <img 
-                        src={preview} 
+                      <img
+                        src={preview}
                         alt={`Preview ${index + 1}`}
                         className="w-full h-24 object-cover rounded-lg"
                       />
@@ -371,7 +377,7 @@ const AddVehicle = () => {
                     className="hidden"
                     id="image-upload"
                   />
-                  <label 
+                  <label
                     htmlFor="image-upload"
                     className="cursor-pointer"
                   >

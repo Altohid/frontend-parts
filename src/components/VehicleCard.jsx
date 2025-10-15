@@ -37,12 +37,12 @@ const VehicleCard = ({ vehicle }) => {
         </div>
 
         <div className="space-y-2 mb-4">
-          <div className="flex items-center text-gray-300 text-sm">
+          <div className="flex items-center text-gray-100 text-sm">
             <Gauge className="w-4 h-4 mr-2" />
             {vehicle.mileage}
           </div>
           {vehicle.location && (
-            <div className="flex items-center text-gray-300 text-sm">
+            <div className="flex items-center text-gray-100 text-sm">
               <MapPin className="w-4 h-4 mr-2" />
               {vehicle.location.city}, {vehicle.location.state}
             </div>

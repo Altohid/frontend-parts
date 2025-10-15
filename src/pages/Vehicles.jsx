@@ -53,32 +53,29 @@ const Vehicles = () => {
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-1 flex border border-white/20">
               <button
                 onClick={() => handleTypeChange('')}
-                className={`px-6 py-3 rounded-lg transition ${
-                  activeType === '' 
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
+                className={`px-6 py-3 rounded-lg transition ${activeType === ''
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                     : 'text-gray-300 hover:text-white'
-                }`}
+                  }`}
               >
                 All
               </button>
               <button
                 onClick={() => handleTypeChange('car')}
-                className={`px-6 py-3 rounded-lg transition flex items-center space-x-2 ${
-                  activeType === 'car' 
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
+                className={`px-6 py-3 rounded-lg transition flex items-center space-x-2 ${activeType === 'car'
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                     : 'text-gray-300 hover:text-white'
-                }`}
+                  }`}
               >
                 <Car className="w-5 h-5" />
                 <span>Cars</span>
               </button>
               <button
                 onClick={() => handleTypeChange('bike')}
-                className={`px-6 py-3 rounded-lg transition flex items-center space-x-2 ${
-                  activeType === 'bike' 
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
+                className={`px-6 py-3 rounded-lg transition flex items-center space-x-2 ${activeType === 'bike'
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                     : 'text-gray-300 hover:text-white'
-                }`}
+                  }`}
               >
                 <Bike className="w-5 h-5" />
                 <span>Bikes</span>
@@ -105,13 +102,16 @@ const Vehicles = () => {
               <select
                 value={filters.brand}
                 onChange={(e) => setFilters({ ...filters, brand: e.target.value })}
-                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+                className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
               >
-                <option value="">All Brands</option>
-                {brands.map(brand => (
-                  <option key={brand} value={brand}>{brand}</option>
+                <option value="" className="text-white bg-black">All Brands</option>
+                {brands.map((brand) => (
+                  <option key={brand} value={brand} className="text-black bg-white">
+                    {brand}
+                  </option>
                 ))}
               </select>
+
             </div>
 
             <div className="flex space-x-2">
