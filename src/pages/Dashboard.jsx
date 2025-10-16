@@ -2,6 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Users, Car, TrendingUp, Eye, Trash2 } from 'lucide-react';
 import api from '../services/api';
 
+const fullImageUrl = (url) => {
+  if (!url) return '';
+  // Adjust this to your backend image base URL
+  return url.startsWith('http')
+    ? url
+    : `http://localhost:5000/${url}`;
+};
+
+
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [users, setUsers] = useState([]);
