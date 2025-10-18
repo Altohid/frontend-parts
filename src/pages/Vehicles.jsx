@@ -113,7 +113,18 @@ const Vehicles = () => {
               </select>
 
             </div>
-
+                <div>
+  <select
+    value={filters.status || ''}
+    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+    className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+  >
+    <option value="">All Status</option>
+    <option value="available">Available</option>
+    <option value="sold">Sold</option>
+    <option value="pending">Pending</option>
+  </select>
+</div>
             <div className="flex space-x-2">
               <input
                 type="number"

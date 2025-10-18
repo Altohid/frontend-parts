@@ -2,13 +2,119 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, Gauge, MapPin, Phone, Mail, User, Fuel, Cog, ArrowLeft } from 'lucide-react';
 import { vehicleService } from '../services/vehicleService';
+import { paymentService } from '../services/paymentService';
 import { fullImageUrl } from '../utils/constants';
+import { useAuth } from '../contexts/AuthContext';
+
 
 const VehicleDetail = () => {
   const { id } = useParams();
+  const { user } = useAuth();
   const [vehicle, setVehicle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
+
+  // Load Razorpay script
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.head.appendChild(script);
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
+  const handlePayment = async () => {
+    if (!user) {
+      alert('Please login to continue with payment');
+      window.location.href = '/login';
+      return;
+    }
+
+    setPaymentProcessing(true);
+    try {
+      // Step 1: Get Razorpay Key from backend
+      const keyData = await paymentService.getRazorpayKey();
+      
+      if (!keyData.success) {
+        throw new Error('Failed to get payment configuration');
+      }
+
+      // Step 2: Create order
+      const orderData = await paymentService.createOrder(vehicle._id);
+      
+      if (!orderData.success) {
+        throw new Error(orderData.message || 'Failed to create order');
+      }
+
+      // Step 3: Initialize Razorpay options
+      const options = {
+        key: keyData.key, // ✓ Now fetched from backend!
+        amount: orderData.data.amount,
+        currency: orderData.data.currency,
+        order_id: orderData.data.id,
+        name: 'AutoMart',
+        description: `${vehicle.brand} ${vehicle.model} (${vehicle.year})`,
+        image: '/logo.png',
+        handler: async function(response) {
+          try {
+            // Verify payment with backend
+            const verifyData = await paymentService.verifyPayment({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            });
+            
+            if (verifyData.success) {
+              alert('🎉 Payment successful! Your vehicle booking is confirmed.');
+              window.location.reload(); // Refresh to update vehicle status
+            } else {
+              throw new Error('Payment verification failed');
+            }
+          } catch (error) {
+            console.error('Payment verification failed:', error);
+            alert('Payment verification failed. Please contact support with Order ID: ' + response.razorpay_order_id);
+          }
+        },
+        prefill: {
+          name: user.name,
+          email: user.email,
+          contact: user.phone || '9999999999'
+        },
+        notes: {
+          vehicleId: vehicle._id,
+          buyerId: user.id,
+          vehicleName: `${vehicle.brand} ${vehicle.model}`
+        },
+        theme: {
+          color: '#8B5CF6'
+        },
+        modal: {
+          ondismiss: function() {
+            console.log('Payment cancelled by user');
+            setPaymentProcessing(false);
+          }
+        }
+      };
+
+      const razorpayInstance = new window.Razorpay(options);
+      
+      razorpayInstance.on('payment.failed', function (response) {
+        console.error('Payment failed:', response.error);
+        alert(`Payment failed: ${response.error.description}`);
+        setPaymentProcessing(false);
+      });
+
+      razorpayInstance.open();
+      
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert('Payment initialization failed: ' + (error.message || 'Please try again'));
+      setPaymentProcessing(false);
+    }
+  };
 
   useEffect(() => {
     fetchVehicle();
@@ -227,9 +333,13 @@ const VehicleDetail = () => {
                   </div>
                 )}
 
-                <button className="w-full mt-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2">
+                <button 
+                  onClick={handlePayment}
+                  disabled={paymentProcessing} 
+                  className="w-full mt-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <Phone className="w-5 h-5" />
-                  <span>Contact Seller</span>
+                  <span>{paymentProcessing ? 'Processing Payment...' : 'Pay Now and Book Your Item'}</span>
                 </button>
               </div>
             </div>
