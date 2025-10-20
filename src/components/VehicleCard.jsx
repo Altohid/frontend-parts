@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Gauge, MapPin, ChevronRight } from 'lucide-react';
+import { fullImageUrl } from '../utils/constants';
 
 const VehicleCard = ({ vehicle, showStatus = true }) => {
   const getStatusBadge = () => {
@@ -43,7 +44,7 @@ const VehicleCard = ({ vehicle, showStatus = true }) => {
       <div className={`h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 overflow-hidden relative ${vehicle.status === 'sold' ? 'opacity-75' : ''}`}>
         {vehicle.images && vehicle.images.length > 0 ? (
           <img 
-            src={vehicle.images[0].url} 
+            src={fullImageUrl(vehicle.images[0].url)} 
             alt={`${vehicle.brand} ${vehicle.model}`}
             className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
           />

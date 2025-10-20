@@ -14,6 +14,7 @@ const VehicleDetail = () => {
   const [loading, setLoading] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [paymentError, setPaymentError] = useState('');
 
   // Load Razorpay script
   useEffect(() => {
@@ -34,7 +35,7 @@ const VehicleDetail = () => {
     }
 
     setPaymentProcessing(true);
-    try {
+  try {
       // Step 1: Get Razorpay Key from backend
       const keyData = await paymentService.getRazorpayKey();
       
@@ -44,10 +45,6 @@ const VehicleDetail = () => {
 
       // Step 2: Create order
       const orderData = await paymentService.createOrder(vehicle._id);
-      
-      if (!orderData.success) {
-        throw new Error(orderData.message || 'Failed to create order');
-      }
 
       // Step 3: Initialize Razorpay options
       const options = {
@@ -111,7 +108,10 @@ const VehicleDetail = () => {
       
     } catch (error) {
       console.error('Payment error:', error);
-      alert('Payment initialization failed: ' + (error.message || 'Please try again'));
+      const msg = error.message || 'Payment initialization failed';
+      setPaymentError(msg);
+      // Keep the user informed
+      alert('Payment initialization failed: ' + msg);
       setPaymentProcessing(false);
     }
   };
@@ -333,13 +333,19 @@ const VehicleDetail = () => {
                   </div>
                 )}
 
+                {paymentError && (
+                  <div className="mt-4 p-3 bg-red-600/10 border border-red-500/20 text-red-300 rounded">
+                    {paymentError}
+                  </div>
+                )}
+
                 <button 
                   onClick={handlePayment}
-                  disabled={paymentProcessing} 
+                  disabled={paymentProcessing || String(vehicle.status).toLowerCase() === 'sold'} 
                   className="w-full mt-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Phone className="w-5 h-5" />
-                  <span>{paymentProcessing ? 'Processing Payment...' : 'Pay Now and Book Your Item'}</span>
+                  <span>{String(vehicle.status).toLowerCase() === 'sold' ? 'Sold' : (paymentProcessing ? 'Processing Payment...' : 'Pay Now and Book Your Item')}</span>
                 </button>
               </div>
             </div>

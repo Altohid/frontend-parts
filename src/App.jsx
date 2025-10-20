@@ -31,7 +31,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/add-vehicle"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute sellerOnly={true}>
                   <AddVehicle />
                 </ProtectedRoute>
               }
@@ -39,7 +39,7 @@ function App() {
             <Route
               path="/my-listings"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute sellerOnly={true}>
                   <MyListings />
                 </ProtectedRoute>
               }

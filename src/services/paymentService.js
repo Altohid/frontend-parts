@@ -11,7 +11,8 @@ export const paymentService = {
       return response.data;
     } catch (error) {
       console.error('Error getting Razorpay key:', error);
-      throw error;
+      const msg = error.response?.data?.message || error.message || 'Failed to fetch Razorpay key';
+      throw new Error(msg);
     }
   },
 
@@ -25,7 +26,9 @@ export const paymentService = {
       return response.data;
     } catch (error) {
       console.error('Error creating order:', error);
-      throw error;
+      // Prefer server-provided message when available
+      const msg = error.response?.data?.message || error.message || 'Failed to create order';
+      throw new Error(msg);
     }
   },
 
@@ -39,7 +42,8 @@ export const paymentService = {
       return response.data;
     } catch (error) {
       console.error('Error verifying payment:', error);
-      throw error;
+      const msg = error.response?.data?.message || error.message || 'Failed to verify payment';
+      throw new Error(msg);
     }
   }
 };

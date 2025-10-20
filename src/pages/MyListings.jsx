@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Edit, Trash2, Plus, Eye, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { fullImageUrl } from '../utils/constants';
 import { vehicleService } from '../services/vehicleService';
 
 const MyListings = () => {
@@ -198,7 +199,7 @@ const MyListings = () => {
                   <div className="w-full md:w-48 h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg overflow-hidden flex-shrink-0 relative">
                     {vehicle.images && vehicle.images.length > 0 ? (
                       <img 
-                        src={vehicle.images[0].url} 
+                        src={fullImageUrl(vehicle.images[0].url)} 
                         alt={`${vehicle.brand} ${vehicle.model}`}
                         className="w-full h-full object-cover"
                       />

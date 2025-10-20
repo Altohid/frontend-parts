@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const VehiclePayment = ({ vehicleId, vehiclePrice, vehicleName }) => {
+const VehiclePayment = ({ vehicleId, vehiclePrice, vehicleName, vehicleStatus }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -167,6 +167,12 @@ const VehiclePayment = ({ vehicleId, vehiclePrice, vehicleName }) => {
     }
   };
 
+  // Helper to normalize status
+  const isSold = (vehicleStatus) => {
+    if (!vehicleStatus) return false;
+    return String(vehicleStatus).toLowerCase() === 'sold';
+  };
+
   return (
     <div className="payment-container">
       <div className="payment-card">
@@ -187,10 +193,14 @@ const VehiclePayment = ({ vehicleId, vehiclePrice, vehicleName }) => {
 
         <button
           onClick={handlePayment}
-          disabled={loading}
+          disabled={loading || isSold(vehicleStatus)}
           className="pay-button"
         >
-          {loading ? 'Processing...' : `Pay ₹${vehiclePrice?.toLocaleString('en-IN')}`}
+          {isSold(vehicleStatus)
+            ? 'Sold'
+            : loading
+              ? 'Processing...'
+              : `Pay ₹${vehiclePrice?.toLocaleString('en-IN')}`}
         </button>
 
         <div className="payment-info">

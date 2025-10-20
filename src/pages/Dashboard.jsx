@@ -40,6 +40,38 @@ const Dashboard = () => {
     }
   };
 
+  // Download CSV helpers
+  const downloadBlob = (blob, filename) => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  };
+
+  const downloadUsersCsv = async () => {
+    try {
+      const res = await api.get('/users/admin/export', { responseType: 'blob' });
+      downloadBlob(res.data, `users_${Date.now()}.csv`);
+    } catch (error) {
+      console.error('Failed to download users CSV:', error);
+      alert('Failed to download users CSV');
+    }
+  };
+
+  const downloadVehiclesCsv = async () => {
+    try {
+      const res = await api.get('/vehicles/admin/export', { responseType: 'blob' });
+      downloadBlob(res.data, `vehicles_${Date.now()}.csv`);
+    } catch (error) {
+      console.error('Failed to download vehicles CSV:', error);
+      alert('Failed to download vehicles CSV');
+    }
+  };
+
   const handleDeleteUser = async (userId) => {
     if (!window.confirm('Are you sure you want to delete this user?')) return;
 
@@ -252,7 +284,15 @@ const Dashboard = () => {
             {/* Users Tab */}
             {activeTab === 'users' && (
               <div>
-                <h2 className="text-2xl font-bold text-white mb-6">Manage Users</h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-white">Manage Users</h2>
+                  <button
+                    onClick={downloadUsersCsv}
+                    className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg transition"
+                  >
+                    Download Users CSV
+                  </button>
+                </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
@@ -318,7 +358,15 @@ const Dashboard = () => {
             {/* Vehicles Tab */}
             {activeTab === 'vehicles' && (
               <div>
-                <h2 className="text-2xl font-bold text-white mb-6">Manage Vehicles</h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-white">Manage Vehicles</h2>
+                  <button
+                    onClick={downloadVehiclesCsv}
+                    className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg transition"
+                  >
+                    Download Vehicles CSV
+                  </button>
+                </div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {vehicles.map(vehicle => (
                     <div key={vehicle._id} className="bg-white/5 rounded-xl overflow-hidden border border-white/20 hover:border-purple-500/50 transition">
