@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, TrendingUp, Shield, Users, Car } from 'lucide-react';
+import { useAuth } from "../contexts/AuthContext";
+
 
 const Hero = () => {
+  const { user } = useAuth();
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -38,21 +41,24 @@ const Hero = () => {
           <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
             Find your perfect car or bike from thousands of verified listings. Quick, easy, and secure.
           </p>
-          
+
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link 
+            <Link
               to="/vehicles"
               className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105"
             >
               Browse Vehicles
             </Link>
-            <Link 
-              to="/add-vehicle"
-              className="px-8 py-4 bg-white/10 backdrop-blur-lg text-white rounded-lg font-semibold border border-white/20 hover:bg-white/20 transition"
-            >
-              Sell Your Vehicle
-            </Link>
+            {user?.role === 'seller' && (
+              <Link
+                to="/add-vehicle"
+                className="px-8 py-4 bg-white/10 backdrop-blur-lg text-white rounded-lg font-semibold border border-white/20 hover:bg-white/20 transition"
+              >
+                Sell Your Vehicle
+              </Link>
+            )}
+
           </div>
 
           {/* Stats */}
@@ -79,7 +85,7 @@ const Hero = () => {
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
             {features.map((feature, i) => (
-              <div 
+              <div
                 key={i}
                 className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/20 transition transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20"
               >
@@ -95,16 +101,36 @@ const Hero = () => {
       {/* CTA Section */}
       <section className="relative z-10 py-20 px-4">
         <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Ready to Sell Your Vehicle?</h2>
-          <p className="text-xl text-white/90 mb-8">List your car or bike today and reach thousands of potential buyers</p>
-          <Link 
-            to="/add-vehicle"
-            className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
-          >
-            Start Selling Now
-          </Link>
+          {user?.role === 'seller' ? (
+            <>
+              <h2 className="text-4xl font-bold text-white mb-4">Ready to Sell Your Vehicle?</h2>
+              <p className="text-xl text-white/90 mb-8">
+                List your car or bike today and reach thousands of potential buyers
+              </p>
+              <Link
+                to="/add-vehicle"
+                className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
+              >
+                Start Selling Now
+              </Link>
+            </>
+          ) : (
+            <>
+              <h2 className="text-4xl font-bold text-white mb-4">Ready to Buy Your Vehicle?</h2>
+              <p className="text-xl text-white/90 mb-8">
+                Explore a wide range of cars and bikes from trusted sellers today
+              </p>
+              <Link
+                to="/vehicles"
+                className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
+              >
+                Buy Vehicle Now
+              </Link>
+            </>
+          )}
         </div>
       </section>
+
     </div>
   );
 };
