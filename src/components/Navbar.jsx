@@ -34,20 +34,24 @@ const Navbar = () => {
             
             {isAuthenticated ? (
               <>
-                <Link 
-                  to="/add-vehicle" 
-                  className="flex items-center space-x-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Sell Vehicle</span>
-                </Link>
-                
-                <Link 
-                  to="/my-listings" 
-                  className="text-white hover:text-purple-400 transition"
-                >
-                  My Listings
-                </Link>
+                {(user?.role === 'seller' || user?.role === 'admin') && (
+                  <>
+                    <Link 
+                      to="/add-vehicle" 
+                      className="flex items-center space-x-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Sell Vehicle</span>
+                    </Link>
+                    
+                    <Link 
+                      to="/my-listings" 
+                      className="text-white hover:text-purple-400 transition"
+                    >
+                      My Listings
+                    </Link>
+                  </>
+                )}
 
                 {isAdmin && (
                   <Link 
@@ -121,12 +125,16 @@ const Navbar = () => {
             
             {isAuthenticated ? (
               <>
-                <Link to="/add-vehicle" className="block text-white hover:text-purple-400">
-                  Sell Vehicle
-                </Link>
-                <Link to="/my-listings" className="block text-white hover:text-purple-400">
-                  My Listings
-                </Link>
+                {(user?.role === 'seller' || user?.role === 'admin') && (
+                  <>
+                    <Link to="/add-vehicle" className="block text-white hover:text-purple-400">
+                      Sell Vehicle
+                    </Link>
+                    <Link to="/my-listings" className="block text-white hover:text-purple-400">
+                      My Listings
+                    </Link>
+                  </>
+                )}
                 {isAdmin && (
                   <Link to="/dashboard" className="block text-white hover:text-purple-400">
                     Dashboard

@@ -31,5 +31,9 @@ export const vehicleService = {
   getMyVehicles: async () => {
     const response = await api.get('/vehicles/my-vehicles');
     return response.data;
-  }
+  },
+  updateVehicleStatus: async (id, status) => {
+  const response = await api.patch(`/vehicles/${id}/status`, { status });
+  return response.data;
+}
 };
