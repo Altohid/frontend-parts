@@ -54,8 +54,8 @@ const Vehicles = () => {
               <button
                 onClick={() => handleTypeChange('')}
                 className={`px-6 py-3 rounded-lg transition ${activeType === ''
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                    : 'text-gray-300 hover:text-white'
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                  : 'text-gray-300 hover:text-white'
                   }`}
               >
                 All
@@ -63,8 +63,8 @@ const Vehicles = () => {
               <button
                 onClick={() => handleTypeChange('car')}
                 className={`px-6 py-3 rounded-lg transition flex items-center space-x-2 ${activeType === 'car'
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                    : 'text-gray-300 hover:text-white'
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                  : 'text-gray-300 hover:text-white'
                   }`}
               >
                 <Car className="w-5 h-5" />
@@ -73,8 +73,8 @@ const Vehicles = () => {
               <button
                 onClick={() => handleTypeChange('bike')}
                 className={`px-6 py-3 rounded-lg transition flex items-center space-x-2 ${activeType === 'bike'
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                    : 'text-gray-300 hover:text-white'
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                  : 'text-gray-300 hover:text-white'
                   }`}
               >
                 <Bike className="w-5 h-5" />
@@ -99,7 +99,7 @@ const Vehicles = () => {
             </div>
 
             <div>
-              <select
+              {/* <select
                 value={filters.brand}
                 onChange={(e) => setFilters({ ...filters, brand: e.target.value })}
                 className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
@@ -110,21 +110,48 @@ const Vehicles = () => {
                     {brand}
                   </option>
                 ))}
+              </select> */}
+              <select
+                value={filters.brand}
+                onChange={(e) => setFilters({ ...filters, brand: e.target.value })}
+                className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+                style={{ position: 'relative', overflow: 'visible', direction: 'ltr' }}
+              >
+                <option value="" className="text-white bg-purple-600">All Brands</option>
+                {[
+                  'Honda', 'Yamaha', 'Hero', 'TVS', 'Bajaj', 'Suzuki', 'KTM', 'Royal Enfield',
+                  'Mahindra', 'Hyundai', 'Tata', 'Maruti Suzuki', 'Toyota', 'Kia', 'Ford',
+                  'Volkswagen', 'Nissan'
+                ].map((brand) => (
+                  <option key={brand} value={brand} className="text-black bg-white">
+                    {brand}
+                  </option>
+                ))}
               </select>
 
             </div>
-                <div>
-  <select
-    value={filters.status || ''}
-    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-    className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
-  >
-    <option value="">All Status</option>
-    <option value="available">Available</option>
-    <option value="sold">Sold</option>
-    <option value="pending">Pending</option>
-  </select>
-</div>
+            <div>
+              <select
+                value={filters.status || ''}
+                onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+              >
+                <option value="" className="text-white bg-purple-600">
+                  All Status
+                </option>
+                <option value="available" className="text-black bg-white">
+                  Available
+                </option>
+                <option value="sold" className="text-black bg-white">
+                  Sold
+                </option>
+                <option value="pending" className="text-black bg-white">
+                  Pending
+                </option>
+              </select>
+
+
+            </div>
             <div className="flex space-x-2">
               <input
                 type="number"
