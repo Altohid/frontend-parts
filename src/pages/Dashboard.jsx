@@ -122,18 +122,18 @@ const Dashboard = () => {
                 <span className="text-2xl font-bold text-purple-400">{stats?.totalCars || 0}</span>
               </div>
               <div className="w-full bg-white/10 rounded-full h-3">
-                <div 
+                <div
                   className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full transition-all"
                   style={{ width: `${stats?.totalVehicles ? (stats.totalCars / stats.totalVehicles) * 100 : 0}%` }}
                 ></div>
               </div>
-              
+
               <div className="flex items-center justify-between mt-6">
                 <span className="text-gray-300">Bikes</span>
                 <span className="text-2xl font-bold text-blue-400">{stats?.totalBikes || 0}</span>
               </div>
               <div className="w-full bg-white/10 rounded-full h-3">
-                <div 
+                <div
                   className="bg-gradient-to-r from-blue-500 to-cyan-500 h-3 rounded-full transition-all"
                   style={{ width: `${stats?.totalVehicles ? (stats.totalBikes / stats.totalVehicles) * 100 : 0}%` }}
                 ></div>
@@ -149,18 +149,18 @@ const Dashboard = () => {
                 <span className="text-2xl font-bold text-green-400">{stats?.availableVehicles || 0}</span>
               </div>
               <div className="w-full bg-white/10 rounded-full h-3">
-                <div 
+                <div
                   className="bg-gradient-to-r from-green-500 to-emerald-500 h-3 rounded-full transition-all"
                   style={{ width: `${stats?.totalVehicles ? (stats.availableVehicles / stats.totalVehicles) * 100 : 0}%` }}
                 ></div>
               </div>
-              
+
               <div className="flex items-center justify-between mt-6">
                 <span className="text-gray-300">Sold</span>
                 <span className="text-2xl font-bold text-red-400">{stats?.soldVehicles || 0}</span>
               </div>
               <div className="w-full bg-white/10 rounded-full h-3">
-                <div 
+                <div
                   className="bg-gradient-to-r from-red-500 to-pink-500 h-3 rounded-full transition-all"
                   style={{ width: `${stats?.totalVehicles ? (stats.soldVehicles / stats.totalVehicles) * 100 : 0}%` }}
                 ></div>
@@ -174,31 +174,28 @@ const Dashboard = () => {
           <div className="flex border-b border-white/20">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`flex-1 px-6 py-4 font-semibold transition ${
-                activeTab === 'overview'
+              className={`flex-1 px-6 py-4 font-semibold transition ${activeTab === 'overview'
                   ? 'bg-purple-500 text-white'
                   : 'text-gray-300 hover:bg-white/5'
-              }`}
+                }`}
             >
               Overview
             </button>
             <button
               onClick={() => setActiveTab('users')}
-              className={`flex-1 px-6 py-4 font-semibold transition ${
-                activeTab === 'users'
+              className={`flex-1 px-6 py-4 font-semibold transition ${activeTab === 'users'
                   ? 'bg-purple-500 text-white'
                   : 'text-gray-300 hover:bg-white/5'
-              }`}
+                }`}
             >
               Users ({users.length})
             </button>
             <button
               onClick={() => setActiveTab('vehicles')}
-              className={`flex-1 px-6 py-4 font-semibold transition ${
-                activeTab === 'vehicles'
+              className={`flex-1 px-6 py-4 font-semibold transition ${activeTab === 'vehicles'
                   ? 'bg-purple-500 text-white'
                   : 'text-gray-300 hover:bg-white/5'
-              }`}
+                }`}
             >
               Vehicles ({vehicles.length})
             </button>
@@ -281,13 +278,12 @@ const Dashboard = () => {
                           <td className="py-4 px-4 text-gray-300">{user.email}</td>
                           <td className="py-4 px-4 text-gray-300">{user.phone || 'N/A'}</td>
                           <td className="py-4 px-4">
-                            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                              user.role === 'admin'
+                            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${user.role === 'admin'
                                 ? 'bg-red-500/20 text-red-300'
                                 : user.role === 'seller'
-                                ? 'bg-blue-500/20 text-blue-300'
-                                : 'bg-green-500/20 text-green-300'
-                            }`}>
+                                  ? 'bg-blue-500/20 text-blue-300'
+                                  : 'bg-green-500/20 text-green-300'
+                              }`}>
                               {user.role}
                             </span>
                           </td>
@@ -321,47 +317,47 @@ const Dashboard = () => {
                 <h2 className="text-2xl font-bold text-white mb-6">Manage Vehicles</h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {vehicles.map(vehicle => (
-                    <div key={vehicle._id} className="bg-white/5 rounded-xl overflow-hidden border border-white/20 hover:border-purple-500/50 transition">
-                      <div className="h-40 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-                          {vehicle.images && vehicle.images.length > 0 ? (
-                            <img 
-                              src={fullImageUrl(vehicle.images[0].url)} 
-                            alt={`${vehicle.brand} ${vehicle.model}`}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <span className="text-5xl">
-                            {vehicle.type === 'car' ? '🚗' : '🏍️'}
-                          </span>
-                        )}
+                    console.log('Image URL:', fullImageUrl(vehicle.images?.[0]?.url)),// <-- add here
+                  <div key={vehicle._id} className="bg-white/5 rounded-xl overflow-hidden border border-white/20 hover:border-purple-500/50 transition">
+                    <div className="h-40 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                      {vehicle.images && vehicle.images.length > 0 ? (
+                        <img
+                          src={fullImageUrl(vehicle.images[0].url)}
+                          alt={`${vehicle.brand} ${vehicle.model}`}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-5xl">
+                          {vehicle.type === 'car' ? '🚗' : '🏍️'}
+                        </span>
+                      )}
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-lg font-bold text-white mb-2">
+                        {vehicle.brand} {vehicle.model}
+                      </h3>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-purple-400 font-bold">
+                          ₹{vehicle.price.toLocaleString('en-IN')}
+                        </span>
+                        <span className="text-gray-400 text-sm">{vehicle.year}</span>
                       </div>
-                      <div className="p-4">
-                        <h3 className="text-lg font-bold text-white mb-2">
-                          {vehicle.brand} {vehicle.model}
-                        </h3>
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="text-purple-400 font-bold">
-                            ₹{vehicle.price.toLocaleString('en-IN')}
-                          </span>
-                          <span className="text-gray-400 text-sm">{vehicle.year}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                            vehicle.status === 'available'
-                              ? 'bg-green-500/20 text-green-300'
-                              : 'bg-red-500/20 text-red-300'
+                      <div className="flex items-center justify-between">
+                        <span className={`px-2 py-1 rounded text-xs font-semibold ${vehicle.status === 'available'
+                            ? 'bg-green-500/20 text-green-300'
+                            : 'bg-red-500/20 text-red-300'
                           }`}>
-                            {vehicle.status}
-                          </span>
-                          <button
-                            onClick={() => handleDeleteVehicle(vehicle._id)}
-                            className="text-red-400 hover:text-red-300 transition"
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button>
-                        </div>
+                          {vehicle.status}
+                        </span>
+                        <button
+                          onClick={() => handleDeleteVehicle(vehicle._id)}
+                          className="text-red-400 hover:text-red-300 transition"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
                       </div>
                     </div>
+                  </div>
                   ))}
                 </div>
                 {vehicles.length === 0 && (
