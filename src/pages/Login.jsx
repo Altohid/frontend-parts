@@ -68,6 +68,16 @@ const Login = () => {
                 placeholder="••••••••"
               />
             </div>
+
+            {/* Forgot Password link */}
+            <div className="text-right mt-2">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-purple-400 hover:text-purple-300 font-medium"
+              >
+                Forgot Password?
+              </Link>
+            </div>
           </div>
 
           <button

@@ -14,19 +14,26 @@ import Dashboard from './pages/Dashboard';
 import Footer from './components/Footer';
 import Profile from './pages/Profile';
 import ScrollToTop from './pages/ScrollToTop';
-
+import ForgotPassword from './pages/ForgotPassword';
 function App() {
   return (
     <AuthProvider>
       <Router>
-         <ScrollToTop />
+        <ScrollToTop />
         <div className="App">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/vehicles" element={<Vehicles />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/vehicles" element={
+                <ProtectedRoute>
+                  <Vehicles />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/vehicles/:id" element={<VehicleDetail />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/add-vehicle"
@@ -36,6 +43,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+
             <Route
               path="/my-listings"
               element={
