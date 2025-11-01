@@ -31,6 +31,9 @@ const Navbar = () => {
             <Link to="/vehicles" className="text-white hover:text-purple-400 transition">
               Browse
             </Link>
+            <Link to="/contact" className="text-white hover:text-purple-400 transition">
+              Contact
+            </Link>
             
             {isAuthenticated ? (
               <>
@@ -121,6 +124,9 @@ const Navbar = () => {
             </Link>
             <Link to="/vehicles" className="block text-white hover:text-purple-400">
               Browse
+            </Link>
+            <Link to="/contact" className="block text-white hover:text-purple-400">
+              Contact
             </Link>
             
             {isAuthenticated ? (

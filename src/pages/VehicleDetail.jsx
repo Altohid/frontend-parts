@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Calendar, Gauge, MapPin, Phone, Mail, User, Fuel, Cog, ArrowLeft } from 'lucide-react';
+import { Calendar, Gauge, MapPin, Phone, Mail, User, Fuel, Cog, ArrowLeft, MessageCircle } from 'lucide-react';
 import { vehicleService } from '../services/vehicleService';
 import { paymentService } from '../services/paymentService';
-import { fullImageUrl } from '../utils/constants';
+import { fullImageUrl, WHATSAPP_NUMBER } from '../utils/constants';
 import { useAuth } from '../contexts/AuthContext';
 
 
@@ -26,6 +26,24 @@ const VehicleDetail = () => {
       document.head.removeChild(script);
     };
   }, []);
+
+  const handleWhatsAppInquiry = () => {
+    const whatsappNumber = vehicle?.sellerId?.phone || WHATSAPP_NUMBER;
+    const phoneNumber = whatsappNumber.replace(/[^0-9]/g, '');
+    
+    const message = `Hello! I'm interested in this vehicle:
+
+${vehicle?.brand} ${vehicle?.model} (${vehicle?.year})
+Price: ₹${vehicle?.price?.toLocaleString('en-IN')}
+Mileage: ${vehicle?.mileage}
+
+I would like to know more about this vehicle. Please share more details.`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+  };
 
   const handlePayment = async () => {
     if (!user) {
@@ -339,14 +357,24 @@ const VehicleDetail = () => {
                   </div>
                 )}
 
-                <button 
-                  onClick={handlePayment}
-                  disabled={paymentProcessing || String(vehicle.status).toLowerCase() === 'sold'} 
-                  className="w-full mt-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Phone className="w-5 h-5" />
-                  <span>{String(vehicle.status).toLowerCase() === 'sold' ? 'Sold' : (paymentProcessing ? 'Processing Payment...' : 'Pay Now and Book Your Item')}</span>
-                </button>
+                <div className="mt-6 space-y-3">
+                  <button 
+                    onClick={handleWhatsAppInquiry}
+                    className="w-full py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    <span>Inquire on WhatsApp</span>
+                  </button>
+
+                  <button 
+                    onClick={handlePayment}
+                    disabled={paymentProcessing || String(vehicle.status).toLowerCase() === 'sold'} 
+                    className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Phone className="w-5 h-5" />
+                    <span>{String(vehicle.status).toLowerCase() === 'sold' ? 'Sold' : (paymentProcessing ? 'Processing Payment...' : 'Pay Now and Book Your Item')}</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

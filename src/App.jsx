@@ -15,6 +15,7 @@ import Footer from './components/Footer';
 import Profile from './pages/Profile';
 import ScrollToTop from './pages/ScrollToTop';
 import ForgotPassword from './pages/ForgotPassword';
+import Contact from './pages/Contact';
 function App() {
   return (
     <AuthProvider>
@@ -27,6 +28,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/contact" element={<Contact />} />
             <Route
               path="/vehicles" element={
                 <ProtectedRoute>
