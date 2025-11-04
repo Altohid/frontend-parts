@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Filter, TrendingUp, Shield, Users, Car } from 'lucide-react';
+import { Search, TrendingUp, Shield, Users } from 'lucide-react';
 import { useAuth } from "../contexts/AuthContext";
-
 
 const Hero = () => {
   const { user } = useAuth();
@@ -18,27 +17,31 @@ const Hero = () => {
     { icon: Shield, title: 'Verified Sellers', desc: 'All sellers are verified for your safety' },
     { icon: Search, title: 'Easy Search', desc: 'Find your dream vehicle in seconds' },
     { icon: TrendingUp, title: 'Best Prices', desc: 'Competitive pricing on all listings' },
-    { icon: Users, title: 'Large Community', desc: 'Thousands of buyers and sellers' }
+    { icon: Users, title: 'Large Community', desc: 'Thousands of buyers and sellers' },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl -top-48 -left-48 animate-pulse"></div>
-        <div className="absolute w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -bottom-48 -right-48 animate-pulse" style={{ animationDelay: '700ms' }}></div>
-      </div>
+    <div className="bg-slate-900 text-white">
+      {/* Hero Section with Background Image */}
+      <div
+        className="relative h-screen bg-cover bg-center  flex flex-col justify-center items-center"
+        style={{
+          backgroundImage:
+            "url('/public/1.webp')",
+        }}
+      >
+        {/* Translucent Overlay */}
+        <div className="absolute inset-0 bg-gray-900/50 border-b border-white/20"></div>
 
-      {/* Hero Section */}
-      <section className="relative z-10 pt-32 pb-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
+        {/* Hero Content */}
+        <section className="relative z-10 text-center px-4">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
             Buy & Sell
             <span className="block bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               Second-Hand Vehicles
             </span>
           </h1>
-          <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-200 mb-12 max-w-2xl mx-auto">
             Find your perfect car or bike from thousands of verified listings. Quick, easy, and secure.
           </p>
 
@@ -58,7 +61,6 @@ const Hero = () => {
                 Sell Your Vehicle
               </Link>
             )}
-
           </div>
 
           {/* Stats */}
@@ -66,23 +68,24 @@ const Hero = () => {
             {[
               { value: '10K+', label: 'Vehicles Listed' },
               { value: '5K+', label: 'Happy Customers' },
-              { value: '500+', label: 'Verified Sellers' }
+              { value: '500+', label: 'Verified Sellers' },
             ].map((stat, i) => (
-              <div key={i} className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 transform hover:scale-105 transition">
+              <div
+                key={i}
+                className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 transform hover:scale-105 transition"
+              >
                 <div className="text-3xl font-bold text-purple-400">{stat.value}</div>
                 <div className="text-gray-300 mt-2">{stat.label}</div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* Features Section */}
-      <section className="relative z-10 py-20 px-4">
+      <section className="relative z-10 py-20 px-4 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-16">
-            Why Choose AutoMart?
-          </h2>
+          <h2 className="text-4xl font-bold text-center mb-16">Why Choose AutoMart?</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {features.map((feature, i) => (
               <div
@@ -90,7 +93,7 @@ const Hero = () => {
                 className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/20 transition transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20"
               >
                 <feature.icon className="w-12 h-12 text-purple-400 mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                 <p className="text-gray-300">{feature.desc}</p>
               </div>
             ))}
@@ -103,7 +106,7 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center">
           {user?.role === 'seller' ? (
             <>
-              <h2 className="text-4xl font-bold text-white mb-4">Ready to Sell Your Vehicle?</h2>
+              <h2 className="text-4xl font-bold mb-4">Ready to Sell Your Vehicle?</h2>
               <p className="text-xl text-white/90 mb-8">
                 List your car or bike today and reach thousands of potential buyers
               </p>
@@ -116,7 +119,7 @@ const Hero = () => {
             </>
           ) : (
             <>
-              <h2 className="text-4xl font-bold text-white mb-4">Ready to Buy Your Vehicle?</h2>
+              <h2 className="text-4xl font-bold mb-4">Ready to Buy Your Vehicle?</h2>
               <p className="text-xl text-white/90 mb-8">
                 Explore a wide range of cars and bikes from trusted sellers today
               </p>
@@ -130,7 +133,6 @@ const Hero = () => {
           )}
         </div>
       </section>
-
     </div>
   );
 };
