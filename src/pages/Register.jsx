@@ -80,12 +80,16 @@ const handleRegister = async (e) => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-4 pt-16">
-      <div className="max-w-md w-full bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-2xl">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
-          <p className="text-gray-300">Join AutoMart today</p>
-        </div>
+  <div
+  className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
+  style={{ backgroundImage: "url('/lamborghini_car_steering_wheel_211123_1280x720.jpg')" }}
+>
+  <div className="max-w-md w-full bg-gray-900/80 border border-white/30 rounded-2xl p-8 shadow-xl mt-16">
+    <div className="text-center mb-8">
+      <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
+      <p className="text-gray-300">Join AutoMart today</p>
+    </div>
+
 
         {message && (
           <div className="bg-purple-500/20 border border-purple-500 text-purple-200 px-4 py-3 rounded-lg mb-4 text-center">
