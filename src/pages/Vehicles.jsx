@@ -99,18 +99,6 @@ const Vehicles = () => {
             </div>
 
             <div>
-              {/* <select
-                value={filters.brand}
-                onChange={(e) => setFilters({ ...filters, brand: e.target.value })}
-                className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
-              >
-                <option value="" className="text-white bg-black">All Brands</option>
-                {brands.map((brand) => (
-                  <option key={brand} value={brand} className="text-black bg-white">
-                    {brand}
-                  </option>
-                ))}
-              </select> */}
               <select
                 value={filters.brand}
                 onChange={(e) => setFilters({ ...filters, brand: e.target.value })}

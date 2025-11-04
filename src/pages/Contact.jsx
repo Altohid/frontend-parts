@@ -124,8 +124,8 @@ Message: ${formData.message || 'I would like to know more about your vehicles.'}
                     <h3 className="text-white font-semibold mb-1">Address</h3>
                     <p className="text-gray-300">
                       AutoMart HQ,<br />
-                      Mumbai, Maharashtra<br />
-                      India 400001
+                      Indore, MadhyaPradesh<br />
+                      India 452020
                     </p>
                   </div>
                 </div>

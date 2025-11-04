@@ -122,8 +122,8 @@ const Footer = () => {
                 <MapPin className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0" />
                 <div>
                   AutoMart HQ,<br />
-                  Mumbai, Maharashtra<br />
-                  India 400001
+                  Indore, MadhyaPradesh<br />
+                  India 452020
                 </div>
               </li>
             </ul>
@@ -133,7 +133,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 text-center">
           <p className="text-gray-400">
-            © 2025 AutoMart. All rights reserved. Built with ❤️ by <span className="text-purple-400 font-semibold">Altohid Sheikh</span>
+            © 2025 AutoMart. All rights reserved. Built with ❤️ by <span className="text-purple-400 font-semibold">AltDivAdi</span>
           </p>
           <p className="text-gray-500 text-sm mt-2">
             Made with React, Node.js, Express & MongoDB
