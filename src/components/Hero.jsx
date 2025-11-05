@@ -6,11 +6,35 @@ import { useAuth } from "../contexts/AuthContext";
 const Hero = () => {
   const { user } = useAuth();
   const [scrollY, setScrollY] = useState(0);
+  const [counts, setCounts] = useState([0, 0, 0]);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const stats = [10000, 5000, 500];
+    const duration = 2000;
+    const interval = 30;
+
+    stats.forEach((target, index) => {
+      let start = 0;
+      const step = target / (duration / interval);
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= target) {
+          start = target;
+          clearInterval(timer);
+        }
+        setCounts((prev) => {
+          const updated = [...prev];
+          updated[index] = Math.floor(start);
+          return updated;
+        });
+      }, interval);
+    });
   }, []);
 
   const features = [
@@ -19,6 +43,7 @@ const Hero = () => {
     { icon: TrendingUp, title: 'Best Prices', desc: 'Competitive pricing on all listings' },
     { icon: Users, title: 'Large Community', desc: 'Thousands of buyers and sellers' },
   ];
+
 
   return (
     <div className="bg-slate-900 text-white">
@@ -66,15 +91,17 @@ const Hero = () => {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
             {[
-              { value: '10K+', label: 'Vehicles Listed' },
-              { value: '5K+', label: 'Happy Customers' },
-              { value: '500+', label: 'Verified Sellers' },
+              { value: counts[0], label: 'Vehicles Listed' },
+              { value: counts[1], label: 'Happy Customers' },
+              { value: counts[2], label: 'Verified Sellers' },
             ].map((stat, i) => (
               <div
                 key={i}
                 className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 transform hover:scale-105 transition"
               >
-                <div className="text-3xl font-bold text-purple-400">{stat.value}</div>
+                <div className="text-3xl font-bold text-purple-400">
+                  {stat.value.toLocaleString()}+
+                </div>
                 <div className="text-gray-300 mt-2">{stat.label}</div>
               </div>
             ))}
@@ -103,42 +130,42 @@ const Hero = () => {
 
       {/* CTA Section */}
       <section className="relative z-10 py-20 px-4">
-  {user?.role === 'seller' ? (
-    <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center">
-      <h2 className="text-4xl font-bold mb-4">Ready to Sell Your Vehicle?</h2>
-      <p className="text-xl text-white/90 mb-8">
-        List your car or bike today and reach thousands of potential buyers
-      </p>
-      <Link
-        to="/add-vehicle"
-        className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
-      >
-        Start Selling Now
-      </Link>
-    </div>
-  ) : (
-    <div
-      className="max-w-4xl mx-auto rounded-2xl p-12 text-center bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: "url('/3.webp')",
-         filter: "brightness(1.5)", // Increase brightness (1 = normal)
-      }}
-    >
-      <div className="bg-black/50 rounded-2xl p-12">
-        <h2 className="text-4xl font-bold text-white mb-4">Ready to Buy Your Vehicle?</h2>
-        <p className="text-xl text-white/90 mb-8">
-          Explore a wide range of cars and bikes from trusted sellers today
-        </p>
-        <Link
-          to="/vehicles"
-          className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
-        >
-          Buy Vehicle Now
-        </Link>
-      </div>
-    </div>
-  )}
-</section>
+        {user?.role === 'seller' ? (
+          <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center">
+            <h2 className="text-4xl font-bold mb-4">Ready to Sell Your Vehicle?</h2>
+            <p className="text-xl text-white/90 mb-8">
+              List your car or bike today and reach thousands of potential buyers
+            </p>
+            <Link
+              to="/add-vehicle"
+              className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
+            >
+              Start Selling Now
+            </Link>
+          </div>
+        ) : (
+          <div
+            className="max-w-4xl mx-auto rounded-2xl p-12 text-center bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: "url('/3.webp')",
+              filter: "brightness(1.5)", // Increase brightness (1 = normal)
+            }}
+          >
+            <div className="bg-black/50 rounded-2xl p-12">
+              <h2 className="text-4xl font-bold text-white mb-4">Ready to Buy Your Vehicle?</h2>
+              <p className="text-xl text-white/90 mb-8">
+                Explore a wide range of cars and bikes from trusted sellers today
+              </p>
+              <Link
+                to="/vehicles"
+                className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
+              >
+                Buy Vehicle Now
+              </Link>
+            </div>
+          </div>
+        )}
+      </section>
 
     </div>
   );
