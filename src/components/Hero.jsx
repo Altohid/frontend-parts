@@ -103,36 +103,43 @@ const Hero = () => {
 
       {/* CTA Section */}
       <section className="relative z-10 py-20 px-4">
-        <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center">
-          {user?.role === 'seller' ? (
-            <>
-              <h2 className="text-4xl font-bold mb-4">Ready to Sell Your Vehicle?</h2>
-              <p className="text-xl text-white/90 mb-8">
-                List your car or bike today and reach thousands of potential buyers
-              </p>
-              <Link
-                to="/add-vehicle"
-                className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
-              >
-                Start Selling Now
-              </Link>
-            </>
-          ) : (
-            <>
-              <h2 className="text-4xl font-bold mb-4">Ready to Buy Your Vehicle?</h2>
-              <p className="text-xl text-white/90 mb-8">
-                Explore a wide range of cars and bikes from trusted sellers today
-              </p>
-              <Link
-                to="/vehicles"
-                className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
-              >
-                Buy Vehicle Now
-              </Link>
-            </>
-          )}
-        </div>
-      </section>
+  {user?.role === 'seller' ? (
+    <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center">
+      <h2 className="text-4xl font-bold mb-4">Ready to Sell Your Vehicle?</h2>
+      <p className="text-xl text-white/90 mb-8">
+        List your car or bike today and reach thousands of potential buyers
+      </p>
+      <Link
+        to="/add-vehicle"
+        className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
+      >
+        Start Selling Now
+      </Link>
+    </div>
+  ) : (
+    <div
+      className="max-w-4xl mx-auto rounded-2xl p-12 text-center bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/3.webp')",
+         filter: "brightness(1.5)", // Increase brightness (1 = normal)
+      }}
+    >
+      <div className="bg-black/50 rounded-2xl p-12">
+        <h2 className="text-4xl font-bold text-white mb-4">Ready to Buy Your Vehicle?</h2>
+        <p className="text-xl text-white/90 mb-8">
+          Explore a wide range of cars and bikes from trusted sellers today
+        </p>
+        <Link
+          to="/vehicles"
+          className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-bold text-lg hover:shadow-2xl transition transform hover:scale-105"
+        >
+          Buy Vehicle Now
+        </Link>
+      </div>
+    </div>
+  )}
+</section>
+
     </div>
   );
 };

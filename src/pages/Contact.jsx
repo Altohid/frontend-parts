@@ -46,13 +46,9 @@ Message: ${formData.message || 'I would like to know more about your vehicles.'}
     setLoading(true);
 
     try {
-      // Submit to backend API
       await contactService.submitContact(formData);
-      
-      // Show success message
       setSubmitted(true);
-      
-      // Reset form after 3 seconds
+
       setTimeout(() => {
         setSubmitted(false);
         setFormData({
@@ -71,8 +67,18 @@ Message: ${formData.message || 'I would like to know more about your vehicles.'}
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat pt-24 pb-12 px-4 relative"
+      style={{
+        backgroundImage: "url('/16.webp')",
+        filter: "brightness(1.3)",
+      }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/50"></div>
+
+      {/* Main Content */}
+      <div className="relative max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -124,14 +130,14 @@ Message: ${formData.message || 'I would like to know more about your vehicles.'}
                     <h3 className="text-white font-semibold mb-1">Address</h3>
                     <p className="text-gray-300">
                       AutoMart HQ,<br />
-                      Indore, MadhyaPradesh<br />
+                      Indore, Madhya Pradesh<br />
                       India 452020
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* WhatsApp Direct Button */}
+              {/* WhatsApp Button */}
               <div className="mt-8 pt-6 border-t border-white/20">
                 <button
                   onClick={handleWhatsAppInquiry}
@@ -275,4 +281,3 @@ Message: ${formData.message || 'I would like to know more about your vehicles.'}
 };
 
 export default Contact;
-
