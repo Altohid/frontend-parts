@@ -12,9 +12,17 @@ const Vehicles = () => {
     brand: '',
     search: '',
     minPrice: '',
-    maxPrice: ''
+    maxPrice: '',
+    sort: 'newest',
+    page: 1,
+    limit: 12,
+    nearLat: '',
+    nearLng: '',
+    nearRadiusKm: ''
   });
   const [activeType, setActiveType] = useState('');
+  const [totalPages, setTotalPages] = useState(1);
+  const [useNearby, setUseNearby] = useState(false);
 
   useEffect(() => {
     fetchVehicles();
@@ -23,8 +31,13 @@ const Vehicles = () => {
   const fetchVehicles = async () => {
     try {
       setLoading(true);
-      const data = await vehicleService.getVehicles(filters);
+      const params = { ...filters };
+      if (!useNearby) {
+        delete params.nearLat; delete params.nearLng; delete params.nearRadiusKm;
+      }
+      const data = await vehicleService.getVehicles(params);
       setVehicles(data.data);
+      setTotalPages(Number(data.totalPages || 1));
     } catch (error) {
       console.error('Error fetching vehicles:', error);
     } finally {
@@ -38,6 +51,15 @@ const Vehicles = () => {
   };
 
   const brands = activeType === 'car' ? CAR_BRANDS : activeType === 'bike' ? BIKE_BRANDS : [];
+
+  const useMyLocation = () => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const { latitude, longitude } = pos.coords;
+      setFilters(f => ({ ...f, nearLat: latitude, nearLng: longitude, nearRadiusKm: f.nearRadiusKm || 25 }));
+      setUseNearby(true);
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4">
@@ -156,6 +178,48 @@ const Vehicles = () => {
                 className="w-1/2 px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
               />
             </div>
+          <div>
+            <select
+              value={filters.sort}
+              onChange={(e) => setFilters({ ...filters, sort: e.target.value, page: 1 })}
+              className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+            >
+              <option value="newest" className="text-black bg-white">Newest</option>
+              <option value="oldest" className="text-black bg-white">Oldest</option>
+              <option value="price_asc" className="text-black bg-white">Price: Low to High</option>
+              <option value="price_desc" className="text-black bg-white">Price: High to Low</option>
+              <option value="year_desc" className="text-black bg-white">Year: New to Old</option>
+              <option value="year_asc" className="text-black bg-white">Year: Old to New</option>
+              <option value="popular" className="text-black bg-white">Most Viewed</option>
+            </select>
+          </div>
+          <div className="md:col-span-2 flex items-center gap-2">
+            <label className="text-white flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={useNearby}
+                onChange={(e) => setUseNearby(e.target.checked)}
+              />
+              Nearby
+            </label>
+            <button
+              type="button"
+              onClick={useMyLocation}
+              className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition"
+            >
+              Use My Location
+            </button>
+            {useNearby && (
+              <input
+                type="number"
+                min="1"
+                placeholder="Radius (km)"
+                value={filters.nearRadiusKm}
+                onChange={(e) => setFilters({ ...filters, nearRadiusKm: e.target.value, page: 1 })}
+                className="px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+              />
+            )}
+          </div>
           </div>
         </div>
 
@@ -173,6 +237,24 @@ const Vehicles = () => {
             No vehicles found matching your criteria.
           </div>
         )}
+        {/* Pagination */}
+        <div className="flex justify-center items-center gap-2 mt-8">
+          <button
+            disabled={filters.page <= 1}
+            onClick={() => setFilters({ ...filters, page: Math.max(1, Number(filters.page) - 1) })}
+            className="px-4 py-2 bg-white/10 text-white rounded disabled:opacity-50"
+          >
+            Prev
+          </button>
+          <span className="text-white">Page {filters.page} of {totalPages}</span>
+          <button
+            disabled={filters.page >= totalPages}
+            onClick={() => setFilters({ ...filters, page: Math.min(totalPages, Number(filters.page) + 1) })}
+            className="px-4 py-2 bg-white/10 text-white rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

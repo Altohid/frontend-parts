@@ -150,6 +150,7 @@ const Profile = () => {
               <div className="text-white font-semibold">
                 {user?.createdAt
                   ? new Date(user.createdAt).toLocaleDateString('en-IN', {
+                      day: '2-digit',
                       month: 'long',
                       year: 'numeric'
                     })
@@ -158,10 +159,22 @@ const Profile = () => {
             </div>
             <div className="bg-white/10 rounded-lg p-4 text-center">
               <div className="text-gray-300 text-sm mb-1">Account Status</div>
-              <div className="text-green-400 font-semibold flex justify-center items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Active
-              </div>
+              {user?.isVerified === false ? (
+                <div className="text-yellow-300 font-semibold flex justify-center items-center">
+                  <span className="w-2 h-2 bg-yellow-300 rounded-full mr-2"></span>
+                  Pending Verification
+                </div>
+              ) : user?.isActive === false ? (
+                <div className="text-red-400 font-semibold flex justify-center items-center">
+                  <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
+                  Inactive
+                </div>
+              ) : (
+                <div className="text-green-400 font-semibold flex justify-center items-center">
+                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                  Active
+                </div>
+              )}
             </div>
           </div>
         </div>

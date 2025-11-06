@@ -67,6 +67,8 @@ const handleRegister = async (e) => {
       name: formData.name, // ✅ lowercase 'name'
       email: formData.email,
       password: formData.password,
+      phone: formData.phone,
+      role: formData.role,
     });
     setMessage("🎉 Registration successful! Redirecting...");
     setTimeout(() => navigate("/login"), 1500);

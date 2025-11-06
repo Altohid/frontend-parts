@@ -16,7 +16,9 @@ const AddVehicle = () => {
     fuelType: 'Petrol',
     transmission: 'Manual',
     location: { city: '', state: '' },
-    features: []
+    features: [],
+    lat: '',
+    lng: ''
   });
   const [images, setImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -285,6 +287,32 @@ const AddVehicle = () => {
                 />
               </div>
             </div>
+
+          {/* Precise Coordinates (optional for nearby search) */}
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-white font-semibold mb-2">Latitude (optional)</label>
+              <input
+                type="number"
+                step="any"
+                value={formData.lat}
+                onChange={(e) => setFormData({ ...formData, lat: e.target.value })}
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+                placeholder="e.g., 19.0760"
+              />
+            </div>
+            <div>
+              <label className="block text-white font-semibold mb-2">Longitude (optional)</label>
+              <input
+                type="number"
+                step="any"
+                value={formData.lng}
+                onChange={(e) => setFormData({ ...formData, lng: e.target.value })}
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+                placeholder="e.g., 72.8777"
+              />
+            </div>
+          </div>
 
             {/* Description */}
             <div>

@@ -25,12 +25,19 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-const ProtectedRoute = ({ children }) => {
-  const { user, isAuthenticated } = useAuth();
+const ProtectedRoute = ({ children, adminOnly = false, sellerOnly = false }) => {
+  const { isAuthenticated, isAdmin, isSeller } = useAuth();
 
-  // Block access if not logged in
-  if (!isAuthenticated || !user) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (adminOnly && !isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+  if (sellerOnly && !isSeller && !isAdmin) {
+    return <Navigate to="/" replace />;
   }
 
   return children;
