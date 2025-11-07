@@ -16,81 +16,81 @@ const Register = () => {
   const navigate = useNavigate();
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
-  
- // Separate loading states
-const [otpLoading, setOtpLoading] = useState(false);
-const [verifyLoading, setVerifyLoading] = useState(false);
-const [registerLoading, setRegisterLoading] = useState(false);
 
-// Send OTP
-const handleSendOtp = async () => {
-  if (!formData.email) return setMessage("⚠️ Enter your email first.");
-  setOtpLoading(true);
-  try {
-    const res = await axios.post("http://localhost:5000/api/auth/send-otp", {
-      email: formData.email,
-    });
-    setMessage(res.data.message || "✅ OTP sent to your email.");
-    setOtpSent(true);
-  } catch (err) {
-    setMessage(err.response?.data?.message || "❌ Failed to send OTP.");
-  } finally {
-    setOtpLoading(false);
-  }
-};
+  // Separate loading states
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
 
-// Verify OTP
-const handleVerifyOtp = async () => {
-  if (!otp) return setMessage("⚠️ Enter OTP first.");
-  setVerifyLoading(true);
-  try {
-    const res = await axios.post("http://localhost:5000/api/auth/verify-email", {
-      email: formData.email,
-      otp,
-    });
-    setMessage(res.data.message || "🎉 Email verified successfully!");
-    setOtpVerified(true);
-  } catch (err) {
-    setMessage(err.response?.data?.message || "❌ Invalid OTP.");
-  } finally {
-    setVerifyLoading(false);
-  }
-};
+  // Send OTP
+  const handleSendOtp = async () => {
+    if (!formData.email) return setMessage("⚠️ Enter your email first.");
+    setOtpLoading(true);
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/send-otp", {
+        email: formData.email,
+      });
+      setMessage(res.data.message || "✅ OTP sent to your email.");
+      setOtpSent(true);
+    } catch (err) {
+      setMessage(err.response?.data?.message || "❌ Failed to send OTP.");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
 
-// Final registration
-const handleRegister = async (e) => {
-  e.preventDefault();
-  if (!otpVerified) return setMessage("⚠️ Please verify your email first.");
-  setRegisterLoading(true);
-  try {
-    await axios.post("http://localhost:5000/api/auth/register", {
-      name: formData.name, // ✅ lowercase 'name'
-      email: formData.email,
-      password: formData.password,
-      phone: formData.phone,
-      role: formData.role,
-    });
-    setMessage("🎉 Registration successful! Redirecting...");
-    setTimeout(() => navigate("/login"), 1500);
-  } catch (err) {
-    setMessage(err.response?.data?.message || "❌ Registration failed.");
-  } finally {
-    setRegisterLoading(false);
-  }
-};
+  // Verify OTP
+  const handleVerifyOtp = async () => {
+    if (!otp) return setMessage("⚠️ Enter OTP first.");
+    setVerifyLoading(true);
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/verify-email", {
+        email: formData.email,
+        otp,
+      });
+      setMessage(res.data.message || "🎉 Email verified successfully!");
+      setOtpVerified(true);
+    } catch (err) {
+      setMessage(err.response?.data?.message || "❌ Invalid OTP.");
+    } finally {
+      setVerifyLoading(false);
+    }
+  };
+
+  // Final registration
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (!otpVerified) return setMessage("⚠️ Please verify your email first.");
+    setRegisterLoading(true);
+    try {
+      await axios.post("http://localhost:5000/api/auth/register", {
+        name: formData.name, // ✅ lowercase 'name'
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        role: formData.role,
+      });
+      setMessage("🎉 Registration successful! Redirecting...");
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      setMessage(err.response?.data?.message || "❌ Registration failed.");
+    } finally {
+      setRegisterLoading(false);
+    }
+  };
 
 
 
   return (
-  <div
-  className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
-  style={{ backgroundImage: "url('/lamborghini_car_steering_wheel_211123_1280x720.jpg')" }}
->
-  <div className="max-w-md w-full bg-gray-900/80 border border-white/30 rounded-2xl p-8 shadow-xl mt-16">
-    <div className="text-center mb-8">
-      <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
-      <p className="text-gray-300">Join AutoMart today</p>
-    </div>
+    <div
+      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
+      style={{ backgroundImage: "url('/lamborghini_car_steering_wheel_211123_1280x720.jpg')" }}
+    >
+      <div className="max-w-md w-full bg-gray-900/80 border border-white/30 rounded-2xl p-8 shadow-xl mt-16">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
+          <p className="text-gray-300">Join AutoMart today</p>
+        </div>
 
 
         {message && (
@@ -206,14 +206,17 @@ const handleRegister = async (e) => {
           {/* Role */}
           <div>
             <label className="block text-white mb-2">Register as</label>
-            <select
-              value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-            >
-              <option value="user">Buyer</option>
-              <option value="seller">Seller</option>
-            </select>
+            <div className="relative">
+              <KeyRound className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <select
+                value={formData.role}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
+              >
+                <option value="user" className="text-black">Buyer</option>
+                <option value="seller" className="text-black">Seller</option>
+              </select>
+            </div>
           </div>
 
           {/* Submit */}

@@ -14,11 +14,13 @@ const Hero = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
+
     const stats = [10000, 5000, 500];
     const duration = 2000;
     const interval = 30;
+    const repeatTime = 6000;
 
+     const runCounter = () => {
     stats.forEach((target, index) => {
       let start = 0;
       const step = target / (duration / interval);
@@ -35,6 +37,15 @@ const Hero = () => {
         });
       }, interval);
     });
+  };
+
+  useEffect(() => {
+    runCounter();
+    const loop = setInterval(() => {
+      setCounts([0, 0, 0]); // reset
+      runCounter();
+    }, repeatTime);
+    return () => clearInterval(loop);
   }, []);
 
   const features = [
@@ -89,7 +100,7 @@ const Hero = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
             {[
               { value: counts[0], label: 'Vehicles Listed' },
               { value: counts[1], label: 'Happy Customers' },
