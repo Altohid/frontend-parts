@@ -1,23 +1,26 @@
 import api from './api';
 
 export const authService = {
-  register: async (userData) => {
-    const response = await api.post('/auth/register', userData);
-    if (response.data.success) {
-      localStorage.setItem('token', response.data.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.data));
-    }
-    return response.data;
-  },
-
   login: async (credentials) => {
-    const response = await api.post('/auth/login', credentials);
-    if (response.data.success) {
-      localStorage.setItem('token', response.data.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.data));
-    }
-    return response.data;
-  },
+  const response = await api.post('/auth/login', credentials);
+  if (response.data.success) {
+    const { token, user } = response.data.data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+  return response.data;
+},
+
+register: async (userData) => {
+  const response = await api.post('/auth/register', userData);
+  if (response.data.success) {
+    const { token, user } = response.data.data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+  return response.data;
+},
+
 
   logout: () => {
     localStorage.removeItem('token');

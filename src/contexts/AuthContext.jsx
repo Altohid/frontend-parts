@@ -16,8 +16,8 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const initAuth = () => {
-      const currentUser = authService.getCurrentUser();
+    const initAuth = async () => {
+      const currentUser = await authService.getCurrentUser();
       setUser(currentUser);
       setLoading(false);
     };
