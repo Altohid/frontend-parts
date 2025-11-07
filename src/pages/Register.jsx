@@ -111,7 +111,7 @@ const Register = () => {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                placeholder="John Doe"
+                placeholder="Your name"
               />
             </div>
           </div>
@@ -181,7 +181,7 @@ const Register = () => {
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                placeholder="+91 98765 43210"
+                placeholder="+91XXXX"
               />
             </div>
           </div>
