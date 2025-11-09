@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Calendar, Gauge, MapPin, Phone, Mail, User, Fuel, Cog, ArrowLeft, MessageCircle } from 'lucide-react';
+import { Calendar, Gauge, MapPin, Phone, Mail, User, Fuel, Cog, ArrowLeft, MessageCircle, Activity } from 'lucide-react';
 import { vehicleService } from '../services/vehicleService';
 import { paymentService } from '../services/paymentService';
 import { fullImageUrl, WHATSAPP_NUMBER } from '../utils/constants';
@@ -35,7 +35,8 @@ const VehicleDetail = () => {
 
 ${vehicle?.brand} ${vehicle?.model} (${vehicle?.year})
 Price: ₹${vehicle?.price?.toLocaleString('en-IN')}
-Mileage: ${vehicle?.mileage}
+${vehicle?.kilometersDriven ? `Kilometers Driven: ${vehicle.kilometersDriven.toLocaleString('en-IN')} km` : ''}
+${vehicle?.mileage ? `Mileage: ${vehicle.mileage}` : ''}
 
 I would like to know more about this vehicle. Please share more details.`;
 
@@ -226,13 +227,25 @@ I would like to know more about this vehicle. Please share more details.`;
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
-                  <Gauge className="w-5 h-5 text-purple-400" />
-                  <div>
-                    <div className="text-gray-400 text-sm">Mileage</div>
-                    <div className="text-white font-semibold">{vehicle.mileage}</div>
+                {vehicle.kilometersDriven !== undefined && vehicle.kilometersDriven !== null && (
+                  <div className="flex items-center space-x-3">
+                    <Gauge className="w-5 h-5 text-purple-400" />
+                    <div>
+                      <div className="text-gray-400 text-sm">Kilometers Driven</div>
+                      <div className="text-white font-semibold">{vehicle.kilometersDriven.toLocaleString('en-IN')} km</div>
+                    </div>
                   </div>
-                </div>
+                )}
+
+                {vehicle.mileage && (
+                  <div className="flex items-center space-x-3">
+                    <Activity className="w-5 h-5 text-purple-400" />
+                    <div>
+                      <div className="text-gray-400 text-sm">Mileage (Fuel Efficiency)</div>
+                      <div className="text-white font-semibold">{vehicle.mileage}</div>
+                    </div>
+                  </div>
+                )}
 
                 {vehicle.fuelType && (
                   <div className="flex items-center space-x-3">
@@ -250,6 +263,16 @@ I would like to know more about this vehicle. Please share more details.`;
                     <div>
                       <div className="text-gray-400 text-sm">Transmission</div>
                       <div className="text-white font-semibold">{vehicle.transmission}</div>
+                    </div>
+                  </div>
+                )}
+
+                {vehicle.ownership && (
+                  <div className="flex items-center space-x-3">
+                    <User className="w-5 h-5 text-purple-400" />
+                    <div>
+                      <div className="text-gray-400 text-sm">Ownership</div>
+                      <div className="text-white font-semibold">{vehicle.ownership}</div>
                     </div>
                   </div>
                 )}

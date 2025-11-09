@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, Gauge, MapPin, ChevronRight } from 'lucide-react';
 import { fullImageUrl } from '../utils/constants';
 
-const VehicleCard = ({ vehicle, showStatus = true }) => {
+const VehicleCard = ({ vehicle, showStatus = true, onToggleCompare, isCompared = false }) => {
   const getStatusBadge = () => {
     const statusConfig = {
       available: {
@@ -35,10 +35,32 @@ const VehicleCard = ({ vehicle, showStatus = true }) => {
     );
   };
 
+  const handleCompareClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (typeof onToggleCompare === 'function') {
+      onToggleCompare(vehicle);
+    }
+  };
+
   return (
     <div className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border border-white/20 hover:border-purple-500/50 transition transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20 group relative">
       {/* Status Badge */}
       {showStatus && getStatusBadge()}
+
+      {typeof onToggleCompare === 'function' && (
+        <button
+          type="button"
+          onClick={handleCompareClick}
+          className={`absolute top-3 left-3 z-20 rounded-full border px-3 py-1 text-xs font-semibold transition backdrop-blur-sm ${
+            isCompared
+              ? 'border-purple-400 bg-purple-500/20 text-purple-200'
+              : 'border-white/30 bg-white/10 text-white hover:border-purple-300 hover:bg-purple-500/20'
+          }`}
+        >
+          {isCompared ? 'Selected' : 'Compare'}
+        </button>
+      )}
 
       {/* Image */}
       <div className={`h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 overflow-hidden relative ${vehicle.status === 'sold' ? 'opacity-75' : ''}`}>
@@ -76,10 +98,18 @@ const VehicleCard = ({ vehicle, showStatus = true }) => {
         </div>
 
         <div className="space-y-2 mb-4">
-          <div className="flex items-center text-gray-300 text-sm">
-            <Gauge className="w-4 h-4 mr-2" />
-            {vehicle.mileage}
-          </div>
+          {vehicle.kilometersDriven !== undefined && vehicle.kilometersDriven !== null && (
+            <div className="flex items-center text-gray-300 text-sm">
+              <Gauge className="w-4 h-4 mr-2" />
+              {vehicle.kilometersDriven.toLocaleString('en-IN')} km
+            </div>
+          )}
+          {vehicle.mileage && (
+            <div className="flex items-center text-gray-300 text-sm">
+              <Gauge className="w-4 h-4 mr-2" />
+              Mileage: {vehicle.mileage}
+            </div>
+          )}
           {vehicle.location && (
             <div className="flex items-center text-gray-300 text-sm">
               <MapPin className="w-4 h-4 mr-2" />

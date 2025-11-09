@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, Car, Bike, X } from 'lucide-react';
 import { vehicleService } from '../services/vehicleService';
-import { CAR_BRANDS, BIKE_BRANDS, FUEL_TYPES, TRANSMISSION_TYPES } from '../utils/constants';
+import { CAR_BRANDS, BIKE_BRANDS, FUEL_TYPES, TRANSMISSION_TYPES, OWNERSHIP_TYPES } from '../utils/constants';
 
 const AddVehicle = () => {
   const [formData, setFormData] = useState({
@@ -11,10 +11,12 @@ const AddVehicle = () => {
     model: '',
     year: new Date().getFullYear(),
     price: '',
+    kilometersDriven: '',
     mileage: '',
     description: '',
     fuelType: 'Petrol',
     transmission: 'Manual',
+    ownership: '1st Owner',
     location: { city: '', state: '' },
     features: [],
     lat: '',
@@ -208,19 +210,37 @@ const AddVehicle = () => {
               </div>
             </div>
 
-            {/* Mileage */}
-            <div>
-              <label className="block text-white font-semibold mb-2">
-                {formData.type === 'car' ? 'Kilometers Driven *' : 'Kilometers Driven *'}
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.mileage}
-                onChange={(e) => setFormData({ ...formData, mileage: e.target.value })}
-                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
-                placeholder="e.g., 25000 km or 15 km/l"
-              />
+            {/* Kilometers Driven & Mileage */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-white font-semibold mb-2">
+                  Kilometers Driven * (Odometer Reading)
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="0"
+                  value={formData.kilometersDriven}
+                  onChange={(e) => setFormData({ ...formData, kilometersDriven: e.target.value })}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+                  placeholder="e.g., 25000"
+                />
+                <p className="text-gray-400 text-xs mt-1">Total kilometers the vehicle has run</p>
+              </div>
+
+              <div>
+                <label className="block text-white font-semibold mb-2">
+                  Mileage (Fuel Efficiency)
+                </label>
+                <input
+                  type="text"
+                  value={formData.mileage}
+                  onChange={(e) => setFormData({ ...formData, mileage: e.target.value })}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+                  placeholder="e.g., 15 km/l or 20 km/l"
+                />
+                <p className="text-gray-400 text-xs mt-1">Fuel efficiency in km per liter</p>
+              </div>
             </div>
 
             {/* Fuel Type & Transmission */}
@@ -255,6 +275,23 @@ const AddVehicle = () => {
                 </select>
 
               </div>
+            </div>
+
+            {/* Ownership */}
+            <div>
+              <label className="block text-white font-semibold mb-2">Ownership *</label>
+              <select
+                required
+                value={formData.ownership}
+                onChange={(e) => setFormData({ ...formData, ownership: e.target.value })}
+                className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+              >
+                {OWNERSHIP_TYPES.map(type => (
+                  <option key={type} value={type} className="text-black bg-white">
+                    {type}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Location */}

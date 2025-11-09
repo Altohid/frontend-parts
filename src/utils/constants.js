@@ -24,6 +24,7 @@ export const BIKE_BRANDS = [
 
 export const FUEL_TYPES = ['Petrol', 'Diesel', 'Electric', 'CNG', 'Hybrid'];
 export const TRANSMISSION_TYPES = ['Manual', 'Automatic'];
+export const OWNERSHIP_TYPES = ['1st Owner', '2nd Owner', '3rd Owner'];
 
 // WhatsApp contact number for inquiries
 export const WHATSAPP_NUMBER = '+918959203075'; // Replace with your actual WhatsApp number

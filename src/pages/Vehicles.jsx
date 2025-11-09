@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Car, Bike } from 'lucide-react';
+import { Search, Car, Bike, Scale, X, AlertCircle } from 'lucide-react';
 import VehicleCard from '../components/VehicleCard';
+import VehicleCompareModal from '../components/VehicleCompareModal';
 import { vehicleService } from '../services/vehicleService';
 import { CAR_BRANDS, BIKE_BRANDS } from '../utils/constants';
+
+const MAX_COMPARE_ITEMS = 3;
 
 const Vehicles = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -23,10 +26,21 @@ const Vehicles = () => {
   const [activeType, setActiveType] = useState('');
   const [totalPages, setTotalPages] = useState(1);
   const [useNearby, setUseNearby] = useState(false);
+  const [compareSelections, setCompareSelections] = useState([]);
+  const [compareError, setCompareError] = useState('');
+  const [compareModalOpen, setCompareModalOpen] = useState(false);
+  const [compareLoading, setCompareLoading] = useState(false);
+  const [compareResults, setCompareResults] = useState([]);
 
   useEffect(() => {
     fetchVehicles();
   }, [filters]);
+
+  useEffect(() => {
+    if (compareModalOpen && compareSelections.length < 2) {
+      setCompareModalOpen(false);
+    }
+  }, [compareModalOpen, compareSelections]);
 
   const fetchVehicles = async () => {
     try {
@@ -47,8 +61,86 @@ const Vehicles = () => {
 
   const handleTypeChange = (type) => {
     setActiveType(type);
-    setFilters({ ...filters, type, brand: '' });
+    setFilters(prev => ({ ...prev, type, brand: '' }));
+    setCompareError('');
+
+    if (type && compareSelections.length > 0 && compareSelections[0].type !== type) {
+      setCompareSelections([]);
+      setCompareResults([]);
+    }
   };
+
+  const handleToggleCompare = (vehicle) => {
+    setCompareError('');
+    setCompareModalOpen(false);
+    setCompareResults(prev => prev.filter(item => item._id !== vehicle._id));
+
+    const alreadySelected = compareSelections.some(item => item._id === vehicle._id);
+
+    if (alreadySelected) {
+      setCompareSelections(prev => prev.filter(item => item._id !== vehicle._id));
+      return;
+    }
+
+    if (compareSelections.length >= MAX_COMPARE_ITEMS) {
+      const label = compareSelections[0]?.type === 'bike' ? 'bikes' : 'four wheelers';
+      setCompareError(`You can compare up to ${MAX_COMPARE_ITEMS} ${label} at a time.`);
+      return;
+    }
+
+    if (compareSelections.length > 0 && compareSelections[0].type !== vehicle.type) {
+      const currentLabel = compareSelections[0].type === 'bike' ? 'bikes' : 'four wheelers';
+      const newLabel = vehicle.type === 'bike' ? 'bikes' : 'four wheelers';
+      setCompareError(`You can only compare ${currentLabel} together. Clear your selection to compare ${newLabel}.`);
+      return;
+    }
+
+    setCompareSelections(prev => [...prev, vehicle]);
+  };
+
+  const handleOpenCompare = async () => {
+    if (compareSelections.length < 2) return;
+
+    try {
+      setCompareError('');
+      setCompareLoading(true);
+      setCompareResults([]);
+
+      const ids = compareSelections.map(vehicle => vehicle._id);
+      const response = await vehicleService.compareVehicles(ids);
+      const items = Array.isArray(response.data) ? response.data.filter(Boolean) : [];
+
+      if (items.length < 2) {
+        setCompareError('Need at least two vehicles of the same type to compare.');
+        return;
+      }
+
+      setCompareResults(items);
+      setCompareModalOpen(true);
+    } catch (error) {
+      console.error('Error fetching compare data:', error);
+      const message = error?.response?.data?.message || 'Failed to load comparison. Please try again.';
+      setCompareError(message);
+    } finally {
+      setCompareLoading(false);
+    }
+  };
+
+  const handleRemoveFromCompare = (vehicleId) => {
+    setCompareError('');
+    setCompareSelections(prev => prev.filter(vehicle => vehicle._id !== vehicleId));
+    setCompareResults(prev => prev.filter(vehicle => vehicle._id !== vehicleId));
+  };
+
+  const handleClearCompare = () => {
+    setCompareSelections([]);
+    setCompareResults([]);
+    setCompareModalOpen(false);
+    setCompareError('');
+  };
+
+  const selectedTypeLabel = compareSelections.length > 0 && compareSelections[0].type === 'bike' ? 'Bikes' : 'Four Wheelers';
+  const selectedTypeLowerLabel = compareSelections.length > 0 && compareSelections[0].type === 'bike' ? 'bikes' : 'four wheelers';
 
   const brands = activeType === 'car' ? CAR_BRANDS : activeType === 'bike' ? BIKE_BRANDS : [];
 
@@ -62,8 +154,9 @@ const Vehicles = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4">
+        <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-white mb-8 text-center">
           Browse Vehicles
         </h1>
@@ -229,7 +322,12 @@ const Vehicles = () => {
         ) : vehicles.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {vehicles.map(vehicle => (
-              <VehicleCard key={vehicle._id} vehicle={vehicle} />
+              <VehicleCard
+                key={vehicle._id}
+                vehicle={vehicle}
+                onToggleCompare={handleToggleCompare}
+                isCompared={compareSelections.some(item => item._id === vehicle._id)}
+              />
             ))}
           </div>
         ) : (
@@ -257,6 +355,76 @@ const Vehicles = () => {
         </div>
       </div>
     </div>
+
+      {compareSelections.length > 0 && (
+        <div className="fixed bottom-4 left-1/2 z-40 w-full max-w-5xl -translate-x-1/2 px-4">
+          <div className="rounded-2xl border border-white/20 bg-slate-900/90 p-4 shadow-xl shadow-purple-500/30 backdrop-blur-xl">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-purple-200">
+                  <Scale className="h-4 w-4" />
+                  <span>Compare {selectedTypeLabel}</span>
+                </div>
+                <div className="mt-1 text-lg font-semibold text-white">{compareSelections.length} selected</div>
+                <div className="text-sm text-gray-300">
+                  Select up to {MAX_COMPARE_ITEMS} {selectedTypeLowerLabel} to compare side by side.
+                </div>
+                {compareError && (
+                  <div className="mt-2 flex items-start gap-2 text-sm text-red-300">
+                    <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+                    <span>{compareError}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center justify-start gap-3 md:flex-1 md:justify-center">
+                {compareSelections.map(vehicle => (
+                  <div
+                    key={vehicle._id}
+                    className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-sm text-white backdrop-blur-sm"
+                  >
+                    <span className="font-medium">{vehicle.brand} {vehicle.model}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveFromCompare(vehicle._id)}
+                      className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                      aria-label={`Remove ${vehicle.brand} ${vehicle.model} from comparison`}
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col gap-2 md:w-auto md:flex-row">
+                <button
+                  type="button"
+                  onClick={handleClearCompare}
+                  className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-white transition hover:border-purple-300 hover:bg-purple-500/10"
+                >
+                  Clear
+                </button>
+                <button
+                  type="button"
+                  onClick={handleOpenCompare}
+                  disabled={compareSelections.length < 2 || compareLoading}
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-purple-500/30 transition hover:from-purple-600 hover:to-pink-600 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {compareLoading ? 'Loading...' : 'Compare Now'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <VehicleCompareModal
+        isOpen={compareModalOpen}
+        onClose={() => setCompareModalOpen(false)}
+        vehicles={compareResults.length >= 2 ? compareResults : compareSelections}
+        onRemove={handleRemoveFromCompare}
+      />
+    </>
   );
 };
 

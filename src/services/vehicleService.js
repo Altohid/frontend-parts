@@ -11,6 +11,12 @@ export const vehicleService = {
     return response.data;
   },
 
+  compareVehicles: async (ids) => {
+    const params = Array.isArray(ids) ? { ids: ids.join(',') } : { ids };
+    const response = await api.get('/vehicles/compare', { params });
+    return response.data;
+  },
+
   addVehicle: async (formData) => {
     const response = await api.post('/vehicles', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
