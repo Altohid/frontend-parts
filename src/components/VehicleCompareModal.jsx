@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Trash2, CheckCircle } from 'lucide-react';
+import { X, Trash2, CheckCircle, User } from 'lucide-react';
 import { fullImageUrl } from '../utils/constants';
 
 const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
@@ -17,6 +17,16 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
     const { city = '', state = '' } = vehicle.location;
     const parts = [city, state].filter(Boolean);
     return parts.length ? parts.join(', ') : 'N/A';
+  };
+
+  const getStatusBadge = (status) => {
+    const statusConfig = {
+      available: { label: 'Available', color: 'text-green-300' },
+      sold: { label: 'Sold', color: 'text-red-300' },
+      pending: { label: 'Pending', color: 'text-yellow-300' }
+    };
+    const config = statusConfig[status] || statusConfig.available;
+    return <span className={config.color}>{config.label}</span>;
   };
 
   const attributes = [
@@ -94,23 +104,46 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
       render: (vehicle) => formatLocation(vehicle)
     },
     {
+      key: 'status',
+      label: 'Status',
+      render: (vehicle) => getStatusBadge(vehicle.status)
+    },
+    {
+      key: 'description',
+      label: 'Description',
+      render: (vehicle) => 
+        vehicle.description ? (
+          <p className="text-sm text-gray-100 max-w-xs">{vehicle.description}</p>
+        ) : (
+          <span className="text-gray-400">N/A</span>
+        )
+    },
+    {
       key: 'features',
-      label: 'Key Features',
+      label: 'All Features',
       render: (vehicle) =>
         Array.isArray(vehicle.features) && vehicle.features.length > 0 ? (
           <ul className="space-y-1 text-sm text-gray-100">
-            {vehicle.features.slice(0, 6).map((feature, index) => (
+            {vehicle.features.map((feature, index) => (
               <li key={index} className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 mt-0.5 text-purple-400" />
+                <CheckCircle className="w-4 h-4 mt-0.5 text-purple-400 flex-shrink-0" />
                 <span>{feature}</span>
               </li>
             ))}
-            {vehicle.features.length > 6 && (
-              <li className="text-xs text-gray-400">
-                + {vehicle.features.length - 6} more
-              </li>
-            )}
           </ul>
+        ) : (
+          <span className="text-gray-400">N/A</span>
+        )
+    },
+    {
+      key: 'sellerName',
+      label: 'Seller Name',
+      render: (vehicle) => 
+        vehicle.sellerId?.name ? (
+          <div className="flex items-center gap-2 text-gray-100">
+            <User className="w-4 h-4 text-purple-400" />
+            <span>{vehicle.sellerId.name}</span>
+          </div>
         ) : (
           <span className="text-gray-400">N/A</span>
         )
@@ -119,8 +152,8 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 py-8">
-      <div className="relative w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-3xl border border-purple-500/40 bg-slate-900/95 shadow-2xl">
-        <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+      <div className="relative w-full max-w-6xl max-h-[90vh] flex flex-col rounded-3xl border border-purple-500/40 bg-slate-900/95 shadow-2xl">
+        <div className="flex items-center justify-between border-b border-white/10 px-6 py-4 flex-shrink-0">
           <div>
             <h2 className="text-2xl font-semibold text-white">Vehicle Comparison</h2>
             <p className="text-sm text-gray-300">
@@ -139,13 +172,13 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto overflow-y-auto flex-1 min-h-0">
           <table className="min-w-full border-collapse">
-            <thead>
+            <thead className="sticky top-0 z-20">
               <tr>
-                <th className="w-48 bg-white/5 px-6 py-6 text-left text-sm font-semibold uppercase tracking-wide text-gray-300">Overview</th>
+                <th className="w-48 bg-slate-900/95 backdrop-blur-sm px-6 py-6 text-left text-sm font-semibold uppercase tracking-wide text-gray-300 border-b border-white/10">Overview</th>
                 {vehicles.map((vehicle) => (
-                  <th key={vehicle._id} className="min-w-[220px] border-l border-white/10 bg-white/5 px-6 py-6 align-top">
+                  <th key={vehicle._id} className="min-w-[280px] border-l border-white/10 bg-slate-900/95 backdrop-blur-sm px-6 py-6 align-top border-b border-white/10">
                     <div className="flex flex-col items-start gap-4 text-left text-white">
                       <div className="w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5">
                         {vehicle.images && vehicle.images.length > 0 ? (
@@ -189,7 +222,7 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
                       {attribute.label}
                     </td>
                     {vehicles.map((vehicle) => (
-                      <td key={vehicle._id + attribute.key} className="border-l border-white/10 px-6 py-5 text-sm text-gray-100">
+                      <td key={vehicle._id + attribute.key} className="border-l border-white/10 px-6 py-5 text-sm text-gray-100 align-top">
                         {attribute.render(vehicle)}
                       </td>
                     ))}
