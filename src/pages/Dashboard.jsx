@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Car, TrendingUp, Eye, Trash2 } from 'lucide-react';
 import api from '../services/api';
-
-const fullImageUrl = (url) => {
-  if (!url) return '';
-  // Adjust this to your backend image base URL
-  return url.startsWith('http')
-    ? url
-    : `http://localhost:5000/${url}`;
-};
-
+import { fullImageUrl } from '../utils/constants';
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -81,6 +73,16 @@ const Dashboard = () => {
       alert('User deleted successfully');
     } catch (error) {
       alert('Failed to delete user');
+    }
+  };
+
+  const handleToggleListingsVisibility = async (user) => {
+    try {
+      const next = !Boolean(user.listingsVisible);
+      await api.patch(`/users/admin/${user._id}/listings-visibility`, { listingsVisible: next });
+      setUsers(prev => prev.map(u => u._id === user._id ? { ...u, listingsVisible: next } : u));
+    } catch (error) {
+      alert('Failed to update visibility');
     }
   };
 
@@ -298,6 +300,7 @@ const Dashboard = () => {
                         <th className="text-left text-gray-300 py-3 px-4">Email</th>
                         <th className="text-left text-gray-300 py-3 px-4">Phone</th>
                         <th className="text-left text-gray-300 py-3 px-4">Role</th>
+                        <th className="text-left text-gray-300 py-3 px-4">Listings Visible</th>
                         <th className="text-left text-gray-300 py-3 px-4">Joined</th>
                         <th className="text-left text-gray-300 py-3 px-4">Actions</th>
                       </tr>
@@ -326,6 +329,22 @@ const Dashboard = () => {
                               }`}>
                               {user.role}
                             </span>
+                          </td>
+                          <td className="py-4 px-4">
+                            {user.role === 'seller' ? (
+                              <button
+                                onClick={() => handleToggleListingsVisibility(user)}
+                                className={`px-3 py-1 rounded-full text-sm font-semibold border transition ${
+                                  user.listingsVisible
+                                    ? 'bg-green-500/20 text-green-300 border-green-400/40'
+                                    : 'bg-white/5 text-gray-300 border-white/20'
+                                }`}
+                              >
+                                {user.listingsVisible ? 'On' : 'Off'}
+                              </button>
+                            ) : (
+                              <span className="text-gray-500">-</span>
+                            )}
                           </td>
                           <td className="py-4 px-4 text-gray-300">
                             {new Date(user.createdAt).toLocaleDateString()}
@@ -365,7 +384,6 @@ const Dashboard = () => {
                 </div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {vehicles.map(vehicle => (
-                    console.log('Image URL:', fullImageUrl(vehicle.images?.[0]?.url)),// <-- add here
                   <div key={vehicle._id} className="bg-white/5 rounded-xl overflow-hidden border border-white/20 hover:border-purple-500/50 transition">
                     <div className="h-40 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
                       {vehicle.images && vehicle.images.length > 0 ? (
