@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, LogIn } from 'lucide-react';
+import { Mail, Lock, LogIn, Car } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
@@ -26,83 +26,88 @@ const Login = () => {
   };
 
   return (
-   <div
-  className="min-h-screen bg-cover bg-center flex items-center justify-center px-4 pt-16"
-  style={{ backgroundImage: "url('/bmw_headlights_lights_137326_1920x1080.jpg')" }}
->
-  <div className="max-w-md w-full p-8 rounded-2xl bg-gray-900/90 border border-white/30 shadow-xl">
-    <div className="text-center mb-8">
-      <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-      <p className="text-gray-300">Login to your AutoMart account</p>
-    </div>
+    <div className="cro-page-narrow">
+      <div className="w-full max-w-md">
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-olx-teal to-teal-600 text-white shadow-premium-lg ring-1 ring-white/20">
+            <Car className="h-8 w-8" strokeWidth={2.5} />
+          </div>
+          <h1 className="cro-section-title">Welcome back</h1>
+          <p className="cro-lead mx-auto">
+            Sign in to save listings, message sellers, and pick up where you left off.
+          </p>
+        </div>
 
+        <div className="cro-card">
+          {error && <div className="cro-alert-error">{error}</div>}
 
-          {error && (
-            <div className="bg-red-500/20 border border-red-500 text-red-200 px-4 py-3 rounded-lg mb-6">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-white mb-2">Email</label>
+              <label className="cro-label" htmlFor="login-email">
+                Email
+              </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
                 <input
+                  id="login-email"
                   type="email"
                   required
+                  autoComplete="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
-                  placeholder="your@email.com"
+                  className="cro-input-has-icon"
+                  placeholder="you@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-white mb-2">Password</label>
+              <label className="cro-label" htmlFor="login-password">
+                Password
+              </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
                 <input
+                  id="login-password"
                   type="password"
                   required
+                  autoComplete="current-password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+                  className="cro-input-has-icon"
                   placeholder="••••••••"
                 />
               </div>
-
-              {/* Forgot Password link */}
-              <div className="text-right mt-2">
+              <div className="mt-2 text-right">
                 <Link
                   to="/forgot-password"
-                  className="text-sm text-purple-400 hover:text-purple-300 font-medium"
+                  className="text-sm font-bold text-olx-dark underline decoration-olx-teal/80 decoration-2 underline-offset-2 hover:text-olx-muted"
                 >
-                  Forgot Password?
+                  Forgot password?
                 </Link>
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <LogIn className="w-5 h-5" />
-              <span>{loading ? 'Logging in...' : 'Login'}</span>
+            <button type="submit" disabled={loading} className="cro-btn-primary">
+              <LogIn className="h-5 w-5" strokeWidth={2.25} />
+              <span>{loading ? 'Signing you in…' : 'Sign in'}</span>
             </button>
           </form>
 
-          <p className="text-center text-gray-300 mt-6">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-purple-400 hover:text-purple-300 font-semibold">
-              Sign up
+          <p className="cro-trust">Your details are encrypted in transit. We never sell your data.</p>
+
+          <p className="mt-6 text-center text-sm text-olx-muted">
+            New here?{' '}
+            <Link
+              to="/register"
+              className="font-extrabold text-olx-dark underline decoration-olx-teal decoration-2 underline-offset-2"
+            >
+              Create a free account
             </Link>
           </p>
         </div>
       </div>
-
+    </div>
   );
 };
 

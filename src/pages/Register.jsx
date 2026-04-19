@@ -1,241 +1,235 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { User, Mail, Lock, Phone, UserPlus, KeyRound, Send, Check } from "lucide-react";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { User, Mail, Lock, Phone, UserPlus, KeyRound, Send, Check, Car } from 'lucide-react';
+import axios from 'axios';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    role: "user",
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    role: 'user'
   });
-  const [otp, setOtp] = useState("");
-  const [message, setMessage] = useState("");
+  const [otp, setOtp] = useState('');
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
-
-  // Separate loading states
   const [otpLoading, setOtpLoading] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
 
-  // Send OTP
   const handleSendOtp = async () => {
-    if (!formData.email) return setMessage("⚠️ Enter your email first.");
+    if (!formData.email) return setMessage('Enter your email first.');
     setOtpLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/send-otp", {
-        email: formData.email,
+      const res = await axios.post('http://localhost:5000/api/auth/send-otp', {
+        email: formData.email
       });
-      setMessage(res.data.message || "✅ OTP sent to your email.");
+      setMessage(res.data.message || 'OTP sent to your email.');
       setOtpSent(true);
     } catch (err) {
-      setMessage(err.response?.data?.message || "❌ Failed to send OTP.");
+      setMessage(err.response?.data?.message || 'Failed to send OTP.');
     } finally {
       setOtpLoading(false);
     }
   };
 
-  // Verify OTP
   const handleVerifyOtp = async () => {
-    if (!otp) return setMessage("⚠️ Enter OTP first.");
+    if (!otp) return setMessage('Enter OTP first.');
     setVerifyLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/verify-email", {
+      const res = await axios.post('http://localhost:5000/api/auth/verify-email', {
         email: formData.email,
-        otp,
+        otp
       });
-      setMessage(res.data.message || "🎉 Email verified successfully!");
+      setMessage(res.data.message || 'Email verified successfully.');
       setOtpVerified(true);
     } catch (err) {
-      setMessage(err.response?.data?.message || "❌ Invalid OTP.");
+      setMessage(err.response?.data?.message || 'Invalid OTP.');
     } finally {
       setVerifyLoading(false);
     }
   };
 
-  // Final registration
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (!otpVerified) return setMessage("⚠️ Please verify your email first.");
+    if (!otpVerified) return setMessage('Please verify your email first.');
     setRegisterLoading(true);
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
-        name: formData.name, // ✅ lowercase 'name'
+      await axios.post('http://localhost:5000/api/auth/register', {
+        name: formData.name,
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
-        role: formData.role,
+        role: formData.role
       });
-      setMessage("🎉 Registration successful! Redirecting...");
-      setTimeout(() => navigate("/login"), 1500);
+      setMessage('Success! Redirecting to sign in…');
+      setTimeout(() => navigate('/login'), 1500);
     } catch (err) {
-      setMessage(err.response?.data?.message || "❌ Registration failed.");
+      setMessage(err.response?.data?.message || 'Registration failed.');
     } finally {
       setRegisterLoading(false);
     }
   };
 
-
-
   return (
-    <div
-      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
-      style={{ backgroundImage: "url('/lamborghini_car_steering_wheel_211123_1280x720.jpg')" }}
-    >
-      <div className="max-w-md w-full bg-gray-900/80 border border-white/30 rounded-2xl p-8 shadow-xl mt-16">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
-          <p className="text-gray-300">Join AutoMart today</p>
+    <div className="cro-page-narrow py-10 sm:py-12">
+      <div className="w-full max-w-md">
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-olx-teal to-teal-600 text-white shadow-premium-lg ring-1 ring-white/20">
+            <Car className="h-8 w-8" strokeWidth={2.5} />
+          </div>
+          <h1 className="cro-section-title">Create your account</h1>
+          <p className="cro-lead mx-auto">
+            One account to browse, save, and list vehicles. Verify your email so we can keep your account secure.
+          </p>
         </div>
 
-
-        {message && (
-          <div className="bg-purple-500/20 border border-purple-500 text-purple-200 px-4 py-3 rounded-lg mb-4 text-center">
-            {message}
-          </div>
-        )}
-
-        <form onSubmit={handleRegister} className="space-y-4">
-          {/* Name */}
-          <div>
-            <label className="block text-white mb-2">Full Name</label>
-            <div className="relative">
-              <User className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                placeholder="Your name"
-              />
+        <div className="cro-card">
+          {message && (
+            <div className="mb-6 rounded-xl border border-olx-border bg-slate-50 px-4 py-3 text-center text-sm font-medium text-olx-dark">
+              {message}
             </div>
-          </div>
+          )}
 
-          {/* Email + Send OTP */}
-          <div>
-            <label className="block text-white mb-2">Email</label>
-            <div className="flex gap-2">
-              <div className="relative flex-grow">
-                <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div>
+              <label className="cro-label">Full name</label>
+              <div className="relative">
+                <User className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
                 <input
-                  type="email"
+                  type="text"
                   required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                  placeholder="your@email.com"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="cro-input-has-icon"
+                  placeholder="As on your ID"
                 />
               </div>
-              <button
-                type="button"
-                onClick={handleSendOtp}
-                disabled={otpLoading || otpSent}
-                className="px-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg transition flex items-center justify-center"
-              >
-                <Send className="w-4 h-4 mr-1" />
-                {otpLoading ? "..." : otpSent ? "Sent" : "Send OTP"}
-              </button>
             </div>
-          </div>
 
-          {/* OTP Field */}
-          {otpSent && !otpVerified && (
             <div>
-              <label className="block text-white mb-2">Enter OTP</label>
-              <div className="relative flex gap-2">
-                <div className="relative flex-grow">
-                  <KeyRound className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <label className="cro-label">Email</label>
+              <div className="flex gap-2">
+                <div className="relative min-w-0 flex-1">
+                  <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
                   <input
-                    type="text"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                    placeholder="Enter OTP"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="cro-input-has-icon"
+                    placeholder="you@example.com"
                   />
                 </div>
                 <button
                   type="button"
-                  onClick={handleVerifyOtp}
-                  disabled={verifyLoading}
-                  className="px-4 bg-green-500 text-white rounded-lg font-semibold hover:shadow-lg transition flex items-center justify-center"
+                  onClick={handleSendOtp}
+                  disabled={otpLoading || otpSent}
+                  className="shrink-0 rounded-xl bg-olx-teal px-4 py-3 text-sm font-extrabold text-olx-dark shadow-sm transition hover:brightness-105 disabled:opacity-50"
                 >
-                  <Check className="w-4 h-4 mr-1" />
-                  {verifyLoading ? "..." : "Verify"}
+                  <Send className="mx-auto h-4 w-4 sm:mr-1 sm:inline" />
+                  <span className="hidden sm:inline">{otpLoading ? '…' : otpSent ? 'Sent' : 'Send OTP'}</span>
                 </button>
               </div>
+              <p className="mt-1.5 text-xs text-olx-muted">We’ll send a one-time code to confirm it’s you.</p>
             </div>
-          )}
 
-          {/* Phone */}
-          <div>
-            <label className="block text-white mb-2">Phone</label>
-            <div className="relative">
-              <Phone className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                placeholder="+91XXXX"
-              />
+            {otpSent && !otpVerified && (
+              <div>
+                <label className="cro-label">Verification code</label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <KeyRound className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      className="cro-input-has-icon"
+                      placeholder="6-digit code"
+                      inputMode="numeric"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleVerifyOtp}
+                    disabled={verifyLoading}
+                    className="shrink-0 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-50"
+                  >
+                    <Check className="mr-1 inline h-4 w-4" />
+                    {verifyLoading ? '…' : 'Verify'}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="cro-label">Phone</label>
+              <div className="relative">
+                <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="cro-input-has-icon"
+                  placeholder="+91…"
+                  autoComplete="tel"
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-white mb-2">Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <input
-                type="password"
-                required
-                minLength="6"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-                placeholder="••••••••"
-              />
+            <div>
+              <label className="cro-label">Password</label>
+              <div className="relative">
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                <input
+                  type="password"
+                  required
+                  minLength={6}
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="cro-input-has-icon"
+                  placeholder="At least 6 characters"
+                  autoComplete="new-password"
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Role */}
-          <div>
-            <label className="block text-white mb-2">Register as</label>
-            <div className="relative">
-              <KeyRound className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <select
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-              >
-                <option value="user" className="text-black">Buyer</option>
-                <option value="seller" className="text-black">Seller</option>
-              </select>
+            <div>
+              <label className="cro-label">I want to</label>
+              <div className="relative">
+                <KeyRound className="pointer-events-none absolute left-3.5 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                <select
+                  value={formData.role}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                  className="cro-input-has-icon cursor-pointer appearance-none"
+                >
+                  <option value="user">Buy vehicles</option>
+                  <option value="seller">Sell vehicles</option>
+                </select>
+              </div>
             </div>
-          </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={registerLoading}
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg transition flex items-center justify-center space-x-2"
-          >
-            <UserPlus className="w-5 h-5" />
-            <span>{registerLoading ? "Registering..." : "Sign Up"}</span>
-          </button>
-        </form>
+            <button type="submit" disabled={registerLoading} className="cro-btn-primary">
+              <UserPlus className="h-5 w-5" strokeWidth={2.25} />
+              <span>{registerLoading ? 'Creating account…' : 'Create account'}</span>
+            </button>
+          </form>
 
-        <p className="text-center text-gray-300 mt-6">
-          Already have an account?{" "}
-          <Link to="/login" className="text-purple-400 hover:text-purple-300 font-semibold">
-            Login
-          </Link>
-        </p>
+          <p className="cro-trust">By signing up you agree to our terms. You can change email alerts anytime.</p>
+
+          <p className="mt-6 text-center text-sm text-olx-muted">
+            Already registered?{' '}
+            <Link
+              to="/login"
+              className="font-extrabold text-olx-dark underline decoration-olx-teal decoration-2 underline-offset-2"
+            >
+              Sign in
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

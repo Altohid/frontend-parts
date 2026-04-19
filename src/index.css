@@ -12,11 +12,18 @@ html {
   scroll-behavior: smooth;
 }
 
-
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  background-color: #f0f4f8;
+  color: #0a2e32;
+}
+
+::selection {
+  background-color: rgba(30, 200, 188, 0.25);
+  color: #0a2e32;
 }
 
 ::-webkit-scrollbar {
@@ -24,34 +31,88 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #f0f4f8;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #8082dbff;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #818cf8;
+  background: #94a3b8;
 }
 
-/* Ensure select and option text is visible on dark backgrounds */
 select,
 select option,
 select::-ms-expand {
   color: #000;
-  /* option text color */
 }
 
-/* For Firefox */
 select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
 }
 
-/* Utility to force option colors inside custom dropdowns */
 .dropdown-option-white option,
 .dropdown-option-white select {
   color: #000;
+}
+
+@layer components {
+  /* CRO / premium layout primitives — use across auth, forms, and content pages */
+  .cro-page {
+    @apply min-h-screen bg-olx-bg bg-mesh-hero px-4 sm:px-6 pt-24 pb-16 md:pb-20;
+  }
+  .cro-page-narrow {
+    @apply flex min-h-screen flex-col items-center justify-center bg-olx-bg bg-mesh-hero px-4 pb-16 pt-24 sm:px-6 sm:pb-20;
+  }
+  .cro-card {
+    @apply w-full max-w-md rounded-2xl border border-olx-border bg-white p-8 shadow-premium-lg ring-1 ring-slate-900/5;
+  }
+  .cro-card-wide {
+    @apply w-full max-w-2xl rounded-2xl border border-olx-border bg-white p-8 md:p-10 shadow-premium-lg ring-1 ring-slate-900/5;
+  }
+  .cro-card-xl {
+    @apply w-full max-w-4xl rounded-2xl border border-olx-border bg-white p-6 md:p-8 shadow-premium-lg ring-1 ring-slate-900/5;
+  }
+  .cro-h1 {
+    @apply text-2xl sm:text-3xl font-extrabold tracking-tight text-olx-dark text-balance;
+  }
+  .cro-lead {
+    @apply mt-2 text-sm sm:text-base text-olx-muted leading-relaxed;
+  }
+  .cro-label {
+    @apply mb-2 block text-sm font-bold text-olx-dark;
+  }
+  .cro-input {
+    @apply w-full rounded-xl border border-olx-border bg-slate-50/90 px-4 py-3 text-olx-dark outline-none transition placeholder:text-slate-400 focus:border-olx-teal/50 focus:ring-2 focus:ring-olx-teal/25 font-medium;
+  }
+  .cro-input-has-icon {
+    @apply w-full rounded-xl border border-olx-border bg-slate-50/90 py-3 pl-12 pr-4 text-olx-dark outline-none transition placeholder:text-slate-400 focus:border-olx-teal/50 focus:ring-2 focus:ring-olx-teal/25 font-medium;
+  }
+  .cro-btn-primary {
+    @apply inline-flex w-full items-center justify-center gap-2 rounded-xl bg-olx-dark px-6 py-3.5 text-base font-extrabold text-white shadow-cta transition-all duration-250 hover:bg-[#0d3d42] hover:shadow-cta-hover active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100;
+  }
+  .cro-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 border-olx-dark bg-white px-6 py-3.5 text-base font-extrabold text-olx-dark transition-all hover:bg-olx-dark hover:text-white active:scale-[0.98];
+  }
+  .cro-trust {
+    @apply mt-6 rounded-xl border border-olx-border bg-slate-50/80 px-4 py-3 text-center text-xs font-medium text-olx-muted;
+  }
+  .cro-alert-error {
+    @apply mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800;
+  }
+  .cro-alert-success {
+    @apply mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900;
+  }
+  .cro-section-title {
+    @apply text-center cro-h1 mb-2;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }

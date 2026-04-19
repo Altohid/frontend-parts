@@ -1,25 +1,27 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Mail, KeyRound, Lock, ArrowLeft } from 'lucide-react';
+import axios from 'axios';
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [otp, setOtp] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [step, setStep] = useState(1);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
+    setMessage('');
 
     try {
-      await axios.post("http://localhost:5000/api/auth/forgot-password", { email });
-      setMessage("✅ OTP sent to your email.");
+      await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+      setMessage('Check your inbox for a reset code.');
       setStep(2);
     } catch (err) {
-      setMessage(err.response?.data?.message || "❌ Error sending OTP.");
+      setMessage(err.response?.data?.message || 'Could not send code. Try again.');
     } finally {
       setLoading(false);
     }
@@ -28,92 +30,132 @@ const ForgotPassword = () => {
   const handleResetPassword = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
+    setMessage('');
 
     try {
-      await axios.post("http://localhost:5000/api/auth/reset-password", {
+      await axios.post('http://localhost:5000/api/auth/reset-password', {
         email,
         otp,
-        newPassword,
+        newPassword
       });
-      setMessage("🎉 Password reset successful! You can now log in.");
+      setMessage('Password updated. You can sign in with your new password.');
       setStep(3);
     } catch (err) {
-      setMessage(err.response?.data?.message || "❌ Error resetting password.");
+      setMessage(err.response?.data?.message || 'Reset failed. Check the code and try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-4 pt-16">
-      <div className="max-w-md w-full bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-2xl">
-        <h2 className="text-2xl font-bold text-white text-center mb-4">
-          Forgot Password
-        </h2>
+    <div className="cro-page-narrow">
+      <div className="w-full max-w-md">
+        <Link
+          to="/login"
+          className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-olx-dark hover:text-olx-muted"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to sign in
+        </Link>
 
-        {message && (
-          <div className="bg-purple-500/20 border border-purple-500 text-purple-200 px-4 py-3 rounded-lg mb-4 text-center">
-            {message}
-          </div>
-        )}
+        <div className="mb-8 text-center">
+          <h1 className="cro-section-title">Reset your password</h1>
+          <p className="cro-lead mx-auto">
+            {step === 1 && 'Enter the email you used to register. We’ll send a short code — no spam.'}
+            {step === 2 && 'Enter the code from your email and choose a new password.'}
+            {step === 3 && 'You’re all set. Use your new password next time you sign in.'}
+          </p>
+        </div>
 
-        {step === 1 && (
-          <form onSubmit={handleSendOtp} className="space-y-4">
-            <input
-              type="email"
-              required
-              placeholder="Enter your registered email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg transition"
+        <div className="cro-card">
+          {message && (
+            <div
+              className={`mb-6 rounded-xl border px-4 py-3 text-center text-sm font-medium ${
+                step === 3
+                  ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+                  : 'border-olx-border bg-slate-50 text-olx-dark'
+              }`}
             >
-              {loading ? "Sending..." : "Send OTP"}
-            </button>
-          </form>
-        )}
+              {message}
+            </div>
+          )}
 
-        {step === 2 && (
-          <form onSubmit={handleResetPassword} className="space-y-4">
-            <input
-              type="text"
-              required
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-            />
-            <input
-              type="password"
-              required
-              placeholder="Enter new password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg transition"
-            >
-              {loading ? "Resetting..." : "Reset Password"}
-            </button>
-          </form>
-        )}
+          {step === 1 && (
+            <form onSubmit={handleSendOtp} className="space-y-5">
+              <div>
+                <label className="cro-label">Email</label>
+                <div className="relative">
+                  <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                  <input
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="cro-input-has-icon"
+                    autoComplete="email"
+                  />
+                </div>
+              </div>
+              <button type="submit" disabled={loading} className="cro-btn-primary">
+                {loading ? 'Sending…' : 'Send reset code'}
+              </button>
+            </form>
+          )}
 
-        {step === 3 && (
-          <a
-            href="/login"
-            className="block mt-4 text-center text-purple-400 hover:text-purple-300"
-          >
-            Back to Login
-          </a>
-        )}
+          {step === 2 && (
+            <form onSubmit={handleResetPassword} className="space-y-5">
+              <div>
+                <label className="cro-label">Code from email</label>
+                <div className="relative">
+                  <KeyRound className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter code"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="cro-input-has-icon"
+                    inputMode="numeric"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="cro-label">New password</label>
+                <div className="relative">
+                  <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                  <input
+                    type="password"
+                    required
+                    placeholder="At least 6 characters"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="cro-input-has-icon"
+                    autoComplete="new-password"
+                  />
+                </div>
+              </div>
+              <button type="submit" disabled={loading} className="cro-btn-primary">
+                {loading ? 'Updating…' : 'Update password'}
+              </button>
+            </form>
+          )}
+
+          {step === 3 && (
+            <Link to="/login" className="cro-btn-primary !no-underline">
+              Go to sign in
+            </Link>
+          )}
+
+          {step !== 3 && (
+            <p className="mt-6 text-center text-sm text-olx-muted">
+              Remembered it?{' '}
+              <Link to="/login" className="font-extrabold text-olx-dark underline decoration-olx-teal">
+                Sign in
+              </Link>
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

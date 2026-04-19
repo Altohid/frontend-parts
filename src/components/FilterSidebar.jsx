@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { CAR_BRANDS, BIKE_BRANDS, FUEL_TYPES, TRANSMISSION_TYPES } from '../utils/constants';
 
+const field =
+  'w-full px-4 py-3 bg-white border border-olx-border rounded-lg text-olx-dark placeholder:text-olx-muted focus:outline-none focus:ring-2 focus:ring-olx-teal focus:border-olx-dark';
+
 const FilterSidebar = ({ filters, onFilterChange, vehicleType }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,144 +26,138 @@ const FilterSidebar = ({ filters, onFilterChange, vehicleType }) => {
   const FilterContent = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h3 className="text-xl font-bold text-white flex items-center">
-          <SlidersHorizontal className="w-5 h-5 mr-2" />
+        <h3 className="text-lg font-bold text-olx-dark flex items-center gap-2">
+          <SlidersHorizontal className="w-5 h-5 text-olx-teal" />
           Filters
         </h3>
-        <button 
-          onClick={() => setIsOpen(false)}
-          className="lg:hidden text-white"
-        >
+        <button type="button" onClick={() => setIsOpen(false)} className="lg:hidden text-olx-dark p-1" aria-label="Close">
           <X className="w-6 h-6" />
         </button>
       </div>
 
-      {/* Brand Filter */}
       {brands.length > 0 && (
         <div>
-          <label className="block text-white font-semibold mb-3">Brand</label>
+          <label className="block text-olx-dark font-semibold text-sm mb-2">Brand</label>
           <select
             value={filters.brand || ''}
             onChange={(e) => onFilterChange({ ...filters, brand: e.target.value })}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+            className={field}
           >
-            <option value="">All Brands</option>
-            {brands.map(brand => (
-              <option key={brand} value={brand}>{brand}</option>
+            <option value="">All brands</option>
+            {brands.map((brand) => (
+              <option key={brand} value={brand}>
+                {brand}
+              </option>
             ))}
           </select>
         </div>
       )}
 
-      {/* Price Range */}
       <div>
-        <label className="block text-white font-semibold mb-3">Price Range (₹)</label>
+        <label className="block text-olx-dark font-semibold text-sm mb-2">Price range (₹)</label>
         <div className="space-y-2">
           <input
             type="number"
-            placeholder="Min Price"
+            placeholder="Min price"
             value={filters.minPrice || ''}
             onChange={(e) => onFilterChange({ ...filters, minPrice: e.target.value })}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+            className={field}
           />
           <input
             type="number"
-            placeholder="Max Price"
+            placeholder="Max price"
             value={filters.maxPrice || ''}
             onChange={(e) => onFilterChange({ ...filters, maxPrice: e.target.value })}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+            className={field}
           />
         </div>
       </div>
 
-      {/* Year Range */}
       <div>
-        <label className="block text-white font-semibold mb-3">Year</label>
+        <label className="block text-olx-dark font-semibold text-sm mb-2">Year</label>
         <div className="space-y-2">
           <input
             type="number"
-            placeholder="Min Year"
+            placeholder="Min year"
             min="1990"
             max={new Date().getFullYear()}
             value={filters.minYear || ''}
             onChange={(e) => onFilterChange({ ...filters, minYear: e.target.value })}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+            className={field}
           />
           <input
             type="number"
-            placeholder="Max Year"
+            placeholder="Max year"
             min="1990"
             max={new Date().getFullYear()}
             value={filters.maxYear || ''}
             onChange={(e) => onFilterChange({ ...filters, maxYear: e.target.value })}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+            className={field}
           />
         </div>
       </div>
 
-      {/* Fuel Type */}
       <div>
-        <label className="block text-white font-semibold mb-3">Fuel Type</label>
+        <label className="block text-olx-dark font-semibold text-sm mb-2">Fuel type</label>
         <select
           value={filters.fuelType || ''}
           onChange={(e) => onFilterChange({ ...filters, fuelType: e.target.value })}
-          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+          className={field}
         >
-          <option value="">All Types</option>
-          {FUEL_TYPES.map(type => (
-            <option key={type} value={type}>{type}</option>
+          <option value="">All types</option>
+          {FUEL_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
           ))}
         </select>
       </div>
 
-      {/* Transmission */}
       <div>
-        <label className="block text-white font-semibold mb-3">Transmission</label>
+        <label className="block text-olx-dark font-semibold text-sm mb-2">Transmission</label>
         <select
           value={filters.transmission || ''}
           onChange={(e) => onFilterChange({ ...filters, transmission: e.target.value })}
-          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+          className={field}
         >
-          <option value="">All Types</option>
-          {TRANSMISSION_TYPES.map(type => (
-            <option key={type} value={type}>{type}</option>
+          <option value="">All types</option>
+          {TRANSMISSION_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
           ))}
         </select>
       </div>
 
-      {/* Reset Button */}
       <button
+        type="button"
         onClick={handleReset}
-        className="w-full py-3 bg-red-500/20 text-red-300 rounded-lg font-semibold hover:bg-red-500/30 transition"
+        className="w-full py-3 bg-olx-bg text-olx-dark font-bold rounded-lg border border-olx-border hover:bg-white transition"
       >
-        Reset Filters
+        Reset filters
       </button>
     </div>
   );
 
   return (
     <>
-      {/* Mobile Filter Button */}
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed bottom-6 right-6 z-40 p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-purple-500/50 transition"
+        className="lg:hidden fixed bottom-6 right-6 z-40 p-4 bg-olx-dark text-white rounded-full shadow-olx-hover hover:bg-olx-muted transition"
+        aria-label="Open filters"
       >
         <SlidersHorizontal className="w-6 h-6" />
       </button>
 
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 sticky top-24">
+      <div className="hidden lg:block bg-white rounded-xl p-6 border border-olx-border shadow-olx sticky top-24">
         <FilterContent />
       </div>
 
-      {/* Mobile Sidebar */}
       {isOpen && (
         <>
-          <div 
-            className="lg:hidden fixed inset-0 bg-black/50 z-40"
-            onClick={() => setIsOpen(false)}
-          ></div>
-          <div className="lg:hidden fixed inset-y-0 right-0 w-80 bg-slate-900 p-6 z-50 overflow-y-auto">
+          <div className="lg:hidden fixed inset-0 bg-olx-dark/40 z-40" onClick={() => setIsOpen(false)} role="presentation" />
+          <div className="lg:hidden fixed inset-y-0 right-0 w-80 bg-white border-l border-olx-border p-6 z-50 overflow-y-auto shadow-olx-hover">
             <FilterContent />
           </div>
         </>

@@ -24,8 +24,9 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-      <div className="App">
+      <div className="App min-h-screen bg-olx-bg flex flex-col">
         <Navbar />
+        <main className="flex-1 w-full">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -65,6 +66,7 @@ function AppContent() {
             }
           />
         </Routes>
+        </main>
         {!shouldHideFooter && <Footer />}
       </div>
     </>

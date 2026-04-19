@@ -105,7 +105,7 @@ I would like to know more about this vehicle. Please share more details.`;
           vehicleName: `${vehicle.brand} ${vehicle.model}`
         },
         theme: {
-          color: '#8B5CF6'
+          color: '#002f34'
         },
         modal: {
           ondismiss: function() {
@@ -152,37 +152,44 @@ I would like to know more about this vehicle. Please share more details.`;
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4 flex items-center justify-center">
-        <div className="text-white text-xl">Loading vehicle details...</div>
+      <div className="cro-page flex items-center justify-center">
+        <div className="text-center">
+          <div className="mx-auto mb-3 h-10 w-10 animate-pulse rounded-xl bg-olx-teal/30" />
+          <p className="text-sm font-bold text-olx-muted">Loading listing…</p>
+        </div>
       </div>
     );
   }
 
   if (!vehicle) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4 flex items-center justify-center">
-        <div className="text-white text-xl">Vehicle not found</div>
+      <div className="cro-page flex flex-col items-center justify-center text-center">
+        <p className="text-lg font-extrabold text-olx-dark">Listing not found</p>
+        <p className="mt-2 max-w-sm text-olx-muted">It may have been removed. Browse similar vehicles below.</p>
+        <Link to="/vehicles" className="mt-6 cro-btn-secondary px-8">
+          Browse vehicles
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="cro-page">
+      <div className="mx-auto max-w-7xl">
         <Link 
           to="/vehicles"
-          className="inline-flex items-center space-x-2 text-purple-400 hover:text-purple-300 mb-6 transition"
+          className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-olx-dark transition hover:text-olx-muted"
         >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back to Vehicles</span>
+          <ArrowLeft className="h-4 w-4" />
+          Back to search results
         </Link>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Left Column - Images & Details */}
           <div className="lg:col-span-2 space-y-6">
             {/* Main Image */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/20">
-              <div className="h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+            <div className="overflow-hidden rounded-2xl border border-olx-border bg-white shadow-premium-lg ring-1 ring-slate-900/5">
+              <div className="h-96 bg-gradient-to-br from-slate-100 to-slate-50">
                 {vehicle.images && vehicle.images.length > 0 ? (
                   <img 
                     src={fullImageUrl(vehicle.images[currentImage].url)} 
@@ -205,8 +212,8 @@ I would like to know more about this vehicle. Please share more details.`;
                       src={fullImageUrl(img.url)}
                       alt={`Thumbnail ${idx + 1}`}
                       onClick={() => setCurrentImage(idx)}
-                      className={`w-20 h-20 object-cover rounded-lg cursor-pointer transition ${
-                        currentImage === idx ? 'ring-2 ring-purple-500' : 'opacity-60 hover:opacity-100'
+                      className={`w-20 h-20 object-cover rounded-lg cursor-pointer border-2 transition ${
+                        currentImage === idx ? 'border-olx-dark opacity-100' : 'border-transparent opacity-60 hover:opacity-100'
                       }`}
                     />
                   ))}
@@ -215,74 +222,74 @@ I would like to know more about this vehicle. Please share more details.`;
             </div>
 
             {/* Vehicle Details */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-              <h2 className="text-2xl font-bold text-white mb-6">Vehicle Details</h2>
+            <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium-lg ring-1 ring-slate-900/5 sm:p-8">
+              <h2 className="mb-6 text-lg font-extrabold text-olx-dark">Vehicle details</h2>
               
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="flex items-center space-x-3">
-                  <Calendar className="w-5 h-5 text-purple-400" />
+                  <Calendar className="w-5 h-5 text-olx-teal" />
                   <div>
-                    <div className="text-gray-400 text-sm">Year</div>
-                    <div className="text-white font-semibold">{vehicle.year}</div>
+                    <div className="text-olx-muted text-sm">Year</div>
+                    <div className="text-olx-dark font-bold">{vehicle.year}</div>
                   </div>
                 </div>
 
                 {vehicle.kilometersDriven !== undefined && vehicle.kilometersDriven !== null && (
                   <div className="flex items-center space-x-3">
-                    <Gauge className="w-5 h-5 text-purple-400" />
+                    <Gauge className="w-5 h-5 text-olx-teal" />
                     <div>
-                      <div className="text-gray-400 text-sm">Kilometers Driven</div>
-                      <div className="text-white font-semibold">{vehicle.kilometersDriven.toLocaleString('en-IN')} km</div>
+                      <div className="text-olx-muted text-sm">Kilometers Driven</div>
+                      <div className="text-olx-dark font-bold">{vehicle.kilometersDriven.toLocaleString('en-IN')} km</div>
                     </div>
                   </div>
                 )}
 
                 {vehicle.mileage && (
                   <div className="flex items-center space-x-3">
-                    <Activity className="w-5 h-5 text-purple-400" />
+                    <Activity className="w-5 h-5 text-olx-teal" />
                     <div>
-                      <div className="text-gray-400 text-sm">Mileage (Fuel Efficiency)</div>
-                      <div className="text-white font-semibold">{vehicle.mileage}</div>
+                      <div className="text-olx-muted text-sm">Mileage (Fuel Efficiency)</div>
+                      <div className="text-olx-dark font-bold">{vehicle.mileage}</div>
                     </div>
                   </div>
                 )}
 
                 {vehicle.fuelType && (
                   <div className="flex items-center space-x-3">
-                    <Fuel className="w-5 h-5 text-purple-400" />
+                    <Fuel className="w-5 h-5 text-olx-teal" />
                     <div>
-                      <div className="text-gray-400 text-sm">Fuel Type</div>
-                      <div className="text-white font-semibold">{vehicle.fuelType}</div>
+                      <div className="text-olx-muted text-sm">Fuel Type</div>
+                      <div className="text-olx-dark font-bold">{vehicle.fuelType}</div>
                     </div>
                   </div>
                 )}
 
                 {vehicle.transmission && (
                   <div className="flex items-center space-x-3">
-                    <Cog className="w-5 h-5 text-purple-400" />
+                    <Cog className="w-5 h-5 text-olx-teal" />
                     <div>
-                      <div className="text-gray-400 text-sm">Transmission</div>
-                      <div className="text-white font-semibold">{vehicle.transmission}</div>
+                      <div className="text-olx-muted text-sm">Transmission</div>
+                      <div className="text-olx-dark font-bold">{vehicle.transmission}</div>
                     </div>
                   </div>
                 )}
 
                 {vehicle.ownership && (
                   <div className="flex items-center space-x-3">
-                    <User className="w-5 h-5 text-purple-400" />
+                    <User className="w-5 h-5 text-olx-teal" />
                     <div>
-                      <div className="text-gray-400 text-sm">Ownership</div>
-                      <div className="text-white font-semibold">{vehicle.ownership}</div>
+                      <div className="text-olx-muted text-sm">Ownership</div>
+                      <div className="text-olx-dark font-bold">{vehicle.ownership}</div>
                     </div>
                   </div>
                 )}
 
                 {vehicle.location && (
                   <div className="flex items-center space-x-3">
-                    <MapPin className="w-5 h-5 text-purple-400" />
+                    <MapPin className="w-5 h-5 text-olx-teal" />
                     <div>
-                      <div className="text-gray-400 text-sm">Location</div>
-                      <div className="text-white font-semibold">
+                      <div className="text-olx-muted text-sm">Location</div>
+                      <div className="text-olx-dark font-bold">
                         {vehicle.location.city}, {vehicle.location.state}
                       </div>
                     </div>
@@ -291,20 +298,20 @@ I would like to know more about this vehicle. Please share more details.`;
               </div>
 
               {vehicle.description && (
-                <div className="mt-6 pt-6 border-t border-white/20">
-                  <h3 className="text-white font-semibold mb-3">Description</h3>
-                  <p className="text-gray-300">{vehicle.description}</p>
+                <div className="mt-6 pt-6 border-t border-olx-border">
+                  <h3 className="text-olx-dark font-bold mb-3">Description</h3>
+                  <p className="text-olx-muted leading-relaxed">{vehicle.description}</p>
                 </div>
               )}
 
               {vehicle.features && vehicle.features.length > 0 && (
-                <div className="mt-6 pt-6 border-t border-white/20">
-                  <h3 className="text-white font-semibold mb-3">Features</h3>
+                <div className="mt-6 pt-6 border-t border-olx-border">
+                  <h3 className="text-olx-dark font-bold mb-3">Features</h3>
                   <div className="flex flex-wrap gap-2">
                     {vehicle.features.map((feature, idx) => (
                       <span 
                         key={idx}
-                        className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm"
+                        className="px-3 py-1 bg-olx-bg text-olx-dark border border-olx-border rounded-full text-sm font-medium"
                       >
                         {feature}
                       </span>
@@ -318,38 +325,40 @@ I would like to know more about this vehicle. Please share more details.`;
           {/* Right Column - Price & Seller Info */}
           <div className="space-y-6">
             {/* Price Card */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 sticky top-24">
+            <div className="sticky top-24 rounded-2xl border-2 border-olx-dark bg-white p-6 shadow-premium-lg ring-1 ring-slate-900/5 sm:p-7">
               <div className="mb-6">
-                <h1 className="text-3xl font-bold text-white mb-2">
+                <p className="text-xs font-extrabold uppercase tracking-widest text-olx-muted">Asking price</p>
+                <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-olx-dark">
                   {vehicle.brand} {vehicle.model}
                 </h1>
-                <div className="text-4xl font-bold text-purple-400">
+                <div className="mt-3 text-3xl font-extrabold tabular-nums tracking-tight text-olx-dark">
                   ₹{vehicle.price.toLocaleString('en-IN')}
                 </div>
+                <p className="mt-2 text-xs font-medium text-olx-muted">Confirm final price, RC, and inspection with the seller before paying.</p>
               </div>
 
               {/* Seller Information */}
-              <div className="border-t border-white/20 pt-6">
-                <h3 className="text-white font-semibold mb-4">Seller Information</h3>
+              <div className="border-t border-olx-border pt-6">
+                <h3 className="mb-3 text-sm font-extrabold uppercase tracking-wide text-olx-muted">Seller</h3>
                 
                 {vehicle.sellerId && (
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
-                      <User className="w-5 h-5 text-purple-400" />
+                      <User className="w-5 h-5 text-olx-teal" />
                       <div>
-                        <div className="text-gray-400 text-sm">Name</div>
-                        <div className="text-white">{vehicle.sellerId.name}</div>
+                        <div className="text-olx-muted text-sm">Name</div>
+                        <div className="text-olx-dark font-semibold">{vehicle.sellerId.name}</div>
                       </div>
                     </div>
 
                     {vehicle.sellerId.email && (
                       <div className="flex items-center space-x-3">
-                        <Mail className="w-5 h-5 text-purple-400" />
+                        <Mail className="w-5 h-5 text-olx-teal" />
                         <div>
-                          <div className="text-gray-400 text-sm">Email</div>
+                          <div className="text-olx-muted text-sm">Email</div>
                           <a 
                             href={`mailto:${vehicle.sellerId.email}`}
-                            className="text-purple-400 hover:text-purple-300 transition"
+                            className="text-olx-dark font-semibold underline decoration-olx-teal hover:text-olx-muted transition"
                           >
                             {vehicle.sellerId.email}
                           </a>
@@ -359,12 +368,12 @@ I would like to know more about this vehicle. Please share more details.`;
 
                     {vehicle.sellerId.phone && (
                       <div className="flex items-center space-x-3">
-                        <Phone className="w-5 h-5 text-purple-400" />
+                        <Phone className="w-5 h-5 text-olx-teal" />
                         <div>
-                          <div className="text-gray-400 text-sm">Phone</div>
+                          <div className="text-olx-muted text-sm">Phone</div>
                           <a 
                             href={`tel:${vehicle.sellerId.phone}`}
-                            className="text-purple-400 hover:text-purple-300 transition"
+                            className="text-olx-dark font-semibold underline decoration-olx-teal hover:text-olx-muted transition"
                           >
                             {vehicle.sellerId.phone}
                           </a>
@@ -375,7 +384,7 @@ I would like to know more about this vehicle. Please share more details.`;
                 )}
 
                 {paymentError && (
-                  <div className="mt-4 p-3 bg-red-600/10 border border-red-500/20 text-red-300 rounded">
+                  <div className="mt-4 p-3 bg-red-50 border border-red-200 text-red-800 rounded-lg text-sm">
                     {paymentError}
                   </div>
                 )}
@@ -383,20 +392,21 @@ I would like to know more about this vehicle. Please share more details.`;
                 <div className="mt-6 space-y-3">
                   <button 
                     onClick={handleWhatsAppInquiry}
-                    className="w-full py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3.5 font-extrabold text-white shadow-md transition hover:brightness-105 active:scale-[0.99]"
                   >
-                    <MessageCircle className="w-5 h-5" />
-                    <span>Inquire on WhatsApp</span>
+                    <MessageCircle className="h-5 w-5" />
+                    <span>Message on WhatsApp</span>
                   </button>
 
                   <button 
                     onClick={handlePayment}
                     disabled={paymentProcessing || String(vehicle.status).toLowerCase() === 'sold'} 
-                    className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-olx-dark py-3.5 font-extrabold text-white shadow-cta transition hover:bg-[#0d3d42] hover:shadow-cta-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    <Phone className="w-5 h-5" />
-                    <span>{String(vehicle.status).toLowerCase() === 'sold' ? 'Sold' : (paymentProcessing ? 'Processing Payment...' : 'Pay Now and Book Your Item')}</span>
+                    <Phone className="h-5 w-5" />
+                    <span>{String(vehicle.status).toLowerCase() === 'sold' ? 'Already sold' : (paymentProcessing ? 'Opening payment…' : 'Pay & reserve')}</span>
                   </button>
+                  <p className="text-center text-[11px] font-medium text-olx-muted">Secure checkout · You’ll get a receipt by email</p>
                 </div>
               </div>
             </div>

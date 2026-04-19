@@ -1,35 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Gauge, MapPin, ChevronRight } from 'lucide-react';
+import { Gauge, MapPin, ChevronRight } from 'lucide-react';
 import { fullImageUrl } from '../utils/constants';
 
 const VehicleCard = ({ vehicle, showStatus = true, onToggleCompare, isCompared = false }) => {
   const getStatusBadge = () => {
     const statusConfig = {
       available: {
-        bg: 'bg-green-500/20',
-        text: 'text-green-300',
-        border: 'border-green-500/50',
-        label: 'Available'
+        bg: 'bg-emerald-50',
+        text: 'text-emerald-800',
+        border: 'border-emerald-200/90',
+        label: 'Available',
       },
       sold: {
-        bg: 'bg-red-500/20',
-        text: 'text-red-300',
-        border: 'border-red-500/50',
-        label: 'Sold'
+        bg: 'bg-red-50',
+        text: 'text-red-800',
+        border: 'border-red-200/90',
+        label: 'Sold',
       },
       pending: {
-        bg: 'bg-yellow-500/20',
-        text: 'text-yellow-300',
-        border: 'border-yellow-500/50',
-        label: 'Pending'
-      }
+        bg: 'bg-amber-50',
+        text: 'text-amber-900',
+        border: 'border-amber-200/90',
+        label: 'Pending',
+      },
     };
 
     const config = statusConfig[vehicle.status] || statusConfig.available;
 
     return (
-      <span className={`absolute top-3 right-3 px-3 py-1 ${config.bg} ${config.text} border ${config.border} rounded-full text-xs font-semibold backdrop-blur-sm z-10`}>
+      <span
+        className={`absolute top-3 right-3 z-10 px-2.5 py-1 ${config.bg} ${config.text} border ${config.border} rounded-lg text-[11px] font-extrabold uppercase tracking-wide shadow-sm`}
+      >
         {config.label}
       </span>
     );
@@ -44,89 +46,94 @@ const VehicleCard = ({ vehicle, showStatus = true, onToggleCompare, isCompared =
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border border-white/20 hover:border-purple-500/50 transition transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20 group relative">
-      {/* Status Badge */}
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-olx-border bg-white shadow-premium transition-all duration-300 hover:shadow-premium-lg hover:-translate-y-1 hover:border-slate-300/80">
       {showStatus && getStatusBadge()}
 
       {typeof onToggleCompare === 'function' && (
         <button
           type="button"
           onClick={handleCompareClick}
-          className={`absolute top-3 left-3 z-20 rounded-full border px-3 py-1 text-xs font-semibold transition backdrop-blur-sm ${
+          className={`absolute top-3 left-3 z-20 rounded-lg border px-2.5 py-1.5 text-[11px] font-extrabold uppercase tracking-wide backdrop-blur-sm transition-all ${
             isCompared
-              ? 'border-purple-400 bg-purple-500/20 text-purple-200'
-              : 'border-white/30 bg-white/10 text-white hover:border-purple-300 hover:bg-purple-500/20'
+              ? 'border-olx-dark bg-olx-dark text-white shadow-md'
+              : 'border-white/80 bg-white/95 text-olx-dark shadow-sm hover:bg-white hover:border-olx-teal/50'
           }`}
         >
-          {isCompared ? 'Selected' : 'Compare'}
+          {isCompared ? 'Added' : 'Compare'}
         </button>
       )}
 
-      {/* Image */}
-      <div className={`h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 overflow-hidden relative ${vehicle.status === 'sold' ? 'opacity-75' : ''}`}>
-        {vehicle.images && vehicle.images.length > 0 ? (
-          <img 
-            src={fullImageUrl(vehicle.images[0].url)} 
-            alt={`${vehicle.brand} ${vehicle.model}`}
-            className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-6xl">
-            {vehicle.type === 'car' ? '🚗' : '🏍️'}
-          </div>
-        )}
-        {vehicle.status === 'sold' && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <span className="text-white text-2xl font-bold transform -rotate-12">SOLD</span>
-          </div>
-        )}
-      </div>
+      <Link to={`/vehicles/${vehicle._id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-olx-teal focus-visible:ring-offset-2 rounded-2xl">
+        <div
+          className={`relative aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-50 overflow-hidden ${
+            vehicle.status === 'sold' ? 'opacity-85' : ''
+          }`}
+        >
+          {vehicle.images && vehicle.images.length > 0 ? (
+            <img
+              src={fullImageUrl(vehicle.images[0].url)}
+              alt={`${vehicle.brand} ${vehicle.model}`}
+              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-5xl opacity-40">
+              {vehicle.type === 'car' ? '🚗' : '🏍️'}
+            </div>
+          )}
+          {vehicle.status === 'sold' && (
+            <div className="absolute inset-0 flex items-center justify-center bg-olx-dark/55 backdrop-blur-[2px]">
+              <span className="rounded-lg bg-white/95 px-4 py-1.5 text-sm font-extrabold tracking-wide text-olx-dark">
+                SOLD
+              </span>
+            </div>
+          )}
+        </div>
 
-      {/* Content */}
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold text-white">
-            {vehicle.brand} {vehicle.model}
-          </h3>
-          <span className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded text-sm">
-            {vehicle.year}
+        <div className="flex flex-1 flex-col p-5 pt-4">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-lg font-bold text-olx-dark leading-snug line-clamp-2 group-hover:text-[#0d3d42] transition-colors">
+              {vehicle.brand} {vehicle.model}
+            </h3>
+            <span className="shrink-0 rounded-lg border border-olx-border bg-slate-50 px-2 py-1 text-xs font-extrabold text-olx-muted tabular-nums">
+              {vehicle.year}
+            </span>
+          </div>
+
+          <div className="mt-3 text-2xl font-extrabold tabular-nums tracking-tight text-olx-dark">
+            ₹{vehicle.price.toLocaleString('en-IN')}
+          </div>
+          <p className="mt-1 text-xs font-medium text-olx-muted">Seller-listed price · Confirm details before you pay</p>
+
+          <div className="mt-4 space-y-2 text-sm text-olx-muted">
+            {vehicle.kilometersDriven !== undefined && vehicle.kilometersDriven !== null && (
+              <div className="flex items-center gap-2">
+                <Gauge className="h-4 w-4 shrink-0 text-olx-teal" strokeWidth={2.25} />
+                <span className="font-medium">{vehicle.kilometersDriven.toLocaleString('en-IN')} km driven</span>
+              </div>
+            )}
+            {vehicle.mileage && (
+              <div className="flex items-center gap-2">
+                <Gauge className="h-4 w-4 shrink-0 text-olx-teal opacity-70" strokeWidth={2.25} />
+                <span>{vehicle.mileage}</span>
+              </div>
+            )}
+            {vehicle.location && (
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 shrink-0 text-olx-teal" strokeWidth={2.25} />
+                <span className="line-clamp-1">
+                  {vehicle.location.city}, {vehicle.location.state}
+                </span>
+              </div>
+            )}
+          </div>
+
+          <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-olx-dark py-3.5 text-sm font-extrabold text-white shadow-cta transition-all duration-250 group-hover:bg-[#0d3d42] group-hover:shadow-cta-hover active:scale-[0.99]">
+            View details
+            <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={2.5} />
           </span>
         </div>
-
-        <div className="text-2xl font-bold text-purple-400 mb-4">
-          ₹{vehicle.price.toLocaleString('en-IN')}
-        </div>
-
-        <div className="space-y-2 mb-4">
-          {vehicle.kilometersDriven !== undefined && vehicle.kilometersDriven !== null && (
-            <div className="flex items-center text-gray-300 text-sm">
-              <Gauge className="w-4 h-4 mr-2" />
-              {vehicle.kilometersDriven.toLocaleString('en-IN')} km
-            </div>
-          )}
-          {vehicle.mileage && (
-            <div className="flex items-center text-gray-300 text-sm">
-              <Gauge className="w-4 h-4 mr-2" />
-              Mileage: {vehicle.mileage}
-            </div>
-          )}
-          {vehicle.location && (
-            <div className="flex items-center text-gray-300 text-sm">
-              <MapPin className="w-4 h-4 mr-2" />
-              {vehicle.location.city}, {vehicle.location.state}
-            </div>
-          )}
-        </div>
-
-        <Link 
-          to={`/vehicles/${vehicle._id}`}
-          className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition flex items-center justify-center space-x-2"
-        >
-          <span>View Details</span>
-          <ChevronRight className="w-4 h-4" />
-        </Link>
-      </div>
-    </div>
+      </Link>
+    </article>
   );
 };
 

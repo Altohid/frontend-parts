@@ -155,31 +155,35 @@ const Vehicles = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4">
-        <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-white mb-8 text-center">
-          Browse Vehicles
+      <div className="cro-page">
+        <div className="mx-auto max-w-7xl">
+        <h1 className="mb-2 text-balance text-center text-3xl font-extrabold tracking-tight text-olx-dark md:text-4xl">
+          Find your next vehicle
         </h1>
+        <p className="mx-auto mb-2 max-w-lg text-center text-base leading-relaxed text-olx-muted">
+          Filter by type, price, and location — open a listing to message the seller in one tap.
+        </p>
+        <p className="mb-10 text-center text-xs font-medium text-olx-muted/80">Compare up to three similar listings side by side to decide faster.</p>
 
         {/* Filters */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 mb-8 border border-white/20">
+        <div className="bg-white rounded-2xl border border-olx-border shadow-premium-lg p-6 md:p-8 mb-10">
           {/* Type Tabs */}
-          <div className="flex justify-center mb-6">
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-1 flex border border-white/20">
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex bg-slate-100/90 rounded-xl p-1 ring-1 ring-slate-200/80 shadow-inner">
               <button
                 onClick={() => handleTypeChange('')}
-                className={`px-6 py-3 rounded-lg transition ${activeType === ''
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                  : 'text-gray-300 hover:text-white'
+                className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 ${activeType === ''
+                  ? 'bg-white text-olx-dark shadow-sm ring-1 ring-slate-200/80'
+                  : 'text-olx-muted hover:text-olx-dark'
                   }`}
               >
                 All
               </button>
               <button
                 onClick={() => handleTypeChange('car')}
-                className={`px-6 py-3 rounded-lg transition flex items-center space-x-2 ${activeType === 'car'
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                  : 'text-gray-300 hover:text-white'
+                className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 flex items-center gap-2 ${activeType === 'car'
+                  ? 'bg-white text-olx-dark shadow-sm ring-1 ring-slate-200/80'
+                  : 'text-olx-muted hover:text-olx-dark'
                   }`}
               >
                 <Car className="w-5 h-5" />
@@ -187,9 +191,9 @@ const Vehicles = () => {
               </button>
               <button
                 onClick={() => handleTypeChange('bike')}
-                className={`px-6 py-3 rounded-lg transition flex items-center space-x-2 ${activeType === 'bike'
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                  : 'text-gray-300 hover:text-white'
+                className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 flex items-center gap-2 ${activeType === 'bike'
+                  ? 'bg-white text-olx-dark shadow-sm ring-1 ring-slate-200/80'
+                  : 'text-olx-muted hover:text-olx-dark'
                   }`}
               >
                 <Bike className="w-5 h-5" />
@@ -202,13 +206,13 @@ const Vehicles = () => {
           <div className="grid md:grid-cols-4 gap-4">
             <div className="md:col-span-2">
               <div className="relative">
-                <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-3 top-3 w-5 h-5 text-olx-muted" />
                 <input
                   type="text"
                   placeholder="Search by brand or model..."
                   value={filters.search}
                   onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+                  className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-olx-border rounded-xl text-olx-dark placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-olx-teal/25 focus:border-olx-teal/40 transition font-medium"
                 />
               </div>
             </div>
@@ -217,10 +221,10 @@ const Vehicles = () => {
               <select
                 value={filters.brand}
                 onChange={(e) => setFilters({ ...filters, brand: e.target.value })}
-                className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+                className="w-full px-4 py-3 bg-white border border-olx-border rounded-lg text-olx-dark focus:outline-none focus:border-olx-dark transition"
                 style={{ position: 'relative', overflow: 'visible', direction: 'ltr' }}
               >
-                <option value="" className="text-white bg-purple-600">All Brands</option>
+                <option value="">All Brands</option>
                 {[
                   'Honda', 'Yamaha', 'Hero', 'TVS', 'Bajaj', 'Suzuki', 'KTM', 'Royal Enfield',
                   'Mahindra', 'Hyundai', 'Tata', 'Maruti Suzuki', 'Toyota', 'Kia', 'Ford',
@@ -237,9 +241,9 @@ const Vehicles = () => {
               <select
                 value={filters.status || ''}
                 onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+                className="w-full px-4 py-3 bg-white border border-olx-border rounded-lg text-olx-dark focus:outline-none focus:border-olx-dark transition"
               >
-                <option value="" className="text-white bg-purple-600">
+                <option value="">
                   All Status
                 </option>
                 <option value="available" className="text-black bg-white">
@@ -261,23 +265,23 @@ const Vehicles = () => {
                 placeholder="Min Price"
                 value={filters.minPrice}
                 onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
-                className="w-1/2 px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+                className="w-1/2 px-4 py-3 bg-olx-bg border border-olx-border rounded-lg text-olx-dark placeholder:text-olx-muted focus:outline-none focus:border-olx-dark transition"
               />
               <input
                 type="number"
                 placeholder="Max Price"
                 value={filters.maxPrice}
                 onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
-                className="w-1/2 px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+                className="w-1/2 px-4 py-3 bg-olx-bg border border-olx-border rounded-lg text-olx-dark placeholder:text-olx-muted focus:outline-none focus:border-olx-dark transition"
               />
             </div>
           <div>
             <select
               value={filters.sort}
               onChange={(e) => setFilters({ ...filters, sort: e.target.value, page: 1 })}
-              className="w-full px-4 py-3 bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+              className="w-full px-4 py-3 bg-white border border-olx-border rounded-lg text-olx-dark focus:outline-none focus:border-olx-dark transition"
             >
-              <option value="newest" className="text-black bg-white">Newest</option>
+              <option value="newest">Newest</option>
               <option value="oldest" className="text-black bg-white">Oldest</option>
               <option value="price_asc" className="text-black bg-white">Price: Low to High</option>
               <option value="price_desc" className="text-black bg-white">Price: High to Low</option>
@@ -287,20 +291,21 @@ const Vehicles = () => {
             </select>
           </div>
           <div className="md:col-span-2 flex items-center gap-2">
-            <label className="text-white flex items-center gap-2">
+            <label className="text-olx-dark flex items-center gap-2 text-sm font-semibold">
               <input
                 type="checkbox"
                 checked={useNearby}
                 onChange={(e) => setUseNearby(e.target.checked)}
+                className="rounded border-olx-border"
               />
               Nearby
             </label>
             <button
               type="button"
               onClick={useMyLocation}
-              className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition"
+              className="px-4 py-2 bg-olx-teal text-olx-dark font-bold rounded-lg hover:brightness-95 transition text-sm"
             >
-              Use My Location
+              Use my location
             </button>
             {useNearby && (
               <input
@@ -309,7 +314,7 @@ const Vehicles = () => {
                 placeholder="Radius (km)"
                 value={filters.nearRadiusKm}
                 onChange={(e) => setFilters({ ...filters, nearRadiusKm: e.target.value, page: 1 })}
-                className="px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
+                className="px-4 py-2 bg-olx-bg border border-olx-border rounded-lg text-olx-dark placeholder:text-olx-muted focus:outline-none focus:border-olx-dark transition"
               />
             )}
           </div>
@@ -318,7 +323,9 @@ const Vehicles = () => {
 
         {/* Results */}
         {loading ? (
-          <div className="text-center text-white text-xl">Loading vehicles...</div>
+          <div className="py-16 text-center">
+            <p className="text-sm font-bold text-olx-muted">Loading listings…</p>
+          </div>
         ) : vehicles.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {vehicles.map(vehicle => (
@@ -331,24 +338,29 @@ const Vehicles = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center text-white text-xl py-12">
-            No vehicles found matching your criteria.
+          <div className="rounded-2xl border border-dashed border-olx-border bg-white py-16 text-center shadow-premium">
+            <p className="text-lg font-extrabold text-olx-dark">No listings match</p>
+            <p className="mx-auto mt-2 max-w-md text-sm text-olx-muted">Widen your price range or clear filters — new ads are added daily.</p>
           </div>
         )}
         {/* Pagination */}
-        <div className="flex justify-center items-center gap-2 mt-8">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <button
+            type="button"
             disabled={filters.page <= 1}
             onClick={() => setFilters({ ...filters, page: Math.max(1, Number(filters.page) - 1) })}
-            className="px-4 py-2 bg-white/10 text-white rounded disabled:opacity-50"
+            className="rounded-xl border border-olx-border bg-white px-5 py-2.5 text-sm font-extrabold text-olx-dark shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-45"
           >
-            Prev
+            Previous
           </button>
-          <span className="text-white">Page {filters.page} of {totalPages}</span>
+          <span className="rounded-full border border-olx-border bg-white px-4 py-2 text-sm font-bold text-olx-dark shadow-sm">
+            Page {filters.page} of {totalPages}
+          </span>
           <button
+            type="button"
             disabled={filters.page >= totalPages}
             onClick={() => setFilters({ ...filters, page: Math.min(totalPages, Number(filters.page) + 1) })}
-            className="px-4 py-2 bg-white/10 text-white rounded disabled:opacity-50"
+            className="rounded-xl border border-olx-border bg-white px-5 py-2.5 text-sm font-extrabold text-olx-dark shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-45"
           >
             Next
           </button>
@@ -358,19 +370,19 @@ const Vehicles = () => {
 
       {compareSelections.length > 0 && (
         <div className="fixed bottom-4 left-1/2 z-40 w-full max-w-5xl -translate-x-1/2 px-4">
-          <div className="rounded-2xl border border-white/20 bg-slate-900/90 p-4 shadow-xl shadow-purple-500/30 backdrop-blur-xl">
+          <div className="rounded-2xl border-2 border-olx-dark bg-white p-4 shadow-premium-lg ring-1 ring-slate-900/10">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
-                <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-purple-200">
-                  <Scale className="h-4 w-4" />
-                  <span>Compare {selectedTypeLabel}</span>
+                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-olx-teal">
+                  <Scale className="h-4 w-4 text-olx-dark" />
+                  <span className="text-olx-dark">Compare {selectedTypeLabel}</span>
                 </div>
-                <div className="mt-1 text-lg font-semibold text-white">{compareSelections.length} selected</div>
-                <div className="text-sm text-gray-300">
+                <div className="mt-1 text-lg font-bold text-olx-dark">{compareSelections.length} selected</div>
+                <div className="text-sm text-olx-muted">
                   Select up to {MAX_COMPARE_ITEMS} {selectedTypeLowerLabel} to compare side by side.
                 </div>
                 {compareError && (
-                  <div className="mt-2 flex items-start gap-2 text-sm text-red-300">
+                  <div className="mt-2 flex items-start gap-2 text-sm text-red-700">
                     <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
                     <span>{compareError}</span>
                   </div>
@@ -381,13 +393,13 @@ const Vehicles = () => {
                 {compareSelections.map(vehicle => (
                   <div
                     key={vehicle._id}
-                    className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-sm text-white backdrop-blur-sm"
+                    className="flex items-center gap-2 rounded-full border border-olx-border bg-olx-bg px-3 py-2 text-sm text-olx-dark"
                   >
-                    <span className="font-medium">{vehicle.brand} {vehicle.model}</span>
+                    <span className="font-semibold">{vehicle.brand} {vehicle.model}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveFromCompare(vehicle._id)}
-                      className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                      className="flex h-6 w-6 items-center justify-center rounded-full bg-white border border-olx-border text-olx-dark transition hover:bg-olx-bg"
                       aria-label={`Remove ${vehicle.brand} ${vehicle.model} from comparison`}
                     >
                       <X className="h-3.5 w-3.5" />
@@ -400,7 +412,7 @@ const Vehicles = () => {
                 <button
                   type="button"
                   onClick={handleClearCompare}
-                  className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-white transition hover:border-purple-300 hover:bg-purple-500/10"
+                  className="inline-flex items-center justify-center rounded-full border-2 border-olx-border px-4 py-2 text-sm font-bold text-olx-dark transition hover:bg-olx-bg"
                 >
                   Clear
                 </button>
@@ -408,9 +420,9 @@ const Vehicles = () => {
                   type="button"
                   onClick={handleOpenCompare}
                   disabled={compareSelections.length < 2 || compareLoading}
-                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-purple-500/30 transition hover:from-purple-600 hover:to-pink-600 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex items-center justify-center rounded-full bg-olx-dark px-6 py-2.5 text-sm font-extrabold text-white shadow-cta transition hover:bg-[#0d3d42] disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {compareLoading ? 'Loading...' : 'Compare Now'}
+                  {compareLoading ? 'Loading…' : 'Compare now'}
                 </button>
               </div>
             </div>

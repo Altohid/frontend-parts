@@ -100,102 +100,107 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4 flex items-center justify-center">
-        <div className="text-white text-xl">Loading dashboard...</div>
+      <div className="cro-page flex items-center justify-center">
+        <p className="text-sm font-bold text-olx-muted">Loading dashboard…</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-white mb-8">Admin Dashboard</h1>
+    <div className="cro-page">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-10">
+          <h1 className="text-3xl font-extrabold tracking-tight text-olx-dark sm:text-4xl">Admin dashboard</h1>
+          <p className="mt-2 max-w-2xl text-olx-muted leading-relaxed">
+            Monitor users, listings, and exports — actions apply immediately.
+          </p>
+        </div>
 
         {/* Stats Cards */}
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:scale-105 transition">
+        <div className="mb-10 grid gap-4 md:grid-cols-4 md:gap-5">
+          <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium-lg ring-1 ring-slate-900/5 transition hover:shadow-premium-lg">
             <div className="flex items-center justify-between mb-4">
-              <Users className="w-10 h-10 text-blue-400" />
-              <span className="text-3xl font-bold text-white">{stats?.totalUsers || 0}</span>
+              <Users className="w-10 h-10 text-olx-teal" />
+              <span className="text-3xl font-bold text-olx-dark">{stats?.totalUsers || 0}</span>
             </div>
-            <h3 className="text-gray-300 font-semibold">Total Users</h3>
+            <h3 className="text-olx-muted font-semibold text-sm">Total users</h3>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:scale-105 transition">
+          <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium-lg ring-1 ring-slate-900/5 transition hover:shadow-premium-lg">
             <div className="flex items-center justify-between mb-4">
-              <Car className="w-10 h-10 text-purple-400" />
-              <span className="text-3xl font-bold text-white">{stats?.totalVehicles || 0}</span>
+              <Car className="w-10 h-10 text-olx-teal" />
+              <span className="text-3xl font-bold text-olx-dark">{stats?.totalVehicles || 0}</span>
             </div>
-            <h3 className="text-gray-300 font-semibold">Total Vehicles</h3>
+            <h3 className="text-olx-muted font-semibold text-sm">Total vehicles</h3>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:scale-105 transition">
+          <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium-lg ring-1 ring-slate-900/5 transition hover:shadow-premium-lg">
             <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-10 h-10 text-green-400" />
-              <span className="text-3xl font-bold text-white">{stats?.availableVehicles || 0}</span>
+              <TrendingUp className="w-10 h-10 text-emerald-600" />
+              <span className="text-3xl font-bold text-olx-dark">{stats?.availableVehicles || 0}</span>
             </div>
-            <h3 className="text-gray-300 font-semibold">Available</h3>
+            <h3 className="text-olx-muted font-semibold text-sm">Available</h3>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:scale-105 transition">
+          <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium-lg ring-1 ring-slate-900/5 transition hover:shadow-premium-lg">
             <div className="flex items-center justify-between mb-4">
-              <Eye className="w-10 h-10 text-yellow-400" />
-              <span className="text-3xl font-bold text-white">{stats?.soldVehicles || 0}</span>
+              <Eye className="w-10 h-10 text-amber-600" />
+              <span className="text-3xl font-bold text-olx-dark">{stats?.soldVehicles || 0}</span>
             </div>
-            <h3 className="text-gray-300 font-semibold">Sold</h3>
+            <h3 className="text-olx-muted font-semibold text-sm">Sold</h3>
           </div>
         </div>
 
         {/* Additional Stats */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-bold text-white mb-4">Vehicle Distribution</h3>
+        <div className="mb-10 grid gap-4 md:grid-cols-2 md:gap-5">
+          <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium ring-1 ring-slate-900/5">
+            <h3 className="mb-4 text-lg font-extrabold text-olx-dark">Vehicle distribution</h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-gray-300">Cars</span>
-                <span className="text-2xl font-bold text-purple-400">{stats?.totalCars || 0}</span>
+                <span className="text-olx-muted text-sm">Cars</span>
+                <span className="text-2xl font-bold text-olx-dark">{stats?.totalCars || 0}</span>
               </div>
-              <div className="w-full bg-white/10 rounded-full h-3">
+              <div className="w-full bg-olx-bg rounded-full h-3 border border-olx-border">
                 <div
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full transition-all"
+                  className="bg-olx-teal h-3 rounded-full transition-all"
                   style={{ width: `${stats?.totalVehicles ? (stats.totalCars / stats.totalVehicles) * 100 : 0}%` }}
                 ></div>
               </div>
 
               <div className="flex items-center justify-between mt-6">
-                <span className="text-gray-300">Bikes</span>
-                <span className="text-2xl font-bold text-blue-400">{stats?.totalBikes || 0}</span>
+                <span className="text-olx-muted text-sm">Bikes</span>
+                <span className="text-2xl font-bold text-olx-dark">{stats?.totalBikes || 0}</span>
               </div>
-              <div className="w-full bg-white/10 rounded-full h-3">
+              <div className="w-full bg-olx-bg rounded-full h-3 border border-olx-border">
                 <div
-                  className="bg-gradient-to-r from-blue-500 to-cyan-500 h-3 rounded-full transition-all"
+                  className="bg-olx-dark h-3 rounded-full transition-all"
                   style={{ width: `${stats?.totalVehicles ? (stats.totalBikes / stats.totalVehicles) * 100 : 0}%` }}
                 ></div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-bold text-white mb-4">Status Overview</h3>
+          <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium ring-1 ring-slate-900/5">
+            <h3 className="mb-4 text-lg font-extrabold text-olx-dark">Status overview</h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-gray-300">Available</span>
-                <span className="text-2xl font-bold text-green-400">{stats?.availableVehicles || 0}</span>
+                <span className="text-olx-muted text-sm">Available</span>
+                <span className="text-2xl font-bold text-emerald-700">{stats?.availableVehicles || 0}</span>
               </div>
-              <div className="w-full bg-white/10 rounded-full h-3">
+              <div className="w-full bg-olx-bg rounded-full h-3 border border-olx-border">
                 <div
-                  className="bg-gradient-to-r from-green-500 to-emerald-500 h-3 rounded-full transition-all"
+                  className="bg-emerald-500 h-3 rounded-full transition-all"
                   style={{ width: `${stats?.totalVehicles ? (stats.availableVehicles / stats.totalVehicles) * 100 : 0}%` }}
                 ></div>
               </div>
 
               <div className="flex items-center justify-between mt-6">
-                <span className="text-gray-300">Sold</span>
-                <span className="text-2xl font-bold text-red-400">{stats?.soldVehicles || 0}</span>
+                <span className="text-olx-muted text-sm">Sold</span>
+                <span className="text-2xl font-bold text-red-700">{stats?.soldVehicles || 0}</span>
               </div>
-              <div className="w-full bg-white/10 rounded-full h-3">
+              <div className="w-full bg-olx-bg rounded-full h-3 border border-olx-border">
                 <div
-                  className="bg-gradient-to-r from-red-500 to-pink-500 h-3 rounded-full transition-all"
+                  className="bg-red-500 h-3 rounded-full transition-all"
                   style={{ width: `${stats?.totalVehicles ? (stats.soldVehicles / stats.totalVehicles) * 100 : 0}%` }}
                 ></div>
               </div>
@@ -204,31 +209,31 @@ const Dashboard = () => {
         </div>
 
         {/* Tabs */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 overflow-hidden">
-          <div className="flex border-b border-white/20">
+        <div className="overflow-hidden rounded-2xl border border-olx-border bg-white shadow-premium-lg ring-1 ring-slate-900/5">
+          <div className="flex border-b border-olx-border bg-slate-50/90">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`flex-1 px-6 py-4 font-semibold transition ${activeTab === 'overview'
-                  ? 'bg-purple-500 text-white'
-                  : 'text-gray-300 hover:bg-white/5'
+              className={`flex-1 px-6 py-4 font-bold text-sm transition ${activeTab === 'overview'
+                  ? 'bg-white text-olx-dark border-b-2 border-olx-dark -mb-px'
+                  : 'text-olx-muted hover:text-olx-dark'
                 }`}
             >
               Overview
             </button>
             <button
               onClick={() => setActiveTab('users')}
-              className={`flex-1 px-6 py-4 font-semibold transition ${activeTab === 'users'
-                  ? 'bg-purple-500 text-white'
-                  : 'text-gray-300 hover:bg-white/5'
+              className={`flex-1 px-6 py-4 font-bold text-sm transition ${activeTab === 'users'
+                  ? 'bg-white text-olx-dark border-b-2 border-olx-dark -mb-px'
+                  : 'text-olx-muted hover:text-olx-dark'
                 }`}
             >
               Users ({users.length})
             </button>
             <button
               onClick={() => setActiveTab('vehicles')}
-              className={`flex-1 px-6 py-4 font-semibold transition ${activeTab === 'vehicles'
-                  ? 'bg-purple-500 text-white'
-                  : 'text-gray-300 hover:bg-white/5'
+              className={`flex-1 px-6 py-4 font-bold text-sm transition ${activeTab === 'vehicles'
+                  ? 'bg-white text-olx-dark border-b-2 border-olx-dark -mb-px'
+                  : 'text-olx-muted hover:text-olx-dark'
                 }`}
             >
               Vehicles ({vehicles.length})
@@ -239,40 +244,40 @@ const Dashboard = () => {
             {/* Overview Tab */}
             {activeTab === 'overview' && (
               <div>
-                <h2 className="text-2xl font-bold text-white mb-6">Platform Overview</h2>
+                <h2 className="text-xl font-bold text-olx-dark mb-6">Platform overview</h2>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-white/5 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-white mb-4">Recent Activity</h3>
-                    <div className="space-y-3">
+                  <div className="bg-olx-bg rounded-lg p-6 border border-olx-border">
+                    <h3 className="text-base font-bold text-olx-dark mb-4">Recent activity</h3>
+                    <div className="space-y-3 text-sm">
                       <div className="flex items-center justify-between">
-                        <span className="text-gray-300">New Users Today</span>
-                        <span className="text-green-400 font-bold">+12</span>
+                        <span className="text-olx-muted">New users today</span>
+                        <span className="text-emerald-700 font-bold">+12</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-gray-300">New Listings Today</span>
-                        <span className="text-blue-400 font-bold">+8</span>
+                        <span className="text-olx-muted">New listings today</span>
+                        <span className="text-olx-dark font-bold">+8</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-gray-300">Vehicles Sold Today</span>
-                        <span className="text-purple-400 font-bold">+5</span>
+                        <span className="text-olx-muted">Sold today</span>
+                        <span className="text-olx-dark font-bold">+5</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white/5 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-white mb-4">Quick Stats</h3>
-                    <div className="space-y-3">
+                  <div className="bg-olx-bg rounded-lg p-6 border border-olx-border">
+                    <h3 className="text-base font-bold text-olx-dark mb-4">Quick stats</h3>
+                    <div className="space-y-3 text-sm">
                       <div className="flex items-center justify-between">
-                        <span className="text-gray-300">Average Price</span>
-                        <span className="text-yellow-400 font-bold">₹6.5L</span>
+                        <span className="text-olx-muted">Avg. price</span>
+                        <span className="text-olx-dark font-bold">₹6.5L</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-gray-300">Total Views</span>
-                        <span className="text-cyan-400 font-bold">45.2K</span>
+                        <span className="text-olx-muted">Total views</span>
+                        <span className="text-olx-dark font-bold">45.2K</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-gray-300">Active Sellers</span>
-                        <span className="text-pink-400 font-bold">{users.filter(u => u.role === 'seller').length}</span>
+                        <span className="text-olx-muted">Active sellers</span>
+                        <span className="text-olx-dark font-bold">{users.filter(u => u.role === 'seller').length}</span>
                       </div>
                     </div>
                   </div>
@@ -283,49 +288,50 @@ const Dashboard = () => {
             {/* Users Tab */}
             {activeTab === 'users' && (
               <div>
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-white">Manage Users</h2>
+                <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <h2 className="text-xl font-extrabold text-olx-dark">Manage users</h2>
                   <button
+                    type="button"
                     onClick={downloadUsersCsv}
-                    className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg transition"
+                    className="inline-flex items-center justify-center rounded-xl bg-olx-dark px-5 py-2.5 text-sm font-extrabold text-white shadow-cta transition hover:bg-[#0d3d42]"
                   >
-                    Download Users CSV
+                    Download users CSV
                   </button>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-white/20">
-                        <th className="text-left text-gray-300 py-3 px-4">Name</th>
-                        <th className="text-left text-gray-300 py-3 px-4">Email</th>
-                        <th className="text-left text-gray-300 py-3 px-4">Phone</th>
-                        <th className="text-left text-gray-300 py-3 px-4">Role</th>
-                        <th className="text-left text-gray-300 py-3 px-4">Listings Visible</th>
-                        <th className="text-left text-gray-300 py-3 px-4">Joined</th>
-                        <th className="text-left text-gray-300 py-3 px-4">Actions</th>
+                      <tr className="border-b border-olx-border bg-olx-bg">
+                        <th className="text-left text-olx-dark text-xs font-bold uppercase py-3 px-4">Name</th>
+                        <th className="text-left text-olx-dark text-xs font-bold uppercase py-3 px-4">Email</th>
+                        <th className="text-left text-olx-dark text-xs font-bold uppercase py-3 px-4">Phone</th>
+                        <th className="text-left text-olx-dark text-xs font-bold uppercase py-3 px-4">Role</th>
+                        <th className="text-left text-olx-dark text-xs font-bold uppercase py-3 px-4">Listings</th>
+                        <th className="text-left text-olx-dark text-xs font-bold uppercase py-3 px-4">Joined</th>
+                        <th className="text-left text-olx-dark text-xs font-bold uppercase py-3 px-4">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {users.map(user => (
-                        <tr key={user._id} className="border-b border-white/10 hover:bg-white/5 transition">
+                        <tr key={user._id} className="border-b border-olx-border hover:bg-olx-bg/80 transition">
                           <td className="py-4 px-4">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                                <span className="text-white font-bold">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-olx-teal rounded-full flex items-center justify-center">
+                                <span className="text-olx-dark font-bold">
                                   {user.name?.charAt(0).toUpperCase()}
                                 </span>
                               </div>
-                              <span className="text-white font-semibold">{user.name}</span>
+                              <span className="text-olx-dark font-semibold">{user.name}</span>
                             </div>
                           </td>
-                          <td className="py-4 px-4 text-gray-300">{user.email}</td>
-                          <td className="py-4 px-4 text-gray-300">{user.phone || 'N/A'}</td>
+                          <td className="py-4 px-4 text-olx-muted text-sm">{user.email}</td>
+                          <td className="py-4 px-4 text-olx-muted text-sm">{user.phone || 'N/A'}</td>
                           <td className="py-4 px-4">
-                            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${user.role === 'admin'
-                                ? 'bg-red-500/20 text-red-300'
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold border ${user.role === 'admin'
+                                ? 'bg-red-50 text-red-800 border-red-200'
                                 : user.role === 'seller'
-                                  ? 'bg-blue-500/20 text-blue-300'
-                                  : 'bg-green-500/20 text-green-300'
+                                  ? 'bg-sky-50 text-sky-800 border-sky-200'
+                                  : 'bg-emerald-50 text-emerald-800 border-emerald-200'
                               }`}>
                               {user.role}
                             </span>
@@ -334,26 +340,26 @@ const Dashboard = () => {
                             {user.role === 'seller' ? (
                               <button
                                 onClick={() => handleToggleListingsVisibility(user)}
-                                className={`px-3 py-1 rounded-full text-sm font-semibold border transition ${
+                                className={`px-3 py-1 rounded-full text-xs font-bold border transition ${
                                   user.listingsVisible
-                                    ? 'bg-green-500/20 text-green-300 border-green-400/40'
-                                    : 'bg-white/5 text-gray-300 border-white/20'
+                                    ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                                    : 'bg-olx-bg text-olx-muted border-olx-border'
                                 }`}
                               >
                                 {user.listingsVisible ? 'On' : 'Off'}
                               </button>
                             ) : (
-                              <span className="text-gray-500">-</span>
+                              <span className="text-olx-muted">-</span>
                             )}
                           </td>
-                          <td className="py-4 px-4 text-gray-300">
+                          <td className="py-4 px-4 text-olx-muted text-sm">
                             {new Date(user.createdAt).toLocaleDateString()}
                           </td>
                           <td className="py-4 px-4">
                             {user.role !== 'admin' && (
                               <button
                                 onClick={() => handleDeleteUser(user._id)}
-                                className="text-red-400 hover:text-red-300 transition"
+                                className="text-red-700 hover:text-red-900 transition"
                               >
                                 <Trash2 className="w-5 h-5" />
                               </button>
@@ -364,7 +370,7 @@ const Dashboard = () => {
                     </tbody>
                   </table>
                   {users.length === 0 && (
-                    <div className="text-center py-8 text-gray-400">No users found</div>
+                    <div className="text-center py-8 text-olx-muted">No users found</div>
                   )}
                 </div>
               </div>
@@ -373,19 +379,20 @@ const Dashboard = () => {
             {/* Vehicles Tab */}
             {activeTab === 'vehicles' && (
               <div>
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-white">Manage Vehicles</h2>
+                <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <h2 className="text-xl font-extrabold text-olx-dark">Manage vehicles</h2>
                   <button
+                    type="button"
                     onClick={downloadVehiclesCsv}
-                    className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg transition"
+                    className="inline-flex items-center justify-center rounded-xl bg-olx-dark px-5 py-2.5 text-sm font-extrabold text-white shadow-cta transition hover:bg-[#0d3d42]"
                   >
-                    Download Vehicles CSV
+                    Download vehicles CSV
                   </button>
                 </div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {vehicles.map(vehicle => (
-                  <div key={vehicle._id} className="bg-white/5 rounded-xl overflow-hidden border border-white/20 hover:border-purple-500/50 transition">
-                    <div className="h-40 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                  <div key={vehicle._id} className="overflow-hidden rounded-2xl border border-olx-border bg-white shadow-premium transition hover:shadow-premium-lg">
+                    <div className="h-40 bg-olx-bg flex items-center justify-center border-b border-olx-border">
                       {vehicle.images && vehicle.images.length > 0 ? (
                         <img
                           src={fullImageUrl(vehicle.images[0].url)}
@@ -399,25 +406,25 @@ const Dashboard = () => {
                       )}
                     </div>
                     <div className="p-4">
-                      <h3 className="text-lg font-bold text-white mb-2">
+                      <h3 className="text-base font-bold text-olx-dark mb-2">
                         {vehicle.brand} {vehicle.model}
                       </h3>
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-purple-400 font-bold">
+                        <span className="text-olx-dark font-bold">
                           ₹{vehicle.price.toLocaleString('en-IN')}
                         </span>
-                        <span className="text-gray-400 text-sm">{vehicle.year}</span>
+                        <span className="text-olx-muted text-sm">{vehicle.year}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className={`px-2 py-1 rounded text-xs font-semibold ${vehicle.status === 'available'
-                            ? 'bg-green-500/20 text-green-300'
-                            : 'bg-red-500/20 text-red-300'
+                        <span className={`px-2 py-1 rounded text-xs font-bold border ${vehicle.status === 'available'
+                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                            : 'bg-red-50 text-red-800 border-red-200'
                           }`}>
                           {vehicle.status}
                         </span>
                         <button
                           onClick={() => handleDeleteVehicle(vehicle._id)}
-                          className="text-red-400 hover:text-red-300 transition"
+                          className="text-red-700 hover:text-red-900 transition"
                         >
                           <Trash2 className="w-5 h-5" />
                         </button>
@@ -427,7 +434,7 @@ const Dashboard = () => {
                   ))}
                 </div>
                 {vehicles.length === 0 && (
-                  <div className="text-center py-12 text-gray-400">No vehicles found</div>
+                  <div className="text-center py-12 text-olx-muted">No vehicles found</div>
                 )}
               </div>
             )}

@@ -65,7 +65,7 @@ const MyListings = () => {
           <button
             onClick={() => handleStatusUpdate(vehicle._id, 'pending')}
             disabled={isUpdating}
-            className="flex items-center space-x-2 px-4 py-2 bg-yellow-500/20 text-yellow-300 rounded-lg hover:bg-yellow-500/30 transition disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-900 font-semibold rounded-lg border border-amber-200 hover:bg-amber-100 transition disabled:opacity-50"
           >
             <Clock className="w-4 h-4" />
             <span>{isUpdating ? 'Updating...' : 'Mark Pending'}</span>
@@ -73,7 +73,7 @@ const MyListings = () => {
           <button
             onClick={() => handleStatusUpdate(vehicle._id, 'sold')}
             disabled={isUpdating}
-            className="flex items-center space-x-2 px-4 py-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-800 font-semibold rounded-lg border border-red-200 hover:bg-red-100 transition disabled:opacity-50"
           >
             <XCircle className="w-4 h-4" />
             <span>{isUpdating ? 'Updating...' : 'Mark Sold'}</span>
@@ -86,7 +86,7 @@ const MyListings = () => {
           <button
             onClick={() => handleStatusUpdate(vehicle._id, 'available')}
             disabled={isUpdating}
-            className="flex items-center space-x-2 px-4 py-2 bg-green-500/20 text-green-300 rounded-lg hover:bg-green-500/30 transition disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-800 font-semibold rounded-lg border border-emerald-200 hover:bg-emerald-100 transition disabled:opacity-50"
           >
             <CheckCircle className="w-4 h-4" />
             <span>{isUpdating ? 'Updating...' : 'Mark Available'}</span>
@@ -94,7 +94,7 @@ const MyListings = () => {
           <button
             onClick={() => handleStatusUpdate(vehicle._id, 'sold')}
             disabled={isUpdating}
-            className="flex items-center space-x-2 px-4 py-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-800 font-semibold rounded-lg border border-red-200 hover:bg-red-100 transition disabled:opacity-50"
           >
             <XCircle className="w-4 h-4" />
             <span>{isUpdating ? 'Updating...' : 'Mark Sold'}</span>
@@ -107,7 +107,7 @@ const MyListings = () => {
         <button
           onClick={() => handleStatusUpdate(vehicle._id, 'available')}
           disabled={isUpdating}
-          className="flex items-center space-x-2 px-4 py-2 bg-green-500/20 text-green-300 rounded-lg hover:bg-green-500/30 transition disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-800 font-semibold rounded-lg border border-emerald-200 hover:bg-emerald-100 transition disabled:opacity-50"
         >
           <CheckCircle className="w-4 h-4" />
           <span>{isUpdating ? 'Updating...' : 'Relist as Available'}</span>
@@ -118,85 +118,88 @@ const MyListings = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4 flex items-center justify-center">
-        <div className="text-white text-xl">Loading your listings...</div>
+      <div className="cro-page flex items-center justify-center">
+        <p className="text-sm font-bold text-olx-muted">Loading your ads…</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-24 pb-12 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+    <div className="cro-page">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2">My Listings</h1>
-            <p className="text-gray-300">Manage your vehicle listings and track their status</p>
+            <h1 className="text-3xl font-extrabold tracking-tight text-olx-dark sm:text-4xl">Your listings</h1>
+            <p className="mt-2 max-w-lg text-olx-muted leading-relaxed">
+              Update status when a deal progresses — buyers see live availability.
+            </p>
           </div>
           <Link 
             to="/add-vehicle"
-            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-olx-sell px-6 py-3.5 font-extrabold text-olx-dark shadow-md transition hover:brightness-105 active:scale-[0.99]"
           >
-            <Plus className="w-5 h-5" />
-            <span>Add New Vehicle</span>
+            <Plus className="h-5 w-5" strokeWidth={2.5} />
+            Post another ad
           </Link>
         </div>
 
         {/* Stats Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+        <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+          <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium-lg ring-1 ring-slate-900/5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm mb-1">Available</p>
-                <p className="text-3xl font-bold text-green-400">
+                <p className="text-olx-muted text-sm mb-1">Available</p>
+                <p className="text-3xl font-bold text-emerald-700">
                   {vehicles.filter(v => v.status === 'available').length}
                 </p>
               </div>
-              <CheckCircle className="w-12 h-12 text-green-400" />
+              <CheckCircle className="w-12 h-12 text-emerald-600" />
             </div>
           </div>
           
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium-lg ring-1 ring-slate-900/5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm mb-1">Pending</p>
-                <p className="text-3xl font-bold text-yellow-400">
+                <p className="text-olx-muted text-sm mb-1">Pending</p>
+                <p className="text-3xl font-bold text-amber-700">
                   {vehicles.filter(v => v.status === 'pending').length}
                 </p>
               </div>
-              <Clock className="w-12 h-12 text-yellow-400" />
+              <Clock className="w-12 h-12 text-amber-600" />
             </div>
           </div>
           
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <div className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium-lg ring-1 ring-slate-900/5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm mb-1">Sold</p>
-                <p className="text-3xl font-bold text-red-400">
+                <p className="text-olx-muted text-sm mb-1">Sold</p>
+                <p className="text-3xl font-bold text-red-700">
                   {vehicles.filter(v => v.status === 'sold').length}
                 </p>
               </div>
-              <XCircle className="w-12 h-12 text-red-400" />
+              <XCircle className="w-12 h-12 text-red-600" />
             </div>
           </div>
         </div>
 
         {vehicles.length === 0 ? (
-          <div className="text-center py-20 bg-white/10 backdrop-blur-lg rounded-xl border border-white/20">
-            <p className="text-white text-xl mb-4">You haven't listed any vehicles yet</p>
+          <div className="rounded-2xl border border-dashed border-olx-border bg-white py-20 text-center shadow-premium">
+            <p className="text-lg font-extrabold text-olx-dark">No ads yet</p>
+            <p className="mx-auto mt-2 max-w-sm text-sm text-olx-muted">Your first listing goes live in minutes — add photos and a fair price.</p>
             <Link 
               to="/add-vehicle"
-              className="inline-block px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition"
+              className="mt-8 inline-flex rounded-xl bg-olx-dark px-8 py-3.5 font-extrabold text-white shadow-cta transition hover:bg-[#0d3d42]"
             >
-              List Your First Vehicle
+              Post your first ad
             </Link>
           </div>
         ) : (
           <div className="grid gap-6">
             {vehicles.map(vehicle => (
-              <div key={vehicle._id} className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:border-purple-500/50 transition">
+              <div key={vehicle._id} className="rounded-2xl border border-olx-border bg-white p-6 shadow-premium transition hover:shadow-premium-lg">
                 <div className="flex flex-col md:flex-row gap-6">
                   {/* Image */}
-                  <div className="w-full md:w-48 h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg overflow-hidden flex-shrink-0 relative">
+                  <div className="w-full md:w-48 h-48 bg-olx-bg rounded-lg overflow-hidden flex-shrink-0 relative border border-olx-border">
                     {vehicle.images && vehicle.images.length > 0 ? (
                       <img 
                         src={fullImageUrl(vehicle.images[0].url)} 
@@ -214,11 +217,11 @@ const MyListings = () => {
                   <div className="flex-1">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="text-2xl font-bold text-white mb-2">
+                        <h3 className="text-xl font-bold text-olx-dark mb-2">
                           {vehicle.brand} {vehicle.model}
                         </h3>
-                        <div className="flex items-center space-x-4 text-gray-300">
-                          <span className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded">
+                        <div className="flex items-center gap-4 text-olx-muted text-sm">
+                          <span className="bg-olx-bg text-olx-dark px-3 py-1 rounded font-bold border border-olx-border">
                             {vehicle.year}
                           </span>
                           <span className="capitalize">{vehicle.type}</span>
@@ -226,10 +229,10 @@ const MyListings = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-3xl font-bold text-purple-400">
+                        <div className="text-2xl font-bold text-olx-dark">
                           ₹{vehicle.price.toLocaleString('en-IN')}
                         </div>
-                        <div className="flex items-center text-gray-300 text-sm mt-2">
+                        <div className="flex items-center text-olx-muted text-sm mt-2">
                           <Eye className="w-4 h-4 mr-1" />
                           {vehicle.views} views
                         </div>
@@ -237,17 +240,17 @@ const MyListings = () => {
                     </div>
 
                     {vehicle.description && (
-                      <p className="text-gray-300 mb-4 line-clamp-2">{vehicle.description}</p>
+                      <p className="text-olx-muted mb-4 line-clamp-2 text-sm">{vehicle.description}</p>
                     )}
 
                     {/* Status Badge */}
                     <div className="mb-4">
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
                         vehicle.status === 'available' 
-                          ? 'bg-green-500/20 text-green-300' 
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200' 
                           : vehicle.status === 'sold'
-                          ? 'bg-red-500/20 text-red-300'
-                          : 'bg-yellow-500/20 text-yellow-300'
+                          ? 'bg-red-50 text-red-800 border-red-200'
+                          : 'bg-amber-50 text-amber-900 border-amber-200'
                       }`}>
                         {vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1)}
                       </span>
@@ -257,7 +260,7 @@ const MyListings = () => {
                     <div className="flex flex-wrap gap-3">
                       <Link
                         to={`/vehicles/${vehicle._id}`}
-                        className="flex items-center space-x-2 px-4 py-2 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition"
+                        className="flex items-center gap-2 px-4 py-2 bg-olx-bg text-olx-dark font-semibold rounded-lg border border-olx-border hover:bg-white transition"
                       >
                         <Eye className="w-4 h-4" />
                         <span>View</span>
@@ -268,7 +271,7 @@ const MyListings = () => {
                       
                       <button
                         onClick={() => handleDelete(vehicle._id)}
-                        className="flex items-center space-x-2 px-4 py-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition"
+                        className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-800 font-semibold rounded-lg border border-red-200 hover:bg-red-100 transition"
                       >
                         <Trash2 className="w-4 h-4" />
                         <span>Delete</span>

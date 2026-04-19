@@ -21,9 +21,9 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
 
   const getStatusBadge = (status) => {
     const statusConfig = {
-      available: { label: 'Available', color: 'text-green-300' },
-      sold: { label: 'Sold', color: 'text-red-300' },
-      pending: { label: 'Pending', color: 'text-yellow-300' }
+      available: { label: 'Available', color: 'text-emerald-700' },
+      sold: { label: 'Sold', color: 'text-red-700' },
+      pending: { label: 'Pending', color: 'text-amber-800' }
     };
     const config = statusConfig[status] || statusConfig.available;
     return <span className={config.color}>{config.label}</span>;
@@ -113,9 +113,9 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
       label: 'Description',
       render: (vehicle) => 
         vehicle.description ? (
-          <p className="text-sm text-gray-100 max-w-xs">{vehicle.description}</p>
+          <p className="text-sm text-olx-dark max-w-xs">{vehicle.description}</p>
         ) : (
-          <span className="text-gray-400">N/A</span>
+          <span className="text-olx-muted">N/A</span>
         )
     },
     {
@@ -123,16 +123,16 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
       label: 'All Features',
       render: (vehicle) =>
         Array.isArray(vehicle.features) && vehicle.features.length > 0 ? (
-          <ul className="space-y-1 text-sm text-gray-100">
+          <ul className="space-y-1 text-sm text-olx-dark">
             {vehicle.features.map((feature, index) => (
               <li key={index} className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 mt-0.5 text-purple-400 flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 mt-0.5 text-olx-teal flex-shrink-0" />
                 <span>{feature}</span>
               </li>
             ))}
           </ul>
         ) : (
-          <span className="text-gray-400">N/A</span>
+          <span className="text-olx-muted">N/A</span>
         )
     },
     {
@@ -140,23 +140,23 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
       label: 'Seller Name',
       render: (vehicle) => 
         vehicle.sellerId?.name ? (
-          <div className="flex items-center gap-2 text-gray-100">
-            <User className="w-4 h-4 text-purple-400" />
+          <div className="flex items-center gap-2 text-olx-dark">
+            <User className="w-4 h-4 text-olx-teal" />
             <span>{vehicle.sellerId.name}</span>
           </div>
         ) : (
-          <span className="text-gray-400">N/A</span>
+          <span className="text-olx-muted">N/A</span>
         )
     }
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 py-8">
-      <div className="relative w-full max-w-6xl max-h-[90vh] flex flex-col rounded-3xl border border-purple-500/40 bg-slate-900/95 shadow-2xl">
-        <div className="flex items-center justify-between border-b border-white/10 px-6 py-4 flex-shrink-0">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-olx-dark/60 px-4 py-8">
+      <div className="relative w-full max-w-6xl max-h-[90vh] flex flex-col rounded-xl border-2 border-olx-dark bg-white shadow-olx-hover">
+        <div className="flex items-center justify-between border-b border-olx-border px-6 py-4 flex-shrink-0 bg-olx-bg">
           <div>
-            <h2 className="text-2xl font-semibold text-white">Vehicle Comparison</h2>
-            <p className="text-sm text-gray-300">
+            <h2 className="text-2xl font-bold text-olx-dark">Vehicle comparison</h2>
+            <p className="text-sm text-olx-muted">
               {hasEnoughVehicles
                 ? `Comparing ${vehicles.length} ${vehicles[0].type === 'bike' ? 'bikes' : 'four wheelers'}`
                 : 'Select at least two vehicles to compare'}
@@ -165,7 +165,7 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:border-purple-400 hover:bg-purple-500/20"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-olx-border bg-white text-olx-dark transition hover:bg-olx-bg"
             aria-label="Close comparison"
           >
             <X className="h-5 w-5" />
@@ -176,11 +176,11 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
           <table className="min-w-full border-collapse">
             <thead className="sticky top-0 z-20">
               <tr>
-                <th className="w-48 bg-slate-900/95 backdrop-blur-sm px-6 py-6 text-left text-sm font-semibold uppercase tracking-wide text-gray-300 border-b border-white/10">Overview</th>
+                <th className="w-48 bg-white px-6 py-6 text-left text-sm font-bold uppercase tracking-wide text-olx-muted border-b border-olx-border">Overview</th>
                 {vehicles.map((vehicle) => (
-                  <th key={vehicle._id} className="min-w-[280px] border-l border-white/10 bg-slate-900/95 backdrop-blur-sm px-6 py-6 align-top border-b border-white/10">
-                    <div className="flex flex-col items-start gap-4 text-left text-white">
-                      <div className="w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                  <th key={vehicle._id} className="min-w-[280px] border-l border-olx-border bg-white px-6 py-6 align-top border-b border-olx-border">
+                    <div className="flex flex-col items-start gap-4 text-left text-olx-dark">
+                      <div className="w-full overflow-hidden rounded-lg border border-olx-border bg-olx-bg">
                         {vehicle.images && vehicle.images.length > 0 ? (
                           <img
                             src={fullImageUrl(vehicle.images[0].url)}
@@ -194,16 +194,16 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
                         )}
                       </div>
                       <div>
-                        <div className="text-lg font-semibold text-white">
+                        <div className="text-lg font-bold text-olx-dark">
                           {vehicle.brand} {vehicle.model}
                         </div>
-                        <div className="text-sm text-purple-300">{renderPrice(vehicle.price)}</div>
+                        <div className="text-sm font-bold text-olx-dark">{renderPrice(vehicle.price)}</div>
                       </div>
                       {typeof onRemove === 'function' && (
                         <button
                           type="button"
                           onClick={() => onRemove(vehicle._id)}
-                          className="inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-500/10 px-3 py-1 text-sm text-red-200 transition hover:bg-red-500/20"
+                          className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-3 py-1 text-sm font-semibold text-red-800 transition hover:bg-red-100"
                         >
                           <Trash2 className="h-4 w-4" />
                           Remove
@@ -217,12 +217,12 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
             {hasEnoughVehicles && (
               <tbody>
                 {attributes.map((attribute) => (
-                  <tr key={attribute.key} className="border-t border-white/5">
-                    <td className="bg-white/[0.04] px-6 py-5 text-sm font-medium uppercase tracking-wide text-purple-200">
+                  <tr key={attribute.key} className="border-t border-olx-border">
+                    <td className="bg-olx-bg px-6 py-5 text-sm font-bold uppercase tracking-wide text-olx-dark">
                       {attribute.label}
                     </td>
                     {vehicles.map((vehicle) => (
-                      <td key={vehicle._id + attribute.key} className="border-l border-white/10 px-6 py-5 text-sm text-gray-100 align-top">
+                      <td key={vehicle._id + attribute.key} className="border-l border-olx-border px-6 py-5 text-sm text-olx-dark align-top bg-white">
                         {attribute.render(vehicle)}
                       </td>
                     ))}
@@ -234,7 +234,7 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
         </div>
 
         {!hasEnoughVehicles && (
-          <div className="px-6 py-12 text-center text-sm text-gray-300">
+          <div className="px-6 py-12 text-center text-sm text-olx-muted">
             Add at least two vehicles to see a side-by-side comparison.
           </div>
         )}

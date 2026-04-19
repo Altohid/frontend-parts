@@ -28,13 +28,13 @@ const Profile = () => {
 
     try {
       await api.put('/users/profile', formData);
-      setMessage({ type: 'success', text: 'Profile updated successfully!' });
+      setMessage({ type: 'success', text: 'Profile saved. Your name and phone are updated everywhere you use AutoMart.' });
       const updatedUser = { ...user, ...formData };
       localStorage.setItem('user', JSON.stringify(updatedUser));
     } catch (error) {
       setMessage({
         type: 'error',
-        text: error.response?.data?.message || 'Failed to update profile'
+        text: error.response?.data?.message || 'Could not save. Try again.'
       });
     } finally {
       setLoading(false);
@@ -42,139 +42,120 @@ const Profile = () => {
   };
 
   return (
-    <div
-      className="min-h-screen pt-24 pb-12 px-4 flex items-center justify-center bg-fixed bg-contain bg-no-repeat bg-cover relative"
-      style={{
-        backgroundImage: "url('/6.webp')",
-        filter: 'brightness(1.3)',
-        backgroundSize: 'cover', // keeps image compressed
-      }}
-    >
-      {/* Overlay for better contrast */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-
-      <div className="relative max-w-2xl w-full bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 z-10">
-        <h1 className="text-4xl font-bold text-white mb-8 text-center">My Profile</h1>
-
-        {/* User Info */}
-        <div className="mb-8 pb-8 border-b border-white/20 text-center">
-          <div className="flex flex-col items-center space-y-4">
-            <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-              <User className="w-10 h-10 text-white" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-white">{user?.name}</h2>
-              <p className="text-gray-300">{user?.email}</p>
-              <span className="inline-block mt-2 px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">
-                {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
-              </span>
-            </div>
-          </div>
+    <div className="cro-page">
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-8 text-center">
+          <h1 className="cro-section-title">Your profile</h1>
+          <p className="cro-lead mx-auto">
+            Keep your details current so sellers and support can reach you without delay.
+          </p>
         </div>
 
-        {/* Update Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {message.text && (
-            <div
-              className={`p-4 rounded-lg border text-center ${
-                message.type === 'success'
-                  ? 'bg-green-500/20 border-green-500 text-green-200'
-                  : 'bg-red-500/20 border-red-500 text-red-200'
-              }`}
-            >
-              {message.text}
+        <div className="cro-card-wide">
+          <div className="mb-10 border-b border-olx-border pb-10 text-center">
+            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-olx-teal to-teal-600 text-white shadow-premium-lg">
+              <User className="h-10 w-10" strokeWidth={2} />
             </div>
-          )}
-
-          <div>
-            <label className="block text-white font-semibold mb-2">Full Name</label>
-            <div className="relative">
-              <User className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
-                placeholder="John Doe"
-              />
-            </div>
+            <h2 className="text-xl font-extrabold text-olx-dark">{user?.name}</h2>
+            <p className="mt-1 text-sm text-olx-muted">{user?.email}</p>
+            <span className="mt-3 inline-block rounded-full border border-olx-border bg-slate-50 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-olx-dark">
+              {user?.role}
+            </span>
           </div>
 
-          <div>
-            <label className="block text-white font-semibold mb-2">Email (Cannot be changed)</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <input
-                type="email"
-                disabled
-                value={user?.email || ''}
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-gray-400 cursor-not-allowed"
-              />
-            </div>
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {message.text && (
+              <div className={message.type === 'success' ? 'cro-alert-success' : 'cro-alert-error'}>{message.text}</div>
+            )}
 
-          <div>
-            <label className="block text-white font-semibold mb-2">Phone Number</label>
-            <div className="relative">
-              <Phone className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition"
-                placeholder="+91 98765 43210"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition transform hover:scale-105 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-          >
-            <Save className="w-5 h-5" />
-            <span>{loading ? 'Saving...' : 'Save Changes'}</span>
-          </button>
-        </form>
-
-        {/* Account Stats */}
-        <div className="mt-8 pt-8 border-t border-white/20">
-          <h3 className="text-white font-semibold mb-4 text-center">Account Information</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white/10 rounded-lg p-4 text-center">
-              <div className="flex items-center justify-center space-x-2 text-gray-300 text-sm mb-1">
-                <Calendar className="w-4 h-4" />
-                <span>Member Since</span>
-              </div>
-              <div className="text-white font-semibold">
-                {user?.createdAt
-                  ? new Date(user.createdAt).toLocaleDateString('en-IN', {
-                      day: '2-digit',
-                      month: 'long',
-                      year: 'numeric'
-                    })
-                  : 'N/A'}
+            <div>
+              <label className="cro-label">Full name</label>
+              <div className="relative">
+                <User className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="cro-input-has-icon"
+                  placeholder="As on your ID"
+                />
               </div>
             </div>
-            <div className="bg-white/10 rounded-lg p-4 text-center">
-              <div className="text-gray-300 text-sm mb-1">Account Status</div>
-              {user?.isVerified === false ? (
-                <div className="text-yellow-300 font-semibold flex justify-center items-center">
-                  <span className="w-2 h-2 bg-yellow-300 rounded-full mr-2"></span>
-                  Pending Verification
+
+            <div>
+              <label className="cro-label">Email</label>
+              <div className="relative">
+                <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                <input
+                  type="email"
+                  disabled
+                  value={user?.email || ''}
+                  className="cro-input-has-icon cursor-not-allowed bg-slate-100 text-olx-muted"
+                />
+              </div>
+              <p className="mt-1.5 text-xs text-olx-muted">Email sign-in is fixed for security. Contact support to change it.</p>
+            </div>
+
+            <div>
+              <label className="cro-label">Phone</label>
+              <div className="relative">
+                <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-olx-muted" />
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="cro-input-has-icon"
+                  placeholder="+91…"
+                  autoComplete="tel"
+                />
+              </div>
+              <p className="mt-1.5 text-xs text-olx-muted">Shown to sellers when you inquire about a vehicle.</p>
+            </div>
+
+            <button type="submit" disabled={loading} className="cro-btn-primary">
+              <Save className="h-5 w-5" />
+              <span>{loading ? 'Saving…' : 'Save profile'}</span>
+            </button>
+          </form>
+
+          <div className="mt-10 border-t border-olx-border pt-10">
+            <h3 className="mb-4 text-center text-xs font-extrabold uppercase tracking-widest text-olx-muted">Account</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-xl border border-olx-border bg-slate-50/80 p-4 text-center">
+                <div className="mb-1 flex items-center justify-center gap-1.5 text-xs font-bold text-olx-muted">
+                  <Calendar className="h-3.5 w-3.5" />
+                  Member since
                 </div>
-              ) : user?.isActive === false ? (
-                <div className="text-red-400 font-semibold flex justify-center items-center">
-                  <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                  Inactive
+                <div className="text-sm font-extrabold text-olx-dark">
+                  {user?.createdAt
+                    ? new Date(user.createdAt).toLocaleDateString('en-IN', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                      })
+                    : '—'}
                 </div>
-              ) : (
-                <div className="text-green-400 font-semibold flex justify-center items-center">
-                  <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                  Active
-                </div>
-              )}
+              </div>
+              <div className="rounded-xl border border-olx-border bg-slate-50/80 p-4 text-center">
+                <div className="mb-1 text-xs font-bold text-olx-muted">Status</div>
+                {user?.isVerified === false ? (
+                  <div className="flex items-center justify-center gap-1.5 text-sm font-extrabold text-amber-800">
+                    <span className="h-2 w-2 rounded-full bg-amber-500" />
+                    Pending
+                  </div>
+                ) : user?.isActive === false ? (
+                  <div className="flex items-center justify-center gap-1.5 text-sm font-extrabold text-red-700">
+                    <span className="h-2 w-2 rounded-full bg-red-500" />
+                    Inactive
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center gap-1.5 text-sm font-extrabold text-emerald-800">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                    Active
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
