@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, Gauge, MapPin, Phone, Mail, User, Fuel, Cog, ArrowLeft, MessageCircle, Activity } from 'lucide-react';
-import { vehicleService } from '../services/vehicleService';
+import { partService } from '../services/partService';
 import { paymentService } from '../services/paymentService';
 import { fullImageUrl, WHATSAPP_NUMBER } from '../utils/constants';
 import { useAuth } from '../contexts/AuthContext';
@@ -63,7 +63,7 @@ I would like to know more about this vehicle. Please share more details.`;
       }
 
       // Step 2: Create order
-      const orderData = await paymentService.createOrder(vehicle._id);
+  const orderData = await paymentService.createOrder(vehicle._id);
 
       // Step 3: Initialize Razorpay options
       const options = {
@@ -100,10 +100,10 @@ I would like to know more about this vehicle. Please share more details.`;
           contact: user.phone || '9999999999'
         },
         notes: {
-          vehicleId: vehicle._id,
-          buyerId: user.id,
-          vehicleName: `${vehicle.brand} ${vehicle.model}`
-        },
+            partId: vehicle._id,
+            buyerId: user.id,
+            partName: `${vehicle.brand || ''} ${vehicle.model || vehicle.name || ''}`
+          },
         theme: {
           color: '#002f34'
         },
@@ -141,7 +141,7 @@ I would like to know more about this vehicle. Please share more details.`;
 
   const fetchVehicle = async () => {
     try {
-      const data = await vehicleService.getVehicle(id);
+      const data = await partService.getPart(id);
       setVehicle(data.data);
     } catch (error) {
       console.error('Error:', error);
@@ -165,9 +165,9 @@ I would like to know more about this vehicle. Please share more details.`;
     return (
       <div className="cro-page flex flex-col items-center justify-center text-center">
         <p className="text-lg font-extrabold text-olx-dark">Listing not found</p>
-        <p className="mt-2 max-w-sm text-olx-muted">It may have been removed. Browse similar vehicles below.</p>
-        <Link to="/vehicles" className="mt-6 cro-btn-secondary px-8">
-          Browse vehicles
+        <p className="mt-2 max-w-sm text-olx-muted">It may have been removed. Browse similar parts below.</p>
+        <Link to="/parts" className="mt-6 cro-btn-secondary px-8">
+          Browse parts
         </Link>
       </div>
     );
@@ -177,7 +177,7 @@ I would like to know more about this vehicle. Please share more details.`;
     <div className="cro-page">
       <div className="mx-auto max-w-7xl">
         <Link 
-          to="/vehicles"
+          to="/parts"
           className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-olx-dark transition hover:text-olx-muted"
         >
           <ArrowLeft className="h-4 w-4" />

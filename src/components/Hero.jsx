@@ -10,13 +10,13 @@ const Hero = () => {
 
   const handleHomeSearch = (e) => {
     e.preventDefault();
-    navigate('/vehicles');
+    navigate('/parts');
   };
 
   const categories = [
-    { label: 'Cars', emoji: '🚗' },
-    { label: 'Bikes', emoji: '🏍️' },
-    { label: 'All listings', emoji: '✨' },
+    { label: 'Engines & Drivetrain', emoji: '⚙️' },
+    { label: 'Body & Exterior', emoji: '🚗' },
+    { label: 'All parts', emoji: '✨' },
   ];
 
   const [counts, setCounts] = useState([0, 0, 0]);
@@ -71,7 +71,7 @@ const Hero = () => {
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-olx-border bg-white/90 px-4 py-1.5 text-xs font-semibold text-olx-muted shadow-premium backdrop-blur-sm mb-6">
             <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden />
-            10,000+ vehicles · Trusted by buyers nationwide
+            10,000+ parts · Trusted by buyers nationwide
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-[3.25rem] font-extrabold text-olx-dark tracking-tight leading-[1.08] text-balance">
@@ -90,7 +90,7 @@ const Hero = () => {
                     type="text"
                     value={homeSearch}
                     onChange={(e) => setHomeSearch(e.target.value)}
-                    placeholder="Try “Maruti Swift”, “Royal Enfield”…"
+                    placeholder="Try “Civic alternator”, “Corolla headlight”…"
                     className="flex-1 text-olx-dark placeholder:text-slate-400 outline-none text-base bg-transparent font-medium"
                   />
                 </div>
@@ -196,13 +196,13 @@ const Hero = () => {
               <div className="absolute -bottom-24 -left-16 h-48 w-48 rounded-full bg-white/5 blur-2xl" />
               <div className="relative">
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                  Turn your vehicle into cash this week
+                  Turn your parts into cash this week
                 </h2>
                 <p className="mt-4 text-white/75 text-base leading-relaxed max-w-md mx-auto">
                   Publish a polished ad in minutes. Reach serious buyers — photos, price, and location do the selling.
                 </p>
                 <Link
-                  to="/add-vehicle"
+                  to="/add-part"
                   className="mt-8 inline-flex items-center justify-center rounded-xl px-10 py-4 bg-olx-sell text-olx-dark font-extrabold text-base shadow-lg hover:brightness-105 active:scale-[0.98] transition-all"
                 >
                   Post your ad — free to start
@@ -220,10 +220,10 @@ const Hero = () => {
                   Jump into live listings — filter, compare, and contact sellers in a few taps.
                 </p>
                 <Link
-                  to="/vehicles"
+                  to="/parts"
                   className="mt-8 inline-flex items-center justify-center rounded-xl px-10 py-4 bg-olx-dark text-white font-extrabold text-base shadow-cta hover:shadow-cta-hover hover:bg-[#0d3d42] active:scale-[0.98] transition-all"
                 >
-                  Browse all vehicles
+                  Browse all parts
                 </Link>
                 <p className="mt-4 text-xs text-olx-muted">Average time to first shortlist: under 2 minutes</p>
               </div>

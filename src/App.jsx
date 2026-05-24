@@ -33,16 +33,14 @@ function AppContent() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/contact" element={<Contact />} />
-          <Route
-            path="/vehicles" element={
-              <ProtectedRoute>
-                <Vehicles />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/vehicles/:id" element={<VehicleDetail />} />
+          <Route path="/parts" element={<Vehicles />} />
+          <Route path="/parts/:id" element={
+            <ProtectedRoute>
+              <VehicleDetail />
+            </ProtectedRoute>
+          } />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/add-vehicle"
+          <Route path="/add-part"
             element={
               <ProtectedRoute sellerOnly={true}>
                 <AddVehicle />

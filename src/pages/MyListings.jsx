@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Edit, Trash2, Plus, Eye, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { fullImageUrl } from '../utils/constants';
-import { vehicleService } from '../services/vehicleService';
+import { partService } from '../services/partService';
 
 const MyListings = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -15,7 +15,7 @@ const MyListings = () => {
 
   const fetchMyVehicles = async () => {
     try {
-      const data = await vehicleService.getMyVehicles();
+      const data = await partService.getMyParts();
       setVehicles(data.data);
     } catch (error) {
       console.error('Error:', error);
@@ -28,18 +28,18 @@ const MyListings = () => {
     if (!window.confirm('Are you sure you want to delete this listing?')) return;
 
     try {
-      await vehicleService.deleteVehicle(id);
+      await partService.deletePart(id);
       setVehicles(vehicles.filter(v => v._id !== id));
     } catch (error) {
       console.error('Error deleting vehicle:', error);
-      alert('Failed to delete vehicle');
+      alert('Failed to delete part');
     }
   };
 
   const handleStatusUpdate = async (id, newStatus) => {
     setUpdatingStatus(id);
     try {
-      await vehicleService.updateVehicleStatus(id, newStatus);
+  await partService.updatePartStatus(id, newStatus);
       
       // Update local state
       setVehicles(vehicles.map(v => 
@@ -47,10 +47,10 @@ const MyListings = () => {
       ));
       
       // Show success message
-      alert(`Vehicle marked as ${newStatus}!`);
+  alert(`Part marked as ${newStatus}!`);
     } catch (error) {
       console.error('Error updating status:', error);
-      alert('Failed to update vehicle status');
+  alert('Failed to update part status');
     } finally {
       setUpdatingStatus(null);
     }
@@ -135,7 +135,7 @@ const MyListings = () => {
             </p>
           </div>
           <Link 
-            to="/add-vehicle"
+            to="/add-part"
             className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-olx-sell px-6 py-3.5 font-extrabold text-olx-dark shadow-md transition hover:brightness-105 active:scale-[0.99]"
           >
             <Plus className="h-5 w-5" strokeWidth={2.5} />
@@ -187,7 +187,7 @@ const MyListings = () => {
             <p className="text-lg font-extrabold text-olx-dark">No ads yet</p>
             <p className="mx-auto mt-2 max-w-sm text-sm text-olx-muted">Your first listing goes live in minutes — add photos and a fair price.</p>
             <Link 
-              to="/add-vehicle"
+              to="/add-part"
               className="mt-8 inline-flex rounded-xl bg-olx-dark px-8 py-3.5 font-extrabold text-white shadow-cta transition hover:bg-[#0d3d42]"
             >
               Post your first ad
@@ -259,7 +259,7 @@ const MyListings = () => {
                     {/* Action Buttons */}
                     <div className="flex flex-wrap gap-3">
                       <Link
-                        to={`/vehicles/${vehicle._id}`}
+                        to={`/parts/${vehicle._id}`}
                         className="flex items-center gap-2 px-4 py-2 bg-olx-bg text-olx-dark font-semibold rounded-lg border border-olx-border hover:bg-white transition"
                       >
                         <Eye className="w-4 h-4" />

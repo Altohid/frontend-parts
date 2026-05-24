@@ -63,7 +63,7 @@ const VehicleCard = ({ vehicle, showStatus = true, onToggleCompare, isCompared =
         </button>
       )}
 
-      <Link to={`/vehicles/${vehicle._id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-olx-teal focus-visible:ring-offset-2 rounded-2xl">
+  <Link to={`/parts/${vehicle._id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-olx-teal focus-visible:ring-offset-2 rounded-2xl">
         <div
           className={`relative aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-50 overflow-hidden ${
             vehicle.status === 'sold' ? 'opacity-85' : ''
@@ -92,7 +92,7 @@ const VehicleCard = ({ vehicle, showStatus = true, onToggleCompare, isCompared =
         <div className="flex flex-1 flex-col p-5 pt-4">
           <div className="flex items-start justify-between gap-3">
             <h3 className="text-lg font-bold text-olx-dark leading-snug line-clamp-2 group-hover:text-[#0d3d42] transition-colors">
-              {vehicle.brand} {vehicle.model}
+                {vehicle.brand ? `${vehicle.brand} ${vehicle.model || ''}` : vehicle.name || 'Part'}
             </h3>
             <span className="shrink-0 rounded-lg border border-olx-border bg-slate-50 px-2 py-1 text-xs font-extrabold text-olx-muted tabular-nums">
               {vehicle.year}
@@ -102,19 +102,20 @@ const VehicleCard = ({ vehicle, showStatus = true, onToggleCompare, isCompared =
           <div className="mt-3 text-2xl font-extrabold tabular-nums tracking-tight text-olx-dark">
             ₹{vehicle.price.toLocaleString('en-IN')}
           </div>
-          <p className="mt-1 text-xs font-medium text-olx-muted">Seller-listed price · Confirm details before you pay</p>
+          <p className="mt-1 text-xs font-medium text-olx-muted">Seller-listed price · Confirm compatibility and condition before you buy</p>
 
           <div className="mt-4 space-y-2 text-sm text-olx-muted">
-            {vehicle.kilometersDriven !== undefined && vehicle.kilometersDriven !== null && (
+            {/* Parts usually don't have km/mileage; show condition and fitment instead */}
+            {vehicle.condition && (
               <div className="flex items-center gap-2">
                 <Gauge className="h-4 w-4 shrink-0 text-olx-teal" strokeWidth={2.25} />
-                <span className="font-medium">{vehicle.kilometersDriven.toLocaleString('en-IN')} km driven</span>
+                <span className="font-medium">Condition: {vehicle.condition}</span>
               </div>
             )}
-            {vehicle.mileage && (
+            {vehicle.fitment && (
               <div className="flex items-center gap-2">
                 <Gauge className="h-4 w-4 shrink-0 text-olx-teal opacity-70" strokeWidth={2.25} />
-                <span>{vehicle.mileage}</span>
+                <span>Fitment: {vehicle.fitment}</span>
               </div>
             )}
             {vehicle.location && (

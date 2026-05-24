@@ -27,20 +27,20 @@ const Navbar = () => {
           <div className="hidden lg:flex flex-1 max-w-lg mx-6 xl:mx-10">
             <div className="flex w-full items-center gap-0 rounded-xl bg-slate-100/90 pl-4 pr-1 py-1 ring-1 ring-slate-200/80 focus-within:ring-2 focus-within:ring-olx-teal/30 focus-within:bg-white transition-shadow">
               <Search className="w-4 h-4 shrink-0 text-olx-muted" strokeWidth={2.25} />
-              <input
+                <input
                 type="text"
-                placeholder="Search cars, bikes, brands…"
+                placeholder="Search parts, brands, fitment…"
                 className="flex-1 py-2.5 px-3 text-sm text-olx-dark placeholder:text-slate-400 outline-none bg-transparent font-medium min-w-0"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     e.preventDefault();
-                    navigate('/vehicles');
+                    navigate('/parts');
                   }
                 }}
               />
               <button
                 type="button"
-                onClick={() => navigate('/vehicles')}
+                onClick={() => navigate('/parts')}
                 className="shrink-0 rounded-lg px-4 py-2 bg-olx-dark text-white text-sm font-bold shadow-sm hover:bg-[#0d3d42] hover:shadow-md transition-all duration-250"
               >
                 Search
@@ -58,7 +58,7 @@ const Navbar = () => {
             </button>
 
             <Link
-              to="/vehicles"
+              to="/parts"
               className="px-3 py-2 text-sm font-semibold text-olx-dark rounded-lg hover:bg-slate-100/80 transition-colors"
             >
               Browse
@@ -75,7 +75,7 @@ const Navbar = () => {
                 {(user?.role === 'seller' || user?.role === 'admin') && (
                   <>
                     <Link
-                      to="/add-vehicle"
+                      to="/add-part"
                       className="flex items-center gap-1.5 ml-1 px-4 py-2.5 rounded-xl bg-olx-sell text-olx-dark text-sm font-extrabold shadow-md shadow-amber-200/40 hover:brightness-105 active:scale-[0.98] transition-all"
                     >
                       <Plus className="w-4 h-4" strokeWidth={2.5} />
@@ -167,7 +167,7 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden py-4 space-y-1 border-t border-olx-border">
             <Link
-              to="/vehicles"
+              to="/parts"
               className="block py-3 px-2 text-olx-dark font-bold rounded-lg hover:bg-slate-50"
               onClick={() => setIsOpen(false)}
             >
@@ -185,7 +185,7 @@ const Navbar = () => {
                 {(user?.role === 'seller' || user?.role === 'admin') && (
                   <>
                     <Link
-                      to="/add-vehicle"
+                      to="/add-part"
                       className="block py-3 px-2 font-extrabold text-olx-dark"
                       onClick={() => setIsOpen(false)}
                     >

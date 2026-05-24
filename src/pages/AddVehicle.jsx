@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, Car, Bike, X } from 'lucide-react';
-import { vehicleService } from '../services/vehicleService';
-import { CAR_BRANDS, BIKE_BRANDS, FUEL_TYPES, TRANSMISSION_TYPES, OWNERSHIP_TYPES } from '../utils/constants';
+import { partService } from '../services/partService';
+import { CAR_BRANDS, BIKE_BRANDS, FUEL_TYPES, TRANSMISSION_TYPES, OWNERSHIP_TYPES, PARTS_CATEGORIES } from '../utils/constants';
 
 const AddVehicle = () => {
   const [formData, setFormData] = useState({
     type: 'car',
     brand: '',
     model: '',
+    partscategories:'',
     year: new Date().getFullYear(),
     price: '',
-    kilometersDriven: '',
-    mileage: '',
+    // kilometersDriven: '',
+    // mileage: '',
     description: '',
     fuelType: 'Petrol',
     transmission: 'Manual',
-    ownership: '1st Owner',
+    // ownership: '1st Owner',
     location: { city: '', state: '' },
     features: [],
     lat: '',
@@ -53,10 +54,10 @@ const AddVehicle = () => {
         data.append('images', image);
       });
 
-      await vehicleService.addVehicle(data);
+      await partService.addPart(data);
       navigate('/my-listings');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to add vehicle');
+      setError(err.response?.data?.message || 'Failed to add part');
     } finally {
       setLoading(false);
     }
@@ -111,10 +112,10 @@ const AddVehicle = () => {
       <div className="mx-auto max-w-4xl">
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-olx-dark sm:text-4xl text-balance">
-            Post your vehicle
+            List a part for sale
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-olx-muted leading-relaxed">
-            Clear photos and honest details get more serious buyers — most ads take under 5 minutes.
+            Clear photos and accurate fitment details help buyers find compatible parts quickly.
           </p>
         </div>
 
@@ -153,6 +154,12 @@ const AddVehicle = () => {
               </div>
             </div>
 
+
+
+                
+
+
+
             {/* Brand & Model */}
             <div className="grid md:grid-cols-2 gap-4">
               <div>
@@ -186,6 +193,32 @@ const AddVehicle = () => {
               </div>
             </div>
 
+
+
+              {/* ***************** */}
+
+                   {/* PARTS CATEGORY  */}
+            <div>
+              <label className="block text-olx-dark font-semibold text-sm mb-2">Parts Category*</label>
+              <select
+                required
+                value={formData.partscategories}
+                onChange={(e) => setFormData({ ...formData, partscategories: e.target.value })}
+                className={selField}
+              >
+                 <option value="">Select Parts Category</option>
+                {PARTS_CATEGORIES.map(type => (
+                  <option key={type} value={type} className="text-black bg-white">
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+
+                  {/* ***************** */}
+
+
             {/* Year & Price */}
             <div className="grid md:grid-cols-2 gap-4">
               <div>
@@ -216,7 +249,10 @@ const AddVehicle = () => {
             </div>
 
             {/* Kilometers Driven & Mileage */}
-            <div className="grid md:grid-cols-2 gap-4">
+
+
+
+            {/* <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-olx-dark font-semibold text-sm mb-2">
                   Kilometers Driven * (Odometer Reading)
@@ -246,9 +282,14 @@ const AddVehicle = () => {
                 />
                 <p className="text-olx-muted text-xs mt-1">Fuel efficiency in km per liter</p>
               </div>
-            </div>
+            </div> */}
+
+
+
+
 
             {/* Fuel Type & Transmission */}
+
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-olx-dark font-semibold text-sm mb-2">Fuel Type</label>
@@ -282,7 +323,10 @@ const AddVehicle = () => {
               </div>
             </div>
 
-            {/* Ownership */}
+            {/* Ownership}
+
+
+
             <div>
               <label className="block text-olx-dark font-semibold text-sm mb-2">Ownership *</label>
               <select
@@ -297,7 +341,10 @@ const AddVehicle = () => {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
+
+
+
 
             {/* Location */}
             <div className="grid md:grid-cols-2 gap-4">
@@ -331,7 +378,11 @@ const AddVehicle = () => {
             </div>
 
           {/* Precise Coordinates (optional for nearby search) */}
-          <div className="grid md:grid-cols-2 gap-4">
+
+
+
+
+          {/* <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-olx-dark font-semibold text-sm mb-2">Latitude (optional)</label>
               <input
@@ -354,7 +405,11 @@ const AddVehicle = () => {
                 placeholder="e.g., 72.8777"
               />
             </div>
-          </div>
+          </div> */}
+
+
+
+
 
             {/* Description */}
             <div>

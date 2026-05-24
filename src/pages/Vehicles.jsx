@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Search, Car, Bike, Scale, X, AlertCircle } from 'lucide-react';
 import VehicleCard from '../components/VehicleCard';
 import VehicleCompareModal from '../components/VehicleCompareModal';
-import { vehicleService } from '../services/vehicleService';
-import { CAR_BRANDS, BIKE_BRANDS } from '../utils/constants';
+import { partService } from '../services/partService';
+import { CAR_BRANDS, BIKE_BRANDS, PARTS_CATEGORIES } from '../utils/constants';
 
 const MAX_COMPARE_ITEMS = 3;
 
@@ -13,6 +13,7 @@ const Vehicles = () => {
   const [filters, setFilters] = useState({
     type: '',
     brand: '',
+    partsCategory: '',
     search: '',
     minPrice: '',
     maxPrice: '',
@@ -49,7 +50,7 @@ const Vehicles = () => {
       if (!useNearby) {
         delete params.nearLat; delete params.nearLng; delete params.nearRadiusKm;
       }
-      const data = await vehicleService.getVehicles(params);
+      const data = await partService.getParts(params);
       setVehicles(data.data);
       setTotalPages(Number(data.totalPages || 1));
     } catch (error) {
@@ -107,7 +108,7 @@ const Vehicles = () => {
       setCompareResults([]);
 
       const ids = compareSelections.map(vehicle => vehicle._id);
-      const response = await vehicleService.compareVehicles(ids);
+  const response = await partService.compareParts(ids);
       const items = Array.isArray(response.data) ? response.data.filter(Boolean) : [];
 
       if (items.length < 2) {
@@ -158,7 +159,7 @@ const Vehicles = () => {
       <div className="cro-page">
         <div className="mx-auto max-w-7xl">
         <h1 className="mb-2 text-balance text-center text-3xl font-extrabold tracking-tight text-olx-dark md:text-4xl">
-          Find your next vehicle
+          Find the part you need
         </h1>
         <p className="mx-auto mb-2 max-w-lg text-center text-base leading-relaxed text-olx-muted">
           Filter by type, price, and location — open a listing to message the seller in one tap.
@@ -236,6 +237,20 @@ const Vehicles = () => {
                 ))}
               </select>
 
+            </div>
+            <div>
+              <select
+                value={filters.partsCategory || ''}
+                onChange={(e) => setFilters({ ...filters, partsCategory: e.target.value })}
+                className="w-full px-4 py-3 bg-white border border-olx-border rounded-lg text-olx-dark focus:outline-none focus:border-olx-dark transition"
+              >
+                <option value="">All Parts</option>
+                {PARTS_CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat} className="text-black bg-white">
+                    {cat}
+                  </option>
+                ))}
+              </select>
             </div>
             <div>
               <select

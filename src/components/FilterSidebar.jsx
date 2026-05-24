@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
-import { CAR_BRANDS, BIKE_BRANDS, FUEL_TYPES, TRANSMISSION_TYPES } from '../utils/constants';
+import { CAR_BRANDS, BIKE_BRANDS, FUEL_TYPES, TRANSMISSION_TYPES, PARTS_CATEGORIES} from '../utils/constants';
 
 const field =
   'w-full px-4 py-3 bg-white border border-olx-border rounded-lg text-olx-dark placeholder:text-olx-muted focus:outline-none focus:ring-2 focus:ring-olx-teal focus:border-olx-dark';
@@ -19,7 +19,8 @@ const FilterSidebar = ({ filters, onFilterChange, vehicleType }) => {
       fuelType: '',
       transmission: '',
       minYear: '',
-      maxYear: ''
+      maxYear: '',
+      partsCategory:''
     });
   };
 
@@ -53,6 +54,29 @@ const FilterSidebar = ({ filters, onFilterChange, vehicleType }) => {
         </div>
       )}
 
+        {/* ******************* */}
+        {/* Parts category search */}
+
+      {PARTS_CATEGORIES.length > 0 && (
+        <div>
+          <label className="block text-olx-dark font-semibold text-sm mb-2">Parts Categories</label>
+          <select
+            value={filters.partsCategory || ''}
+            onChange={(e) => onFilterChange({ ...filters, partsCategory: e.target.value })}
+            className={field}
+          >
+            <option value="">All Parts Categories</option>
+            {PARTS_CATEGORIES.map((partsCategory) => (
+              <option key={partsCategory} value={partsCategory}>
+                {partsCategory}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+
+      {/* ********************* */}
       <div>
         <label className="block text-olx-dark font-semibold text-sm mb-2">Price range (₹)</label>
         <div className="space-y-2">

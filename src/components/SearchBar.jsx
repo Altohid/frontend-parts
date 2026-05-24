@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Search, Filter } from 'lucide-react';
-import { CAR_BRANDS, BIKE_BRANDS } from '../utils/constants';
+import { CAR_BRANDS, BIKE_BRANDS, PARTS_CATEGORIES } from '../utils/constants';
 
 const SearchBar = ({ onSearch, vehicleType = '' }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedPartsCategory, setSelectedPartsCategory] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
-    onSearch({ search: searchTerm, brand: selectedBrand });
+    onSearch({ search: searchTerm, brand: selectedBrand, partsCategory: selectedPartsCategory });
   };
 
   const brands =
@@ -47,6 +48,24 @@ const SearchBar = ({ onSearch, vehicleType = '' }) => {
                 </option>
               ))}
             </select>
+
+            {/* Parts category select (shows all categories) */}
+
+            
+            {PARTS_CATEGORIES && PARTS_CATEGORIES.length > 0 && (
+              <select
+                value={selectedPartsCategory}
+                onChange={(e) => setSelectedPartsCategory(e.target.value)}
+                className="ml-3 bg-transparent text-olx-dark font-semibold text-sm outline-none cursor-pointer"
+              >
+                <option value="">All parts</option>
+                {PARTS_CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           <button

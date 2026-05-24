@@ -17,7 +17,7 @@ const Footer = () => {
               <span className="text-xl font-extrabold tracking-tight">AutoMart</span>
             </Link>
             <p className="text-white/70 text-sm leading-relaxed max-w-xs">
-              Premium pre-owned vehicle marketplace. Find your next ride or list with confidence.
+              Marketplace for used car auto parts. Find parts you need or list parts from your inventory.
             </p>
             <div className="flex gap-2 mt-6">
               {[
@@ -42,23 +42,23 @@ const Footer = () => {
             <h4 className="text-xs font-extrabold uppercase tracking-widest text-olx-teal/90 mb-4">Browse</h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link to="/vehicles" className="text-white/75 hover:text-white font-medium transition-colors">
-                  All vehicles
+                <Link to="/parts" className="text-white/75 hover:text-white font-medium transition-colors">
+                  All parts
                 </Link>
               </li>
               <li>
-                <Link to="/vehicles" className="text-white/75 hover:text-white font-medium transition-colors">
-                  Cars
+                <Link to="/parts" className="text-white/75 hover:text-white font-medium transition-colors">
+                  Engines & Drivetrain
                 </Link>
               </li>
               <li>
-                <Link to="/vehicles" className="text-white/75 hover:text-white font-medium transition-colors">
-                  Bikes
+                <Link to="/parts" className="text-white/75 hover:text-white font-medium transition-colors">
+                  Body & Exterior
                 </Link>
               </li>
               <li>
-                <Link to="/add-vehicle" className="text-white/75 hover:text-white font-medium transition-colors">
-                  Sell your vehicle
+                <Link to="/add-part" className="text-white/75 hover:text-white font-medium transition-colors">
+                  List a part
                 </Link>
               </li>
             </ul>

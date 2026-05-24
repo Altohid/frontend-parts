@@ -155,11 +155,11 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
       <div className="relative w-full max-w-6xl max-h-[90vh] flex flex-col rounded-xl border-2 border-olx-dark bg-white shadow-olx-hover">
         <div className="flex items-center justify-between border-b border-olx-border px-6 py-4 flex-shrink-0 bg-olx-bg">
           <div>
-            <h2 className="text-2xl font-bold text-olx-dark">Vehicle comparison</h2>
+            <h2 className="text-2xl font-bold text-olx-dark">Part comparison</h2>
             <p className="text-sm text-olx-muted">
               {hasEnoughVehicles
-                ? `Comparing ${vehicles.length} ${vehicles[0].type === 'bike' ? 'bikes' : 'four wheelers'}`
-                : 'Select at least two vehicles to compare'}
+                ? `Comparing ${vehicles.length} parts`
+                : 'Select at least two parts to compare'}
             </p>
           </div>
           <button
