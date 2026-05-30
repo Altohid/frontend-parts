@@ -116,3 +116,47 @@ select:-moz-focusring {
     text-wrap: balance;
   }
 }
+
+/* small page animation helpers used by the hero */
+@keyframes ticker {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* continuous marquee for brand logos */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee {
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 48px;
+  width: max-content;
+  animation: marquee 20s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes floaty {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float { animation: floaty 4s ease-in-out infinite; }
+.animate-fade-in { animation: fadeIn 700ms ease both; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hint-chip { @apply text-xs rounded-full px-3 py-1 bg-white/90 border border-olx-border font-medium; }

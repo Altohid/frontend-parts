@@ -1,238 +1,167 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Search, Shield, Sparkles, ChevronRight, Lock, BadgeCheck } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
 
-const Hero = () => {
-  const { user } = useAuth();
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, BadgeCheck, Lock, Sparkles } from 'lucide-react';
+import TopTicker from './TopTicker';
+
+export default function Hero() {
   const navigate = useNavigate();
   const [homeSearch, setHomeSearch] = useState('');
-
-  const handleHomeSearch = (e) => {
-    e.preventDefault();
-    navigate('/parts');
-  };
-
-  const categories = [
-    { label: 'Engines & Drivetrain', emoji: '⚙️' },
-    { label: 'Body & Exterior', emoji: '🚗' },
-    { label: 'All parts', emoji: '✨' },
-  ];
-
-  const [counts, setCounts] = useState([0, 0, 0]);
-  const stats = [10000, 5000, 500];
-  const duration = 2000;
-  const interval = 30;
-  const repeatTime = 6000;
-
-  const runCounter = () => {
-    stats.forEach((target, index) => {
-      let start = 0;
-      const step = target / (duration / interval);
-      const timer = setInterval(() => {
-        start += step;
-        if (start >= target) {
-          start = target;
-          clearInterval(timer);
-        }
-        setCounts((prev) => {
-          const updated = [...prev];
-          updated[index] = Math.floor(start);
-          return updated;
-        });
-      }, interval);
-    });
-  };
+  const [counts, setCounts] = useState([12400, 5000, 680]);
 
   useEffect(() => {
-    runCounter();
-    const loop = setInterval(() => {
-      setCounts([0, 0, 0]);
-      runCounter();
-    }, repeatTime);
-    return () => clearInterval(loop);
+    const targets = [12400, 5000, 680];
+    const steps = 40;
+    const timers = [];
+    targets.forEach((t, i) => {
+      let cur = 0;
+      const step = Math.max(10, Math.round(t / steps));
+      const id = setInterval(() => {
+        cur += step;
+        setCounts((s) => {
+          const copy = [...s];
+          copy[i] = Math.min(cur, t);
+          return copy;
+        });
+        if (cur >= t) clearInterval(id);
+      }, 30 + i * 10);
+      timers.push(id);
+    });
+    return () => timers.forEach((id) => clearInterval(id));
   }, []);
 
-  const highlights = [
-    { icon: Shield, title: 'Verified sellers', desc: 'Profiles checked so you buy with confidence.' },
-    { icon: Search, title: 'Smart filters', desc: 'Brand, price, location — find the right vehicle fast.' },
-    { icon: Sparkles, title: 'Compare & decide', desc: 'Line up listings side by side before you commit.' },
-  ];
+  function handleHomeSearch(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    navigate('/parts');
+  }
 
   const trustChips = [
-    { icon: BadgeCheck, text: 'Verified listings' },
-    { icon: Lock, text: 'Secure contact' },
-    { icon: Sparkles, text: 'Fair, transparent prices' },
+    { icon: BadgeCheck, text: 'Verified sellers' },
+    { icon: Lock, text: 'UPI & COD' },
+    { icon: Sparkles, text: '7-day returns' },
   ];
 
+  const hints = ['Maruti Swift alternator', 'Nexon bumper', 'i20 clutch plate', 'Innova radiator'];
+
   return (
-    <div className="text-olx-dark min-h-screen bg-mesh-hero bg-olx-bg">
-      <section className="pt-28 pb-12 px-4 sm:px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-olx-border bg-white/90 px-4 py-1.5 text-xs font-semibold text-olx-muted shadow-premium backdrop-blur-sm mb-6">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden />
-            10,000+ parts · Trusted by buyers nationwide
-          </div>
+    <div className="text-olx-dark bg-mesh-hero bg-olx-bg">
+      <section className="pt-6 pb-12">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* Left column */}
+          <div className="pt-6">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-700">12,400+ parts live</span>
+              <span className="text-sm text-olx-muted">Trusted by 5,000+ buyers across India</span>
+            </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-[3.25rem] font-extrabold text-olx-dark tracking-tight leading-[1.08] text-balance">
-            The smarter way to buy & sell pre-owned vehicles
-          </h1>
-          <p className="mt-5 text-lg sm:text-xl text-olx-muted max-w-2xl mx-auto leading-relaxed text-balance">
-            Browse curated listings, message sellers safely, and close deals faster — without the noise.
-          </p>
+            <h1 className="text-[56px] leading-[0.95] font-extrabold tracking-tight mb-4">
+              Find the <span className="text-olx-teal">exact part</span>
+              <br /> your car
+              <br /> needs —
+              <br /> at the right
+              <br /> price.
+            </h1>
 
-          <form onSubmit={handleHomeSearch} className="mt-10 max-w-2xl mx-auto">
-            <div className="rounded-2xl bg-white p-1.5 shadow-premium-lg ring-1 ring-slate-200/80 focus-within:ring-2 focus-within:ring-olx-teal/35 focus-within:shadow-premium-lg transition-shadow duration-250">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <div className="flex flex-1 items-center gap-3 pl-4 pr-3 py-3 min-h-[52px]">
-                  <Search className="w-5 h-5 text-olx-teal shrink-0" strokeWidth={2.25} />
+            <p className="text-lg text-olx-muted max-w-xl mb-6">
+              Search by car model, OEM number or part name. Genuine used parts from verified scrap dealers and sellers across India. Delivered to your door.
+            </p>
+
+            <form onSubmit={handleHomeSearch} className="max-w-xl">
+              <div className="flex gap-3 items-center">
+                <div className="flex-1 rounded-full bg-white border border-olx-border py-2 px-4 flex items-center gap-3 shadow-sm">
+                  <Search className="w-5 h-5 text-olx-muted" />
                   <input
                     type="text"
                     value={homeSearch}
                     onChange={(e) => setHomeSearch(e.target.value)}
-                    placeholder="Try “Civic alternator”, “Corolla headlight”…"
-                    className="flex-1 text-olx-dark placeholder:text-slate-400 outline-none text-base bg-transparent font-medium"
+                    placeholder={'Try "Maruti Swift brake pad" or "Hyundai i20 headlight"'}
+                    className="w-full outline-none bg-transparent text-sm font-medium"
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="shrink-0 rounded-xl px-8 py-3.5 bg-olx-dark text-white font-bold text-base shadow-cta hover:shadow-cta-hover hover:bg-[#0d3d42] active:scale-[0.98] transition-all duration-250 sm:min-w-[148px]"
-                >
+
+                <button type="submit" className="rounded-full bg-olx-teal text-white px-5 py-2.5 font-semibold shadow-cta hover:brightness-95 transition-all">
                   Search
                 </button>
               </div>
-            </div>
-            <p className="mt-3 text-sm text-olx-muted">
-              No signup required to browse · Takes you straight to live listings
-            </p>
-          </form>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-2 sm:gap-3">
-            {trustChips.map((item) => (
-              <span
-                key={item.text}
-                className="inline-flex items-center gap-2 rounded-full border border-olx-border bg-white/80 px-3 py-1.5 text-xs font-semibold text-olx-dark shadow-olx backdrop-blur-sm"
-              >
-                <item.icon className="w-3.5 h-3.5 text-olx-teal shrink-0" strokeWidth={2.5} />
-                {item.text}
-              </span>
-            ))}
-          </div>
+              <div className="mt-4 flex flex-wrap gap-3">
+                {hints.map((h) => (
+                  <button key={h} type="button" onClick={() => setHomeSearch(h)} className="px-3 py-1.5 rounded-full bg-white border border-olx-border text-sm text-olx-muted shadow-sm">
+                    {h}
+                  </button>
+                ))}
+              </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-3">
-            {categories.map((cat) => (
-              <Link
-                key={cat.label}
-                to="/vehicles"
-                className="group flex items-center gap-3 rounded-2xl border border-olx-border bg-white px-5 py-3.5 shadow-premium transition-all duration-250 hover:border-olx-teal/40 hover:shadow-premium-lg hover:-translate-y-0.5 min-w-[148px]"
-              >
-                <span className="text-2xl" aria-hidden>
-                  {cat.emoji}
-                </span>
-                <span className="font-bold text-olx-dark">{cat.label}</span>
-                <ChevronRight className="w-4 h-4 text-olx-muted ml-auto transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {trustChips.map((t) => (
+                  <div key={t.text} className="flex items-center gap-2 bg-white/90 rounded-full px-3 py-2 text-sm font-medium shadow-sm">
+                    <t.icon className="text-olx-teal" />
+                    <span>{t.text}</span>
+                  </div>
+                ))}
+              </div>
+            </form>
 
-      <section className="py-12 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-            {[
-              { value: counts[0], label: 'Live listings', sub: 'Updated daily' },
-              { value: counts[1], label: 'Happy buyers', sub: 'Across India' },
-              { value: counts[2], label: 'Verified sellers', sub: 'Vetted profiles' },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="relative overflow-hidden rounded-2xl border border-olx-border bg-white px-6 py-8 text-center shadow-premium transition-shadow duration-250 hover:shadow-olx-hover"
-              >
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-olx-teal/0 via-olx-teal to-olx-teal/0 opacity-80" />
-                <div className="text-3xl sm:text-4xl font-extrabold text-olx-dark tabular-nums tracking-tight">
-                  {stat.value.toLocaleString()}+
+            {/* Stats row */}
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
+              <div className="bg-white rounded-2xl border border-olx-border p-5 shadow-sm">
+                <div className="text-3xl font-extrabold">
+                  {counts[0].toLocaleString()}<span className="text-emerald-500 ml-1 align-super text-xl">+</span>
                 </div>
-                <div className="mt-2 font-bold text-olx-dark">{stat.label}</div>
-                <div className="text-sm text-olx-muted mt-0.5">{stat.sub}</div>
+                <div className="text-sm font-semibold mt-1">Live parts listed</div>
+                <div className="text-xs text-slate-400 mt-1">Updated every hour · across 280+ cities</div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <section className="py-16 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-olx-dark tracking-tight">
-              Why buyers choose AutoMart
-            </h2>
-            <p className="mt-3 text-olx-muted leading-relaxed">
-              Less friction from search to seller contact — built for decisions, not endless scrolling.
-            </p>
+              <div className="bg-white rounded-2xl border border-olx-border p-5 shadow-sm">
+                <div className="text-3xl font-extrabold">{counts[1].toLocaleString()}<span className="text-emerald-500 ml-1 align-super text-xl">+</span></div>
+                <div className="text-sm font-semibold mt-1">Happy buyers</div>
+                <div className="text-xs text-slate-400 mt-1">Across 28 states · ⭐ 4.8 avg</div>
+              </div>
+
+              <div className="bg-white rounded-2xl border border-olx-border p-5 shadow-sm">
+                <div className="text-3xl font-extrabold">{counts[2].toLocaleString()}<span className="text-emerald-500 ml-1 align-super text-xl">+</span></div>
+                <div className="text-sm font-semibold mt-1">Verified sellers</div>
+                <div className="text-xs text-slate-400 mt-1">KYC & GST verified</div>
+              </div>
+            </div>
           </div>
-          <div className="grid md:grid-cols-3 gap-5 md:gap-6">
-            {highlights.map((item, i) => (
-              <div
-                key={i}
-                className="group rounded-2xl border border-olx-border bg-white p-7 shadow-premium transition-all duration-250 hover:shadow-premium-lg hover:-translate-y-1"
-              >
-                <div className="mb-5 inline-flex rounded-xl bg-gradient-to-br from-olx-teal/20 to-olx-teal/5 p-3 ring-1 ring-olx-teal/20">
-                  <item.icon className="w-6 h-6 text-olx-dark" strokeWidth={2.25} />
+
+          {/* Right column - mockup panel */}
+          <div className="relative flex justify-center items-start pt-6">
+            <div className="w-[460px] h-[380px] rounded-2xl bg-[#0b1720] shadow-2xl p-6 relative overflow-visible">
+              <div className="absolute -right-8 -top-10 w-44 h-44 rounded-full bg-olx-teal/10" />
+
+              <div className="grid grid-cols-3 gap-4 text-white">
+                <div className="col-span-3 text-xs text-slate-400">LIVE LISTINGS</div>
+                <div className="bg-slate-800/60 rounded-xl p-4 flex flex-col items-start gap-2">
+                  <div className="text-sm text-emerald-300">Engine</div>
+                  <div className="text-lg font-extrabold">₹18,500</div>
                 </div>
-                <h3 className="text-lg font-bold text-olx-dark mb-2">{item.title}</h3>
-                <p className="text-olx-muted text-sm leading-relaxed">{item.desc}</p>
+                <div className="bg-slate-800/60 rounded-xl p-4 flex flex-col items-start gap-2">
+                  <div className="text-sm text-emerald-300">Brakes</div>
+                  <div className="text-lg font-extrabold">₹2,200</div>
+                </div>
+                <div className="bg-slate-800/60 rounded-xl p-4 flex flex-col items-start gap-2">
+                  <div className="text-sm text-emerald-300">Electrical</div>
+                  <div className="text-lg font-extrabold">₹4,800</div>
+                </div>
+
+                <div className="col-span-3 mt-2 bg-gradient-to-r from-olx-teal/40 to-transparent rounded-xl p-3">
+                  <div className="text-sm text-slate-50">Nearest seller</div>
+                  <div className="text-sm font-semibold">2.4 km away · Indore</div>
+                </div>
               </div>
-            ))}
+
+              {/* floating badges */}
+              <div className="absolute -left-6 -top-6 bg-white rounded-lg px-4 py-2 shadow-md text-sm font-semibold">Just sold · <span className="text-olx-teal">Swift headlight · ₹1,800</span></div>
+              <div className="absolute -right-6 bottom-4 bg-white rounded-lg px-4 py-2 shadow-md text-sm">New listing · 2 min ago · Pune</div>
+              <div className="absolute right-6 -top-6 bg-white rounded-lg px-3 py-2 shadow-md text-sm">Saved vs new<br /><span className="text-emerald-600 font-extrabold">₹4,200 · 68%</span></div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-6 pb-24">
-        <div className="max-w-2xl mx-auto">
-          {user?.role === 'seller' ? (
-            <div className="relative overflow-hidden rounded-3xl bg-olx-dark px-8 py-12 sm:px-12 text-center shadow-premium-lg ring-1 ring-white/10">
-              <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-olx-teal/15 blur-3xl" />
-              <div className="absolute -bottom-24 -left-16 h-48 w-48 rounded-full bg-white/5 blur-2xl" />
-              <div className="relative">
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                  Turn your parts into cash this week
-                </h2>
-                <p className="mt-4 text-white/75 text-base leading-relaxed max-w-md mx-auto">
-                  Publish a polished ad in minutes. Reach serious buyers — photos, price, and location do the selling.
-                </p>
-                <Link
-                  to="/add-part"
-                  className="mt-8 inline-flex items-center justify-center rounded-xl px-10 py-4 bg-olx-sell text-olx-dark font-extrabold text-base shadow-lg hover:brightness-105 active:scale-[0.98] transition-all"
-                >
-                  Post your ad — free to start
-                </Link>
-              </div>
-            </div>
-          ) : (
-            <div className="rounded-3xl border border-olx-border bg-white px-8 py-12 sm:px-12 text-center shadow-premium-lg relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-olx-teal/10 via-transparent to-transparent pointer-events-none" />
-              <div className="relative">
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-olx-dark tracking-tight text-balance">
-                  Ready to find your next vehicle?
-                </h2>
-                <p className="mt-4 text-olx-muted leading-relaxed max-w-md mx-auto">
-                  Jump into live listings — filter, compare, and contact sellers in a few taps.
-                </p>
-                <Link
-                  to="/parts"
-                  className="mt-8 inline-flex items-center justify-center rounded-xl px-10 py-4 bg-olx-dark text-white font-extrabold text-base shadow-cta hover:shadow-cta-hover hover:bg-[#0d3d42] active:scale-[0.98] transition-all"
-                >
-                  Browse all parts
-                </Link>
-                <p className="mt-4 text-xs text-olx-muted">Average time to first shortlist: under 2 minutes</p>
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
+      {/* <TopTicker /> */}
     </div>
   );
-};
-
-export default Hero;
+}

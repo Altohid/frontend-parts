@@ -55,49 +55,49 @@ const VehicleCompareModal = ({ isOpen, onClose, vehicles = [], onRemove }) => {
       label: 'Price',
       render: (vehicle) => renderPrice(vehicle.price)
     },
-    {
-      key: 'kilometersDriven',
-      label: 'Kilometers Driven',
-      render: (vehicle) => {
-        if (vehicle.kilometersDriven !== undefined && vehicle.kilometersDriven !== null) {
-          return `${vehicle.kilometersDriven.toLocaleString('en-IN')} km`;
-        }
-        return 'N/A';
-      }
-    },
-    {
-      key: 'mileage',
-      label: 'Mileage',
-      render: (vehicle) => {
-        if (!vehicle.mileage || vehicle.mileage === '') return 'N/A';
-        // Format mileage with units if not already included
-        const mileageValue = vehicle.mileage.toString().trim();
-        // Check if it already has units
-        if (mileageValue.match(/\d+\s*(km\/l|kmpl|km\/L|mpg|km\/kg)/i)) {
-          return mileageValue;
-        }
-        // Add km/l if it's just a number
-        if (mileageValue.match(/^\d+\.?\d*$/)) {
-          return `${mileageValue} km/l`;
-        }
-        return mileageValue;
-      }
-    },
+    // {
+    //   key: 'kilometersDriven',
+    //   label: 'Kilometers Driven',
+    //   render: (vehicle) => {
+    //     if (vehicle.kilometersDriven !== undefined && vehicle.kilometersDriven !== null) {
+    //       return `${vehicle.kilometersDriven.toLocaleString('en-IN')} km`;
+    //     }
+    //     return 'N/A';
+    //   }
+    // },
+    // {
+    //   key: 'mileage',
+    //   label: 'Mileage',
+    //   render: (vehicle) => {
+    //     if (!vehicle.mileage || vehicle.mileage === '') return 'N/A';
+    //     // Format mileage with units if not already included
+    //     const mileageValue = vehicle.mileage.toString().trim();
+    //     // Check if it already has units
+    //     if (mileageValue.match(/\d+\s*(km\/l|kmpl|km\/L|mpg|km\/kg)/i)) {
+    //       return mileageValue;
+    //     }
+    //     // Add km/l if it's just a number
+    //     if (mileageValue.match(/^\d+\.?\d*$/)) {
+    //       return `${mileageValue} km/l`;
+    //     }
+    //     return mileageValue;
+    //   }
+    // },
     {
       key: 'fuelType',
       label: 'Fuel Type',
       render: (vehicle) => vehicle.fuelType || 'N/A'
     },
-    {
-      key: 'transmission',
-      label: 'Transmission',
-      render: (vehicle) => vehicle.transmission || 'N/A'
-    },
-    {
-      key: 'ownership',
-      label: 'Ownership',
-      render: (vehicle) => vehicle.ownership || 'N/A'
-    },
+    // {
+    //   key: 'transmission',
+    //   label: 'Transmission',
+    //   render: (vehicle) => vehicle.transmission || 'N/A'
+    // },
+    // {
+    //   key: 'ownership',
+    //   label: 'Ownership',
+    //   render: (vehicle) => vehicle.ownership || 'N/A'
+    // },
     {
       key: 'location',
       label: 'Location',
