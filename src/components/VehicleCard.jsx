@@ -46,7 +46,7 @@ const VehicleCard = ({ vehicle, showStatus = true, onToggleCompare, isCompared =
   };
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-olx-border bg-white shadow-premium transition-all duration-300 hover:shadow-premium-lg hover:-translate-y-1 hover:border-slate-300/80">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-olx-border bg-white shadow-premium transition-all duration-400 ease-out-expo hover:shadow-premium-lg hover:-translate-y-1.5 hover:border-slate-300/80">
       {showStatus && getStatusBadge()}
 
       {typeof onToggleCompare === 'function' && (

@@ -27,6 +27,7 @@ function AppContent() {
       <div className="App min-h-screen bg-olx-bg flex flex-col">
         <Navbar />
         <main className="flex-1 w-full">
+        <div key={location.pathname} className="page-enter">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -64,6 +65,7 @@ function AppContent() {
             }
           />
         </Routes>
+        </div>
         </main>
         {!shouldHideFooter && <Footer />}
       </div>

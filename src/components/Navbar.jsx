@@ -14,28 +14,29 @@ const Navbar = () => {
   };
 
   return (
-    <header className="w-full z-50">
+  <header className="w-full z-50 anim-enter-down overflow-hidden">
       {/* Top thin announcement bar */}
-      <div className="w-full bg-olx-teal text-white text-sm py-2">
+      <div className="w-full bg-olx-teal text-white text-xs sm:text-sm py-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-          <span className="flex items-center gap-2 text-sm">
-            <strong className="mr-2">New:</strong>
-            Book a mechanic for fitment right from checkout! 
-            <a href="#" className="underline ml-2">Try it now →</a>
+          <span className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-center leading-snug max-w-3xl">
+            <strong>New:</strong>
+            <span className="hidden sm:inline">Book a mechanic for fitment right from checkout!</span>
+            <span className="sm:hidden">Mechanic fitment at checkout</span>
+            <a href="#" className="underline whitespace-nowrap">Try it now →</a>
           </span>
         </div>
       </div>
 
-      <nav className="bg-white border-b border-olx-border">
+      <nav className="bg-white/95 backdrop-blur-md border-b border-olx-border anim-enter anim-d1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-16">
+          <div className="flex w-full items-center gap-2 sm:gap-4 h-14 sm:h-16 min-w-0">
             {/* Left: logo */}
-            <div className="flex items-center mr-6 shrink-0">
-              <Link to="/" className="flex items-center gap-2">
-                <span className="flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-olx-teal to-teal-600 text-white shadow-premium">
+            <div className="flex items-center shrink-0 min-w-0">
+              <Link to="/" className="flex items-center gap-1.5 sm:gap-2">
+                <span className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-md bg-gradient-to-br from-olx-teal to-teal-600 text-white shadow-premium">
                   <Car className="w-5 h-5" strokeWidth={2.5} />
                 </span>
-                <span className="text-xl font-extrabold tracking-tight text-olx-dark">AutoMart</span>
+                <span className="text-lg sm:text-xl font-extrabold tracking-tight text-olx-dark truncate">AutoMart</span>
               </Link>
             </div>
 
@@ -60,7 +61,7 @@ const Navbar = () => {
             </div>
 
             {/* Right: links & auth */}
-            <div className="ml-6 flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               <button className="hidden xl:inline-flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-olx-muted hover:text-olx-dark rounded-lg transition-colors">
                 <MapPin className="w-4 h-4 text-olx-teal" />
                 India
@@ -75,13 +76,13 @@ const Navbar = () => {
 
               {!isAuthenticated ? (
                 <>
-                  <Link to="/login" className="px-4 py-2 text-sm font-bold text-olx-dark rounded-lg hover:bg-slate-100/80 transition-colors">
+                  <Link to="/login" className="hidden sm:inline-flex px-4 py-2 text-sm font-bold text-olx-dark rounded-lg hover:bg-slate-100/80 transition-colors">
                     Log in
                   </Link>
-                  <Link to="/register" className="px-4 py-2.5 rounded-full bg-olx-teal text-white text-sm font-extrabold hover:brightness-95 transition-all">
+                  <Link to="/register" className="hidden sm:inline-flex px-4 py-2.5 rounded-full bg-olx-teal text-white text-sm font-extrabold hover:brightness-95 transition-all">
                     Sign up
                   </Link>
-                  <Link to="/login" className="flex items-center gap-1.5 ml-1 px-4 py-2.5 rounded-full bg-olx-sell text-olx-dark text-sm font-extrabold shadow-md">
+                  <Link to="/login" className="hidden sm:inline-flex items-center gap-1.5 ml-1 px-4 py-2.5 rounded-full bg-olx-sell text-olx-dark text-sm font-extrabold shadow-md">
                     <Plus className="w-4 h-4" strokeWidth={2.5} />
                     Sell
                   </Link>
@@ -89,10 +90,21 @@ const Navbar = () => {
               ) : (
                 <>
                   {(user?.role === 'seller' || user?.role === 'admin') && (
-                    <Link to="/add-part" className="hidden md:inline-flex items-center gap-1.5 ml-1 px-4 py-2.5 rounded-full bg-olx-sell text-olx-dark text-sm font-extrabold shadow-md">
-                      <Plus className="w-4 h-4" strokeWidth={2.5} />
-                      Sell
-                    </Link>
+                    <>
+                      <Link to="/add-part" className="hidden md:inline-flex items-center gap-1.5 ml-1 px-4 py-2.5 rounded-full bg-olx-sell text-olx-dark text-sm font-extrabold shadow-md">
+                        <Plus className="w-4 h-4" strokeWidth={2.5} />
+                        Sell
+                      </Link>
+                      <Link to="/my-listings" className="hidden md:inline-flex items-center gap-1 ml-2 px-3 py-2 rounded-lg text-sm font-semibold text-olx-dark hover:bg-slate-100/80 transition-colors">
+                        My listings
+                      </Link>
+                      {isAdmin && (
+                        <Link to="/dashboard" className="hidden md:inline-flex items-center gap-1.5 ml-2 px-3 py-2 text-sm font-semibold text-olx-dark rounded-lg hover:bg-slate-100/80 transition-colors">
+                          <LayoutDashboard className="w-4 h-4" />
+                          Dashboard
+                        </Link>
+                      )}
+                    </>
                   )}
 
                   <div className="relative group ml-1">
@@ -121,6 +133,23 @@ const Navbar = () => {
 
           {isOpen && (
             <div className="md:hidden py-4 space-y-1 border-t border-olx-border">
+              <div className="mb-3 px-2">
+                <div className="flex items-center rounded-full bg-slate-100/90 pl-4 pr-1 py-1 ring-1 ring-slate-200/80">
+                  <Search className="w-4 h-4 shrink-0 text-olx-muted" strokeWidth={2.25} />
+                  <input
+                    type="text"
+                    placeholder="Search parts..."
+                    className="flex-1 min-w-0 py-2.5 px-3 text-sm text-olx-dark placeholder:text-slate-400 outline-none bg-transparent font-medium"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        navigate('/parts');
+                        setIsOpen(false);
+                      }
+                    }}
+                  />
+                </div>
+              </div>
               <Link to="/parts" className="block py-3 px-2 text-olx-dark font-bold rounded-lg hover:bg-slate-50" onClick={() => setIsOpen(false)}>Browse</Link>
               <Link to="/contact" className="block py-3 px-2 text-olx-dark font-semibold rounded-lg hover:bg-slate-50" onClick={() => setIsOpen(false)}>Help</Link>
               {!isAuthenticated ? (
@@ -131,6 +160,15 @@ const Navbar = () => {
                 </>
               ) : (
                 <>
+                  {(user?.role === 'seller' || user?.role === 'admin') && (
+                      <>
+                        <Link to="/add-part" className="block py-3 px-2 font-extrabold text-olx-dark rounded-lg hover:bg-slate-50" onClick={() => setIsOpen(false)}>Sell a part</Link>
+                        <Link to="/my-listings" className="block py-3 px-2 text-olx-dark" onClick={() => setIsOpen(false)}>My listings</Link>
+                        {isAdmin && (
+                          <Link to="/dashboard" className="block py-3 px-2 text-olx-dark" onClick={() => setIsOpen(false)}>Dashboard</Link>
+                        )}
+                      </>
+                  )}
                   <Link to="/profile" className="block py-3 px-2 text-olx-dark" onClick={() => setIsOpen(false)}>Profile</Link>
                   <button type="button" onClick={() => { handleLogout(); setIsOpen(false); }} className="block w-full text-left py-3 px-2 text-olx-dark font-semibold">Logout</button>
                 </>

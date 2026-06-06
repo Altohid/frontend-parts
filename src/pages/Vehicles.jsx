@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Car, Bike, Scale, X, AlertCircle } from 'lucide-react';
 import VehicleCard from '../components/VehicleCard';
+import AnimateOnScroll from '../components/AnimateOnScroll';
 import VehicleCompareModal from '../components/VehicleCompareModal';
 import { partService } from '../services/partService';
 import { CAR_BRANDS, BIKE_BRANDS, PARTS_CATEGORIES } from '../utils/constants';
@@ -167,13 +168,13 @@ const Vehicles = () => {
         <p className="mb-10 text-center text-xs font-medium text-olx-muted/80">Compare up to three similar listings side by side to decide faster.</p>
 
         {/* Filters */}
-        <div className="bg-white rounded-2xl border border-olx-border shadow-premium-lg p-6 md:p-8 mb-10">
+        <div className="bg-white rounded-2xl border border-olx-border shadow-premium-lg p-4 sm:p-6 md:p-8 mb-10">
           {/* Type Tabs */}
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex bg-slate-100/90 rounded-xl p-1 ring-1 ring-slate-200/80 shadow-inner">
+          <div className="flex justify-center mb-6 sm:mb-8">
+            <div className="inline-flex w-full max-w-md sm:max-w-none sm:w-auto flex-wrap justify-center bg-slate-100/90 rounded-xl p-1 ring-1 ring-slate-200/80 shadow-inner">
               <button
                 onClick={() => handleTypeChange('')}
-                className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 ${activeType === ''
+                className={`flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 ${activeType === ''
                   ? 'bg-white text-olx-dark shadow-sm ring-1 ring-slate-200/80'
                   : 'text-olx-muted hover:text-olx-dark'
                   }`}
@@ -182,7 +183,7 @@ const Vehicles = () => {
               </button>
               <button
                 onClick={() => handleTypeChange('car')}
-                className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 flex items-center gap-2 ${activeType === 'car'
+                className={`flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${activeType === 'car'
                   ? 'bg-white text-olx-dark shadow-sm ring-1 ring-slate-200/80'
                   : 'text-olx-muted hover:text-olx-dark'
                   }`}
@@ -192,7 +193,7 @@ const Vehicles = () => {
               </button>
               <button
                 onClick={() => handleTypeChange('bike')}
-                className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 flex items-center gap-2 ${activeType === 'bike'
+                className={`flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${activeType === 'bike'
                   ? 'bg-white text-olx-dark shadow-sm ring-1 ring-slate-200/80'
                   : 'text-olx-muted hover:text-olx-dark'
                   }`}
@@ -305,8 +306,8 @@ const Vehicles = () => {
               <option value="popular" className="text-black bg-white">Most Viewed</option>
             </select>
           </div>
-          <div className="md:col-span-2 flex items-center gap-2">
-            <label className="text-olx-dark flex items-center gap-2 text-sm font-semibold">
+          <div className="md:col-span-4 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 sm:gap-3">
+            <label className="text-olx-dark flex items-center gap-2 text-sm font-semibold shrink-0">
               <input
                 type="checkbox"
                 checked={useNearby}
@@ -343,13 +344,14 @@ const Vehicles = () => {
           </div>
         ) : vehicles.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {vehicles.map(vehicle => (
-              <VehicleCard
-                key={vehicle._id}
-                vehicle={vehicle}
-                onToggleCompare={handleToggleCompare}
-                isCompared={compareSelections.some(item => item._id === vehicle._id)}
-              />
+            {vehicles.map((vehicle, index) => (
+              <AnimateOnScroll key={vehicle._id} animation="fade-up" delay={(index % 9) * 70}>
+                <VehicleCard
+                  vehicle={vehicle}
+                  onToggleCompare={handleToggleCompare}
+                  isCompared={compareSelections.some(item => item._id === vehicle._id)}
+                />
+              </AnimateOnScroll>
             ))}
           </div>
         ) : (

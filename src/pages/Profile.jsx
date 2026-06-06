@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { User, Mail, Phone, Save, Calendar } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
+import { partService } from '../services/partService';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const { user } = useAuth();
@@ -11,6 +13,7 @@ const Profile = () => {
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [listingsCount, setListingsCount] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -18,6 +21,18 @@ const Profile = () => {
         name: user.name || '',
         phone: user.phone || ''
       });
+      // fetch seller listings count
+      (async () => {
+        try {
+          const res = await partService.getMyParts();
+          // response may be an array or an object { data: [...] }
+          const arr = Array.isArray(res) ? res : Array.isArray(res?.data) ? res.data : [];
+          setListingsCount(arr.length);
+        } catch (err) {
+          console.error('Failed to fetch listings count', err);
+          setListingsCount(0);
+        }
+      })();
     }
   }, [user]);
 
@@ -58,9 +73,13 @@ const Profile = () => {
             </div>
             <h2 className="text-xl font-extrabold text-olx-dark">{user?.name}</h2>
             <p className="mt-1 text-sm text-olx-muted">{user?.email}</p>
-            <span className="mt-3 inline-block rounded-full border border-olx-border bg-slate-50 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-olx-dark">
-              {user?.role}
-            </span>
+              <div className="mt-3 flex items-center gap-3 justify-center">
+                <span className="inline-flex items-center gap-2 rounded-full border border-olx-border bg-slate-50 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-olx-dark">{user?.role}</span>
+                <Link to="/my-listings" className="inline-flex items-center gap-2 rounded-full bg-white border border-olx-border px-3 py-1 text-sm font-bold text-olx-dark">
+                  <span>{listingsCount ?? '-'}</span>
+                  <span className="text-olx-muted text-xs">Your listings</span>
+                </Link>
+              </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">

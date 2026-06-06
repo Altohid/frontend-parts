@@ -189,7 +189,7 @@ I would like to know more about this vehicle. Please share more details.`;
           <div className="lg:col-span-2 space-y-6">
             {/* Main Image */}
             <div className="overflow-hidden rounded-2xl border border-olx-border bg-white shadow-premium-lg ring-1 ring-slate-900/5">
-              <div className="h-96 bg-gradient-to-br from-slate-100 to-slate-50">
+              <div className="h-56 sm:h-72 md:h-96 bg-gradient-to-br from-slate-100 to-slate-50">
                 {vehicle.images && vehicle.images.length > 0 ? (
                   <img 
                     src={fullImageUrl(vehicle.images[currentImage].url)} 

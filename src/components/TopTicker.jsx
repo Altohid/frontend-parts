@@ -8,8 +8,8 @@ const messages = [
 
 const TopTicker = () => {
   return (
-    <div className="w-full bg-[#0b0b0b] text-white text-sm">
-      <div className="container max-w-7xl mx-auto px-6">
+    <div className="w-full bg-[#0b0b0b] text-white text-sm anim-enter anim-d2">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6">
         <div className="overflow-hidden">
           <div className="flex gap-8 py-2 items-center" style={{ whiteSpace: 'nowrap', animation: 'ticker 22s linear infinite' }}>
             {[...messages, ...messages].map((m, i) => (
